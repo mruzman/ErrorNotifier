@@ -3,7 +3,7 @@ package air.errornotifier;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import air.core.CheckSignUp;
+import air.core.SignIn;
 import air.core.bean.UserBean;
 
 public class MainActivity extends AppCompatActivity {
@@ -13,9 +13,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         UserBean user= new UserBean();
-        user.setEmail("error.notifier.air@gmail.com");
-        user.setPassword("airprojekterrornotifier");
-        CheckSignUp signUp = new CheckSignUp(user);
+        user.setEmail("jbond@errornotifier.com");
+        user.setPassword("jbond");
+        SignIn signUp = new SignIn(user);
+        signUp.checkSignIn();
 
     }
 
