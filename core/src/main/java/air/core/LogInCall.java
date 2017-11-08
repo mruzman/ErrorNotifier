@@ -39,7 +39,7 @@ public class LogInCall {
                 }
             }
         }else{
-            return;
+            user = new Users();
         }
     }
 

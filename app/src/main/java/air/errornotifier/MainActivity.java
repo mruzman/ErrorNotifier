@@ -25,8 +25,7 @@ public class MainActivity extends AppCompatActivity {
         //dok klikne na button prijava onda nek se pozove ovo samo umjesto jbond upisite ovo
         //sto je getano u textinputima...
         LogInCall logInCall= new LogInCall("jbond","jbond");
-        Log.i("MAIN", logInCall.getUser().getFirstName().toString());
-        if (logInCall.getUser()!=null) {
+        if (logInCall.getUser().getFirstName() !=null) {
             Log.i("MAIN", "Nije prazno" );
             //provjeri dal je admin Constant.TYPE = 1 (to bude za admin)
             //prebaci se na aktivnost logiran admin

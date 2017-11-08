@@ -23,8 +23,9 @@ public class LogIn extends AsyncTask<String, String, JSONObject> {
             String username = strings[0];
             String password = strings[1];
             String result = new LogInCheck().getUrlString(username, password);
-            Log.i(TAG, "Dohvaceni podaci: " + result);
+
             if (!result.isEmpty()) {
+                Log.i(TAG, "Dohvaceni podaci: " + result);
                 return new JSONObject(result);
             }
 
