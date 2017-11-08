@@ -5,5 +5,5 @@ package air.database.helper;
  */
 
 public class Constants {
-    public static final String URL ="http://localhost:200/getData.php";
+    public static final String URL ="http://10.0.2.2:200/getData.php";
 }
