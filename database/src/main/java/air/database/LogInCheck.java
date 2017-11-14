@@ -16,7 +16,7 @@ import air.database.helper.Constants;
 
 public class LogInCheck {
     public byte[] getUrlBytes(String username, String password) throws IOException {
-        String query = "select * from users ";
+        String query = "select * from user ";
         query += "where username='" + username + "' ";
         query += "and password='" + password + "'";
         String createURL = Constants.URL + "?q=" + query;
