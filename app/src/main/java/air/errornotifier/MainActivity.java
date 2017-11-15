@@ -22,10 +22,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       /* Users user = new Users(1, "Marko", "Ružman", "jbond","jbond@errornotifier.com", "USER", "1fr9egkJ");
+        Users user = new Users(1, "Marko", "Ružman", "mruzman","mruzman@errornotifier.com", "USER", "1fr9egkJ");
         AddNewUser addNewUser = new AddNewUser(user);
-        addNewUser.insertNewUser();*/
-       prijava();
+        addNewUser.insertNewUser();
+
     }
 
     private void prijava(){

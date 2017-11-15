@@ -2,6 +2,8 @@ package air.core;
 
 import android.util.Log;
 
+import java.util.concurrent.ExecutionException;
+
 import air.core.Bean.Users;
 import air.webservices.AddUser;
 
@@ -20,19 +22,28 @@ public class AddNewUser {
 
     public String insertNewUser() {
         if (!checkIfUserExists()) {
-            Log.i(TAG, "Vraća ERROR!");
+            Log.i(TAG, "KORISNIK POSTOJI!");
             return "Error!";
         } else {
-            Log.i(TAG, "Vraća error");
+            Log.i(TAG, "KORISNIK NE POSTOJI!");
             return "Error";
         }
     }
 
     private boolean checkIfUserExists() {
-        //String value = AddUser.execute(getUser().getUsername(), getUser().getEmail()).get();
-        /*if (value == "") {
-            Log.i(TAG, "Vratio je true");
-        }*/
+        String value="";
+        AddUser addUser = new AddUser();
+        try {
+            value = addUser.execute(getUser().getUsername(), getUser().getEmail()).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        if(value!=null){
+            Log.i(TAG, value.toString());
+            return false;
+        }
         return true;
     }
 
