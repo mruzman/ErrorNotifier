@@ -10,15 +10,17 @@ public class Users {
     private String lastName;
     private String username;
     private String email;
+    private String password;
     private String type;
 
-    public Users(int userId, String firstName, String lastName, String username, String email, String type) {
+    public Users(int userId, String firstName, String lastName, String username, String email, String type, String password) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
         this.type = type;
+        this.password = password;
     }
 
     public Users() {
@@ -70,5 +72,13 @@ public class Users {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -9,6 +9,8 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
+import air.core.AddNewUser;
+import air.core.Bean.Users;
 import air.core.LogInCall;
 import air.database.helper.Constants;
 import air.webservices.LogIn;
@@ -19,6 +21,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+       /* Users user = new Users(1, "Marko", "Ružman", "jbond","jbond@errornotifier.com", "USER", "1fr9egkJ");
+        AddNewUser addNewUser = new AddNewUser(user);
+        addNewUser.insertNewUser();*/
+       prijava();
     }
 
     private void prijava(){

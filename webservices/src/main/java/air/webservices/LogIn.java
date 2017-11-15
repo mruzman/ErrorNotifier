@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import air.database.LogInCheck;
+import air.database.ServicesImpl;
 
 /**
  * Created by mruzman on 7.11.2017..
@@ -19,10 +19,12 @@ public class LogIn extends AsyncTask<String, String, JSONObject> {
 
     @Override
     protected JSONObject doInBackground(String... strings) {
+
         try {
             String username = strings[0];
             String password = strings[1];
-            String result = new LogInCheck().getUrlString(username, password);
+            ServicesImpl services = new ServicesImpl();
+            String result = new String(services.getLogin(username,password));
 
             if (!result.isEmpty()) {
                 Log.i(TAG, "Dohvaceni podaci: " + result);
