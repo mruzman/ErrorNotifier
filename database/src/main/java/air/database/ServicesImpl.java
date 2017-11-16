@@ -75,23 +75,41 @@ public class ServicesImpl implements Services {
     }
 
     @Override
-    public void insertNewUser(String... strings) throws IOException {
+    public Integer insertNewUser(String... strings) throws IOException {
+        ByteArrayOutputStream out;
         String firstName = strings[0];
         String lastName = strings[1];
         String username = strings[2];
         String email = strings[3];
         String password = strings[4];
         String query = "INSERT INTO user(user_id,first_name,last_name,";
-        query +="username,email,password,type VALUES( default,";
-        query += firstName + "," + lastName + ",";
-        query += username + "," + email;
-        query += password + ",USER);";
+        query +="username,email,password,type) VALUES( default,'";
+        query += firstName + "','" + lastName + "','";
+        query += username + "','" + email + "','";
+        query += password + "','USER')";
         Log.i(TAG, query.toString());
         String createURL = Constants.URL + "?q=" + query;
         Log.i(TAG, createURL.toString());
-        //URL url = new URL(createURL);
-        //HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        //connection.disconnect();
+        URL url = new URL(createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try {
+            out = new ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            int byteRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
+            }
+            out.close();
+            Log.i(TAG, out.toString());
+        } finally {
+            connection.disconnect();
+        }
+        return Integer.valueOf(out.toString());
     }
 }
 

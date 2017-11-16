@@ -8,10 +8,10 @@ import java.io.IOException;
  * Created by mruzman on 15.11.2017..
  */
 
-interface Services {
+public interface Services {
     byte[] getLogin(String username, String password) throws IOException, JSONException;
 
     byte[] getIfExists(String username, String email) throws IOException;
 
-    void insertNewUser(String...strings) throws IOException;
+    Integer insertNewUser(String...strings) throws IOException;
 }

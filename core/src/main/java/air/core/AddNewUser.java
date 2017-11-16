@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 
 import air.core.Bean.Users;
 import air.webservices.AddUser;
+import air.webservices.InsertNewUser;
 
 /**
  * Created by mruzman on 14.11.2017..
@@ -20,13 +21,18 @@ public class AddNewUser {
         this.user = users;
     }
 
-    public String insertNewUser() {
+    public int insertNewUser() throws ExecutionException, InterruptedException {
         if (!checkIfUserExists()) {
             Log.i(TAG, "KORISNIK POSTOJI!");
-            return "Error!";
+            return 2;
         } else {
             Log.i(TAG, "KORISNIK NE POSTOJI!");
-            return "Error";
+            if(new InsertNewUser().execute(user.getFirstName(), user.getLastName(),user.getUsername(),
+                    user.getEmail(),user.getPassword()).get() == 1){
+                return 1;
+            }else{
+                return -1;
+            }
         }
     }
 

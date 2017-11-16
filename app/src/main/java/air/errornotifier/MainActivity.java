@@ -16,17 +16,30 @@ import air.database.helper.Constants;
 import air.webservices.LogIn;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static String TAG = "MAIN ACTIVITY";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Users user = new Users(1, "Marko", "Ružman", "mruzman","mruzman@errornotifier.com", "USER", "1fr9egkJ");
-        AddNewUser addNewUser = new AddNewUser(user);
-        addNewUser.insertNewUser();
-
     }
+
+    /*private void kreiraj_novog() throws ExecutionException, InterruptedException {
+        Evo ovdi je napravljeno kak se zove dok ADMIN hoce dodati novoga korisnika...
+        jos budem dodal funkciju koja provjerava dal je admin, ali svejedno vi morate napraviti
+        to da ADMIN jedini vidi ovakve stvari :)
+        Users user = new Users(1, "Marko", "Ružman", "mruzman","mruzman@errornotifier.com", "USER", "marko123");
+        int unesi;
+        unesi = new AddNewUser(user).insertNewUser();
+        Log.i(TAG, String.valueOf(unesi));
+        if(unesi == 1){
+            Log.i(TAG, "DOBRO JE");
+        }else if(unesi == 2){
+            Log.i(TAG, "KORISNIK POSTOJI!");
+        }else{
+            Log.i(TAG, "Potkrala se greska");
+        }
+    }*/
 
     private void prijava(){
         //dok klikne na button prijava onda nek se pozove ovo samo umjesto jbond upisite ovo
