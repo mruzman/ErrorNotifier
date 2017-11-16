@@ -38,6 +38,22 @@ class Baza {
         $con->mysqli_close();
     }
 
+    /**
+    * Function to insert/update/delete
+    */
+    function executeQuery($sql) {
+            $con = self::connect();
+            if ($res = $con->query($sql)) {
+                self::close($con);
+                return $res;
+            }
+            else{
+                echo "Error: " . $con->error;
+                self::close($con);
+                return $res;
+            }
+        }
+
 }
 
 ?>
