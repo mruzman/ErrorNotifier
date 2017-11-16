@@ -21,9 +21,9 @@ public class ServicesImpl implements Services {
 
     @Override
     public byte[] getLogin(String username, String password) throws IOException, JSONException {
-        String query = "select * from user ";
-        query += "where username='" + username + "' ";
-        query += "and password='" + password + "'";
+        String query = "SELECT * FROM user ";
+        query += "WHERE username='" + username + "' ";
+        query += "AND password='" + password + "'";
         String createURL = Constants.URL + "?q=" + query;
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -48,9 +48,9 @@ public class ServicesImpl implements Services {
 
     @Override
     public byte[] getIfExists(String username, String email) throws IOException {
-        String query = "select * from user ";
-        query += "where username='" + username + "' ";
-        query += "or email='" + email + "'";
+        String query = "SELECT * FROM user ";
+        query += "WHERE username='" + username + "' ";
+        query += "OR email='" + email + "'";
         String createURL = Constants.URL + "?q=" + query;
         Log.i(TAG, query.toString());
         URL url = new URL(createURL);
@@ -72,6 +72,26 @@ public class ServicesImpl implements Services {
         } finally {
             connection.disconnect();
         }
+    }
+
+    @Override
+    public void insertNewUser(String... strings) throws IOException {
+        String firstName = strings[0];
+        String lastName = strings[1];
+        String username = strings[2];
+        String email = strings[3];
+        String password = strings[4];
+        String query = "INSERT INTO user(user_id,first_name,last_name,";
+        query +="username,email,password,type VALUES( default,";
+        query += firstName + "," + lastName + ",";
+        query += username + "," + email;
+        query += password + ",USER);";
+        Log.i(TAG, query.toString());
+        String createURL = Constants.URL + "?q=" + query;
+        Log.i(TAG, createURL.toString());
+        //URL url = new URL(createURL);
+        //HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        //connection.disconnect();
     }
 }
 

@@ -12,4 +12,6 @@ interface Services {
     byte[] getLogin(String username, String password) throws IOException, JSONException;
 
     byte[] getIfExists(String username, String email) throws IOException;
+
+    void insertNewUser(String...strings) throws IOException;
 }
