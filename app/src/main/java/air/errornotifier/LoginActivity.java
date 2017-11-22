@@ -1,5 +1,6 @@
 package air.errornotifier;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,12 +43,20 @@ public class LoginActivity extends AppCompatActivity {
     }*/
 
 
-    public void prijava(View view) {
+    public void prijava(View view){
+
         LogInCall logInCall = new LogInCall(UsernameEt.getText().toString(), PasswrodEt.getText().toString());
-        if (logInCall.getUser().getFirstName() != null) {
-            Toast.makeText(LoginActivity.this, "Uspješna prijava!!!", Toast.LENGTH_SHORT).show();
+        if (logInCall.getUser().getFirstName() !=null) {
+
+
+            Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(mainActivity);
+
+          //  Toast.makeText(LoginActivity.this, "Uspješna prijava!!!", Toast.LENGTH_LONG).show();
             Log.i("MAIN", "Nije prazno");
             Log.i(TAG, "Prijavljen korisnik: " + logInCall.getUser().getFirstName() + " " + logInCall.getUser().getLastName());
+
+
             //provjeri dal je admin Constant.TYPE = 1 (to bude za admin)
             //prebaci se na aktivnost logiran admin
             //else provjeri dal je korisnik
