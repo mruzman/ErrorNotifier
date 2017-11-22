@@ -11,7 +11,11 @@ import java.io.IOException;
 public interface Services {
     byte[] getLogin(String username, String password) throws IOException, JSONException;
 
-    byte[] getIfExists(String username, String email) throws IOException;
+    byte[] getIfExistsUser(String username, String email) throws IOException;
 
     Integer insertNewUser(String...strings) throws IOException;
+
+    Integer getIfExistsApp(String appName) throws IOException;
+
+    Integer insertNewApp(String app) throws IOException;
 }

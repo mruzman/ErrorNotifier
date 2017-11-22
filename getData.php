@@ -20,9 +20,12 @@
         else{echo -1;}
 
    }else if((0 === strpos($query, 'update'))||(0 === strpos($query, 'UPDATE'))){
-        echo "Updated row!";
+        $result = $con->query($query);
+        if($result) {echo 1;}
+        else {echo -1;}
    }else{
-    echo "Deleted row!";
+        $result = $con->query($query);
+        echo $result;
    }
    mysqli_close($con);
 ?>

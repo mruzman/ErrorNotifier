@@ -20,7 +20,7 @@ public class AddUser extends AsyncTask<String, String, String> {
             String username = strings[0];
             String email = strings[1];
             ServicesImpl services = new ServicesImpl();
-            String result = new String(services.getIfExists(username, email));
+            String result = new String(services.getIfExistsUser(username, email));
             if (!result.isEmpty()) {
                 Log.i(TAG, "Dohvaceni podaci: " + result);
                 return "exists";
