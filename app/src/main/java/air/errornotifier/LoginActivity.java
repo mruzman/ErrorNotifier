@@ -1,5 +1,6 @@
 package air.errornotifier;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import air.core.LogInCall;
 public class LoginActivity extends AppCompatActivity {
     private static String TAG = "MAIN ACTIVITY";
     EditText UsernameEt, PasswrodEt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +49,10 @@ public class LoginActivity extends AppCompatActivity {
         String username = UsernameEt.getText().toString();
         String password = PasswrodEt.getText().toString();
         LogInCall logInCall= new LogInCall(username, password);
+
+
         if (logInCall.getUser().getFirstName() !=null) {
+
 
             Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(mainActivity);
