@@ -18,6 +18,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         UsernameEt = (EditText)findViewById(R.id.txtUsername);
         PasswrodEt = (EditText)findViewById(R.id.txtPassword);
+        UsernameEt.requestFocus();
 
     }
 
@@ -38,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.i(TAG, "Potkrala se greska");
         }
     }*/
-    
+
     public void prijava(View view){
         //dok klikne na button prijava onda nek se pozove ovo samo umjesto jbond upisite ovo
         //sto je getano u textinputima...
@@ -46,15 +47,18 @@ public class LoginActivity extends AppCompatActivity {
         String password = PasswrodEt.getText().toString();
         LogInCall logInCall= new LogInCall(username, password);
         if (logInCall.getUser().getFirstName() !=null) {
-            Toast.makeText(LoginActivity.this, "Uspješna prijava!!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Uspješna prijava!!!", Toast.LENGTH_LONG).show();
             Log.i("MAIN", "Nije prazno" );
             //provjeri dal je admin Constant.TYPE = 1 (to bude za admin)
             //prebaci se na aktivnost logiran admin
             //else provjeri dal je korisnik
             //prebaci se na mod korisnik
         } else {
-            Toast.makeText(LoginActivity.this, "Pogrešan username ili lozinka", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Pogrešan username ili lozinka", Toast.LENGTH_LONG).show();
             Log.i("MAIN", "NETOCNA PRIJAVA");
+            UsernameEt.setText("");
+            PasswrodEt.setText("");
+            UsernameEt.requestFocus();
             //netocna prijava
         }
     }
