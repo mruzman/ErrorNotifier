@@ -30,4 +30,5 @@ dependencies {
     compile project(':webservices')
     compile project(':database')
     compile project(':core')
+    compile 'com.github.clans:fab:1.6.4'
 }
