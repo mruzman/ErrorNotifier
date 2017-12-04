@@ -16,12 +16,13 @@ public class AddUserActivity extends AppCompatActivity {
     private static String TAG = "ADD USER ACTIVITY";
     private Button mAddUser;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user);
 
-        mAddUser = (Button) findViewById(R.id.btnDodajKorisnika);
+        mAddUser = (Button) findViewById(R.id.btnAddUser);
 
         mAddUser.setOnClickListener(new View.OnClickListener() {
             @Override
