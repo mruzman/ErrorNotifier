@@ -1,6 +1,7 @@
 package air.errornotifier;
 
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -58,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
         fabUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"korisnik",Toast.LENGTH_LONG).show();
+                Intent addUserIntent = new Intent(MainActivity.this, AddUserActivity.class);
+                startActivity(addUserIntent);
+
+              //  Toast.makeText(MainActivity.this,"korisnik",Toast.LENGTH_LONG).show();
             }
         });
 

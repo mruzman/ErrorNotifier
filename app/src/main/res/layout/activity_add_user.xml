@@ -6,7 +6,15 @@
     android:layout_height="match_parent"
     tools:context="air.errornotifier.AddUserActivity">
 
-
+    <include
+        android:id="@+id/main_page_toolbar"
+        layout="@layout/app_bar_layout"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnAddUser"
@@ -14,11 +22,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:text="Dodaj korisnika"
+        android:layout_marginTop="64dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Add User"
+        android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtAddUserPass" />
+        app:layout_constraintTop_toBottomOf="@+id/txtInputPass" />
 
     <EditText
         android:id="@+id/txtAddFirstName"
@@ -26,25 +36,14 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
+        android:hint="First name "
         android:inputType="textPersonName"
-        android:text="Ime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/txtAddEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:text="Email"
-        app:layout_constraintStart_toStartOf="@+id/txtAddUserName"
-        app:layout_constraintTop_toBottomOf="@+id/txtAddUserName" />
+        app:layout_constraintTop_toBottomOf="@+id/main_page_toolbar" />
 
     <EditText
         android:id="@+id/txtAddLastName"
@@ -54,8 +53,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:hint="Last name "
         android:inputType="textPersonName"
-        android:text="Prezime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtAddFirstName" />
@@ -66,18 +65,37 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:hint="User name "
         android:inputType="textPersonName"
-        android:text="Korisničko ime"
         app:layout_constraintStart_toStartOf="@+id/txtAddLastName"
         app:layout_constraintTop_toBottomOf="@+id/txtAddLastName" />
 
     <EditText
-        android:id="@+id/txtAddUserPass"
+        android:id="@+id/inputEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtAddUserName" />
+
+    <EditText
+        android:id="@+id/txtInputPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Password"
         android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="@+id/txtAddEmail"
-        app:layout_constraintTop_toBottomOf="@+id/txtAddEmail" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputEmail" />
+
 </android.support.constraint.ConstraintLayout>
