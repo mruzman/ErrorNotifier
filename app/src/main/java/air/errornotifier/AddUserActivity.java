@@ -1,5 +1,6 @@
 package air.errornotifier;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -73,6 +74,8 @@ public class AddUserActivity extends AppCompatActivity {
         Log.i(TAG, String.valueOf(unesi));
         if(unesi == 1){
             Log.i(TAG, "DOBRO JE");
+            Intent intent = new Intent(AddUserActivity.this, MainActivity.class);
+            startActivity(intent);
         }else if(unesi == 2){
             Log.i(TAG, "KORISNIK POSTOJI!");
         }else{
