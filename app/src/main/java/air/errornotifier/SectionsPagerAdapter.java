@@ -19,8 +19,8 @@ class SectionsPagerAdapter extends FragmentPagerAdapter{
 
         switch (position){
             case 0:
-                GrupsFragment grupsFragment = new GrupsFragment();
-                return grupsFragment;
+                ApplicationsFragment applicationsFragment = new ApplicationsFragment();
+                return applicationsFragment;
             case 1:
                 UsersFragment usersFragment = new UsersFragment();
                 return usersFragment;
@@ -40,7 +40,7 @@ class SectionsPagerAdapter extends FragmentPagerAdapter{
     public CharSequence getPageTitle(int position){
         switch (position){
             case 0:
-                return "Grupe";
+                return "Aplikacije";
             case 1:
                 return "Korisnici";
             default:

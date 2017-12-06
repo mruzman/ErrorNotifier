@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         //FloatingAction
   //      floatingActionMenu = (FloatingActionMenu) findViewById(R.id.menuFab);
         fabUser = (FloatingActionButton) findViewById(R.id.menuFabAddUser);
-        fabGroup = (FloatingActionButton) findViewById(R.id.menuFabAddGroup);
+        fabGroup = (FloatingActionButton) findViewById(R.id.menuFabAddApplication);
 
 //        floatingActionMenu.setOnClickListener(new View.OnClickListener() {
 //            @Override
