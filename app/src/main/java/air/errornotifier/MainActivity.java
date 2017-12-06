@@ -68,7 +68,10 @@ public class MainActivity extends AppCompatActivity {
         fabGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"grupa",Toast.LENGTH_LONG).show();
+
+                Intent addAppIntent = new Intent(MainActivity.this, AddApplicationActivity.class);
+                startActivity(addAppIntent);
+                //Toast.makeText(MainActivity.this,"grupa",Toast.LENGTH_LONG).show();
             }
         });
 
