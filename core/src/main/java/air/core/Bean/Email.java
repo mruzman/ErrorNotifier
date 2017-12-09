@@ -1,5 +1,6 @@
 package air.core.Bean;
 
+import java.io.Serializable;
 import java.security.Timestamp;
 import java.sql.Time;
 
@@ -7,7 +8,7 @@ import java.sql.Time;
  * Created by mruzman on 21.11.2017..
  */
 
-public class Email {
+public class Email implements Serializable{
     private int emailId;
     private String description;
     private Timestamp timeError;

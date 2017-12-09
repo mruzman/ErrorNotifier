@@ -1,19 +1,29 @@
 package air.errornotifier;
 
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
+import air.core.Bean.Users;
+import air.core.IncomeMessages.IncomingMail;
+import air.webservices.EmailListener;
+
 
 public class MainActivity extends AppCompatActivity {
+
+    private static String TAG = "U MAIN ACTIVITYU";
+
+    private Users user;
 
     private Toolbar mTolbar;
     private ViewPager mViewPager;
@@ -26,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        user = (Users) getIntent().getSerializableExtra("User");
+        Log.i(TAG, user.getFirstName() + " "+ user.getLastName());
+        /*try {
+            readMails();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
 
         //Dodavanje ActionBar-a
         mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
@@ -73,7 +91,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
 
-
+    private void readMails() throws Exception {
+        IncomingMail incomingMail = new IncomingMail(user);
     }
 }

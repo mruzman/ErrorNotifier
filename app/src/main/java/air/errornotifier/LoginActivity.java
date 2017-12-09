@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
             Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
+            mainActivity.putExtra("User", logInCall.getUser());
             startActivity(mainActivity);
 
           //  Toast.makeText(LoginActivity.this, "Uspješna prijava!!!", Toast.LENGTH_LONG).show();

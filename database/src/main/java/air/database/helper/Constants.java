@@ -8,8 +8,6 @@ public class Constants {
 
     //KONSTANTE ZA DOHVAT PODATAKA
     public static final String URL = "http://10.0.2.2:200/getData.php";
-    public static final String HOST = "smtp.gmail.com";
-    public static final String MAIL_STORE_TYPE = "smtp";
 
     //PODACI IZ BAZE
     public static final Integer DATA_DOESNT_EXISTS_IN_DATABASE = 1;
