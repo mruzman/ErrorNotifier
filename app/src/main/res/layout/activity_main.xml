@@ -91,11 +91,11 @@
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menuFabAddGroup"
+            android:id="@+id/menuFabAddApplication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_action_group_add"
-            fab:fab_label="Dodaj grupu"
+            fab:fab_label="Dodaj aplikaciju"
             fab:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>

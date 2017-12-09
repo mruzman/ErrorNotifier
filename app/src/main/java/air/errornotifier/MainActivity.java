@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 
 import air.core.Bean.Users;
 import air.core.IncomeMessages.IncomingMail;
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         //FloatingAction
   //      floatingActionMenu = (FloatingActionMenu) findViewById(R.id.menuFab);
         fabUser = (FloatingActionButton) findViewById(R.id.menuFabAddUser);
-        fabGroup = (FloatingActionButton) findViewById(R.id.menuFabAddGroup);
+        fabGroup = (FloatingActionButton) findViewById(R.id.menuFabAddApplication);
 
 //        floatingActionMenu.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -76,14 +75,20 @@ public class MainActivity extends AppCompatActivity {
         fabUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"korisnik",Toast.LENGTH_LONG).show();
+                Intent addUserIntent = new Intent(MainActivity.this, AddUserActivity.class);
+                startActivity(addUserIntent);
+
+              //  Toast.makeText(MainActivity.this,"korisnik",Toast.LENGTH_LONG).show();
             }
         });
 
         fabGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"grupa",Toast.LENGTH_LONG).show();
+
+                Intent addAppIntent = new Intent(MainActivity.this, AddApplicationActivity.class);
+                startActivity(addAppIntent);
+                //Toast.makeText(MainActivity.this,"grupa",Toast.LENGTH_LONG).show();
             }
         });
 

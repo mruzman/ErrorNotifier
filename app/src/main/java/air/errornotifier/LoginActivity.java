@@ -14,6 +14,7 @@ import air.core.LogInCall;
 public class LoginActivity extends AppCompatActivity {
     private static String TAG = "MAIN ACTIVITY";
     EditText UsernameEt, PasswrodEt;
+    String etString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
         PasswrodEt = (EditText) findViewById(R.id.txtPassword);
         UsernameEt.requestFocus();
     }
-
 
     /*private void kreiraj_novog() throws ExecutionException, InterruptedException {
         Evo ovdi je napravljeno kak se zove dok ADMIN hoce dodati novoga korisnika...
