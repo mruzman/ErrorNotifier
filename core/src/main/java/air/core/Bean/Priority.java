@@ -1,10 +1,12 @@
 package air.core.Bean;
 
+import java.io.Serializable;
+
 /**
  * Created by mruzman on 22.11.2017..
  */
 
-public class Priority {
+public class Priority implements Serializable{
     private int userId;
     private int applicationId;
     private int priority;

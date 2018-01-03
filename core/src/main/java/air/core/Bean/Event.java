@@ -1,10 +1,12 @@
 package air.core.Bean;
 
+import java.io.Serializable;
+
 /**
  * Created by mruzman on 22.11.2017..
  */
 
-public class Event {
+public class Event implements Serializable{
     private int eventId;
     private String name;
     private String description;

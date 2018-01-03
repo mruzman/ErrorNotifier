@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.Serializable;
+
 import air.core.Bean.Users;
 import air.core.LogInCall;
 
@@ -50,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
             Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
+            mainActivity.putExtra("User",(Serializable) logInCall.getUser());
             startActivity(mainActivity);
 
           //  Toast.makeText(LoginActivity.this, "Uspješna prijava!!!", Toast.LENGTH_LONG).show();

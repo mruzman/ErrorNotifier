@@ -1,10 +1,12 @@
 package air.core.Bean;
 
+import java.io.Serializable;
+
 /**
  * Created by mruzman on 21.11.2017..
  */
 
-public class App {
+public class App implements Serializable{
     private int applicationId;
     private String name;
 

@@ -7,10 +7,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
+
+
+import air.core.Bean.Users;
+import air.webservices.EmailListener;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -21,11 +26,20 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
  //   private FloatingActionMenu floatingActionMenu;
     private FloatingActionButton fabUser,fabGroup;
+    private Users user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        user = (Users) getIntent().getSerializableExtra("User");
+        try {
+            checkMail();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
 
         //Dodavanje ActionBar-a
         mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
@@ -76,10 +90,25 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
+        //Log.i("MAIN", user.getUsername().toString());
 
     }
+
+    private void checkMail() throws InterruptedException {
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (user.getEmail() != null || !user.getEmail().equals("")) {
+                    try{
+                        new EmailListener().execute(user.getEmail(), user.getPassword());
+                        Thread.sleep(60*1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
+
 }

@@ -34,6 +34,7 @@ public class LogInCall {
                     user.setType(object.getString("type"));
                     user.setEmail(object.getString("email"));
                     user.setUserId(object.getInt("user_id"));
+                    user.setPassword(object.getString("password"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
