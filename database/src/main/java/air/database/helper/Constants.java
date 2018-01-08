@@ -22,4 +22,5 @@ public class Constants {
     //ZA ERRORE!!
     public static final Integer ERROR = -1;
 
+    public static final String STATUS_UNSOLVED = "Unsolved";
 }

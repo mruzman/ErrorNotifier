@@ -2,6 +2,7 @@ package air.errornotifier;
 
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +15,16 @@ import android.widget.Toast;
 import com.github.clans.fab.FloatingActionButton;
 
 
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import air.core.Bean.Email;
 import air.core.Bean.Users;
+import air.core.MailReader.ReadMails;
 import air.webservices.EmailListener;
 
 
@@ -99,10 +109,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 while (user.getEmail() != null || !user.getEmail().equals("")) {
-                    try{
-                        new EmailListener().execute(user.getEmail(), user.getPassword());
-                        Thread.sleep(60*1000);
+                    try {
+                        int insertedEmails =0;
+                        ReadMails readMails = new ReadMails(user);
+                        insertedEmails  = readMails.checkIfNewEmailCame();
+                        if (insertedEmails != 0) {
+
+                        }
+                        Thread.sleep(60 * 1000);
                     } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }

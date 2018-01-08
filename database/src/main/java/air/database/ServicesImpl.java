@@ -3,12 +3,15 @@ package air.database;
 import android.util.Log;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import air.database.helper.Constants;
 
@@ -170,6 +173,118 @@ public class ServicesImpl implements Services {
         return Integer.valueOf(out.toString());
     }
 
+    private int eventID;
+    @Override
+    public List<String> insertNewRecivedBug(List<String> strings, int userID) throws IOException, JSONException {
+        List<String> newValuesToReturn = new ArrayList<String>();
+        eventID = 0;
+        String stringAppID = findAppId(strings.get(1));
+        if(stringAppID.length() > 0 || !stringAppID.isEmpty()) {
+            JSONObject object = new JSONObject(stringAppID);
+            int appID =object.getInt("application_id");
 
+            String eventIDString = checkIfEventExists(strings.get(0), strings.get(2),appID);
+            if(eventIDString.length()==0||eventIDString.isEmpty()){
+                eventIDString = insertEvent(strings.get(0), strings.get(2),appID);
+            }
+            JSONObject object1 = new JSONObject(eventIDString);
+            eventID = object1.getInt("event_id");
+            newValuesToReturn.add(String.valueOf(appID));
+            newValuesToReturn.add(String.valueOf(eventID));
+            
+            //newValuesToReturn.add(String.valueOf()) --jos treba mail
+            Log.i("EVENT_ID", eventIDString + " " + String.valueOf(eventID));
+        }else{
+            //vratiti da nepostoji aplikacija -- treba unesti aplikaciju.
+        }
+        return newValuesToReturn;
+    }
+
+    private String insertEvent(String name, String desc, int appID) throws IOException {
+        ByteArrayOutputStream out;
+        String query = "INSERT INTO event(name,description,application_id) ";
+        query +="VALUES('" + name+ "','"+desc+"','"+appID+"')";
+        Log.i(TAG, query);
+        String createURL = Constants.URL + "?q=" + query;
+        Log.i(TAG, createURL);
+        URL url = new URL(createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try{
+            out = new ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+            if(connection.getResponseCode() != HttpURLConnection.HTTP_OK){
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            int byteRead = 0;
+            byte[] buffer = new byte[1024];
+            while((byteRead = in.read(buffer))>0){
+                out.write(buffer, 0,byteRead);
+            }
+            out.close();
+            Log.i(TAG, out.toString());
+        }finally {
+            connection.disconnect();
+        }
+        return checkIfEventExists(name,desc,appID);
+    }
+
+    private String checkIfEventExists(String name, String desc, int appID) throws IOException {
+        ByteArrayOutputStream out;
+        String query = "SELECT event_id FROM event ";
+        query += "WHERE name='" + name+ "' AND description = '"+desc+"' AND application_id ='"+appID+"' LIMIT 1;";
+        Log.i("QUERY", query);
+        String createURL = Constants.URL + "?q=" + query;
+        Log.i(TAG, createURL);
+        URL url= new URL(createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try{
+            out = new ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+            if(connection.getResponseCode() != HttpURLConnection.HTTP_OK){
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            int byteRead = 0;
+            byte[] buffer = new byte[1024];
+            while((byteRead = in.read(buffer))>0){
+                out.write(buffer, 0,byteRead);
+            }
+            out.close();
+            Log.i(TAG, out.toString());
+        }finally {
+            connection.disconnect();
+        }
+        return out.toString();
+    }
+
+    private String findAppId(String s) throws IOException {
+        ByteArrayOutputStream out;
+        String query = "SELECT application_id FROM application ";
+        query += "WHERE name='" + s + "';";
+        String createURL = Constants.URL + "?q=" + query;
+        Log.i(TAG, createURL);
+        URL url = new URL(createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try {
+            InputStream in = connection.getInputStream();
+            out = new ByteArrayOutputStream();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            int byteRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
+            }
+            out.close();
+            return out.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 }
 
