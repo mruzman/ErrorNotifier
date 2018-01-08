@@ -22,10 +22,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import air.core.Bean.App;
 import air.core.Bean.Email;
+import air.core.Bean.Event;
+import air.core.Bean.Priority;
 import air.core.Bean.Users;
 import air.core.MailReader.ReadMails;
 import air.webservices.EmailListener;
+import air.webservices.PriorityApp;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
  //   private FloatingActionMenu floatingActionMenu;
     private FloatingActionButton fabUser,fabGroup;
     private Users user;
+    private Email mail = new Email();
+    private Priority priority;
+    private Event event= new Event();
+    private App app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,11 +118,19 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 while (user.getEmail() != null || !user.getEmail().equals("")) {
                     try {
-                        int insertedEmails =0;
                         ReadMails readMails = new ReadMails(user);
-                        insertedEmails  = readMails.checkIfNewEmailCame();
-                        if (insertedEmails != 0) {
-
+                        List<Object> insertedEmails  = readMails.checkIfNewEmailCame();
+                        if (insertedEmails.size()!= 0) {
+                            for(Object object : insertedEmails){
+                                if(object instanceof Email){
+                                    mail = (Email) object;
+                                    Log.i("VRAĆENO U MAINU", String.valueOf(mail.getEmailId()));
+                                }
+                                if(object instanceof Event){
+                                    event = (Event) object;
+                                }
+                                checkPriorityForApp();
+                            }
                         }
                         Thread.sleep(60 * 1000);
                     } catch (InterruptedException e) {
@@ -132,4 +148,11 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
     }
 
+    private void checkPriorityForApp() throws ExecutionException, InterruptedException {
+        int priority = 0;
+        if(event.getApplicationId() != 0) {
+            priority = new PriorityApp().execute(user.getUserId(), event.getApplicationId()).get();
+            Log.i("Prioritet", String.valueOf(priority));
+        }
+    }
 }

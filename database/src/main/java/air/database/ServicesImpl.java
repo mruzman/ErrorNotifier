@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -117,7 +118,7 @@ public class ServicesImpl implements Services {
 
     @Override
     public Integer getIfExistsApp(String appName) throws IOException {
-        String query = "SELECT * FROM application WHERE name='"+ appName + "'";
+        String query = "SELECT * FROM application WHERE name='" + appName + "'";
         String createURL = Constants.URL + "?q=" + query;
         URL url = new URL(createURL);
         Log.i(TAG, createURL);
@@ -132,11 +133,11 @@ public class ServicesImpl implements Services {
             if (in.read(buffer) > 0) {
                 connection.disconnect();
                 return Constants.DATA_EXISTS_IN_DATABASE; //ako postoje podaci unutra vrati 0
-            }else{
+            } else {
                 connection.disconnect();
                 return Constants.DATA_DOESNT_EXISTS_IN_DATABASE;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return Constants.ERROR;
         }
@@ -147,112 +148,145 @@ public class ServicesImpl implements Services {
     public Integer insertNewApp(String app) throws IOException {
         ByteArrayOutputStream out;
         String query = "INSERT INTO application(name) ";
-        query +="VALUES('" + app + "')";
+        query += "VALUES('" + app + "')";
         Log.i(TAG, query);
         String createURL = Constants.URL + "?q=" + query;
         Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        try{
+        try {
             out = new ByteArrayOutputStream();
             InputStream in = connection.getInputStream();
-            if(connection.getResponseCode() != HttpURLConnection.HTTP_OK){
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 throw new IOException(connection.getResponseMessage() +
                         ": with " + createURL);
             }
             int byteRead = 0;
             byte[] buffer = new byte[1024];
-            while((byteRead = in.read(buffer))>0){
-                out.write(buffer, 0,byteRead);
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
             }
             out.close();
             Log.i(TAG, out.toString());
-        }finally {
+        } finally {
             connection.disconnect();
         }
         return Integer.valueOf(out.toString());
     }
 
     private int eventID;
+
     @Override
     public List<String> insertNewRecivedBug(List<String> strings, int userID) throws IOException, JSONException {
         List<String> newValuesToReturn = new ArrayList<String>();
         eventID = 0;
         String stringAppID = findAppId(strings.get(1));
-        if(stringAppID.length() > 0 || !stringAppID.isEmpty()) {
+        Log.i("appID", String.valueOf(stringAppID));
+        if (stringAppID.length() > 0 || !stringAppID.isEmpty()) {
             JSONObject object = new JSONObject(stringAppID);
-            int appID =object.getInt("application_id");
-
-            String eventIDString = checkIfEventExists(strings.get(0), strings.get(2),appID);
-            if(eventIDString.length()==0||eventIDString.isEmpty()){
-                eventIDString = insertEvent(strings.get(0), strings.get(2),appID);
+            int appID = object.getInt("application_id");
+            Log.i("APPID", String.valueOf(appID));
+            String eventIDString = checkIfEventExists(strings.get(0), strings.get(2), appID);
+            if (eventIDString.length() == 0 || eventIDString.isEmpty()) {
+                eventIDString = insertEvent(strings.get(0), strings.get(2), appID);
             }
             JSONObject object1 = new JSONObject(eventIDString);
             eventID = object1.getInt("event_id");
             newValuesToReturn.add(String.valueOf(appID));
             newValuesToReturn.add(String.valueOf(eventID));
-            
+
             //newValuesToReturn.add(String.valueOf()) --jos treba mail
             Log.i("EVENT_ID", eventIDString + " " + String.valueOf(eventID));
-        }else{
+        } else {
             //vratiti da nepostoji aplikacija -- treba unesti aplikaciju.
         }
         return newValuesToReturn;
     }
 
+    @Override
+    public String getUserPriority(Integer userID, Integer appID) throws IOException {
+        ByteArrayOutputStream out;
+        String query = "SELECT priority FROM user_application ";
+        query += "WHERE user_id=" + userID + " AND application_id=" + appID + ";";
+        Log.i(TAG, query);
+        String createURL = Constants.URL + "?q=" + query;
+        URL url = new URL(createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try {
+            out = new ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            int byteRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
+            }
+            out.close();
+            Log.i(TAG, out.toString());
+            return out.toString();
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
     private String insertEvent(String name, String desc, int appID) throws IOException {
         ByteArrayOutputStream out;
         String query = "INSERT INTO event(name,description,application_id) ";
-        query +="VALUES('" + name+ "','"+desc+"','"+appID+"')";
+        query += "VALUES('" + name + "','" + desc + "','" + appID + "')";
         Log.i(TAG, query);
         String createURL = Constants.URL + "?q=" + query;
         Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        try{
+        try {
             out = new ByteArrayOutputStream();
             InputStream in = connection.getInputStream();
-            if(connection.getResponseCode() != HttpURLConnection.HTTP_OK){
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 throw new IOException(connection.getResponseMessage() +
                         ": with " + createURL);
             }
             int byteRead = 0;
             byte[] buffer = new byte[1024];
-            while((byteRead = in.read(buffer))>0){
-                out.write(buffer, 0,byteRead);
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
             }
             out.close();
             Log.i(TAG, out.toString());
-        }finally {
+        } finally {
             connection.disconnect();
         }
-        return checkIfEventExists(name,desc,appID);
+        return checkIfEventExists(name, desc, appID);
     }
 
     private String checkIfEventExists(String name, String desc, int appID) throws IOException {
         ByteArrayOutputStream out;
         String query = "SELECT event_id FROM event ";
-        query += "WHERE name='" + name+ "' AND description = '"+desc+"' AND application_id ='"+appID+"' LIMIT 1;";
+        query += "WHERE name='" + name + "' AND description = '" + desc + "' AND application_id ='" + appID + "' LIMIT 1;";
         Log.i("QUERY", query);
         String createURL = Constants.URL + "?q=" + query;
         Log.i(TAG, createURL);
-        URL url= new URL(createURL);
+        URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        try{
+        try {
             out = new ByteArrayOutputStream();
             InputStream in = connection.getInputStream();
-            if(connection.getResponseCode() != HttpURLConnection.HTTP_OK){
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 throw new IOException(connection.getResponseMessage() +
                         ": with " + createURL);
             }
             int byteRead = 0;
             byte[] buffer = new byte[1024];
-            while((byteRead = in.read(buffer))>0){
-                out.write(buffer, 0,byteRead);
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
             }
             out.close();
             Log.i(TAG, out.toString());
-        }finally {
+        } finally {
             connection.disconnect();
         }
         return out.toString();
