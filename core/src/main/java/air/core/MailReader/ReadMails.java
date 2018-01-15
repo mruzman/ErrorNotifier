@@ -44,7 +44,7 @@ public class ReadMails {
         List<Object> objects = new ArrayList<Object>();
         lists = new ArrayList(new EmailListener().execute(user.getEmail(), user.getPassword()).get());
         Log.i("LISTA", String.valueOf(lists.size()));
-        if (!lists.isEmpty()) {//ako je nesto doslo s listom
+        if (lists != null || !lists.isEmpty()) {//ako je nesto doslo s listom
             for (List<String> list : lists) {
                 //zapisati v Beanove i vrnuti ih u MainActivity -- 0 - appID, 1 - eventID, 2 - mailID
                 List<String> newValues = new ServicesImpl().insertNewRecivedBug(list, user.getUserId());

@@ -176,6 +176,7 @@ public class ServicesImpl implements Services {
 
     private int eventID;
 
+    //TODO Dodati ova sranja do kraja
     @Override
     public List<String> insertNewRecivedBug(List<String> strings, int userID) throws IOException, JSONException {
         List<String> newValuesToReturn = new ArrayList<String>();
@@ -198,6 +199,7 @@ public class ServicesImpl implements Services {
             //newValuesToReturn.add(String.valueOf()) --jos treba mail
             Log.i("EVENT_ID", eventIDString + " " + String.valueOf(eventID));
         } else {
+            Log.i(TAG, "Ne postoji aplikacija");
             //vratiti da nepostoji aplikacija -- treba unesti aplikaciju.
         }
         return newValuesToReturn;

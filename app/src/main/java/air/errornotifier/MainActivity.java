@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         ReadMails readMails = new ReadMails(user);
                         List<Object> insertedEmails  = readMails.checkIfNewEmailCame();
-                        if (insertedEmails.size()!= 0) {
+                        if (insertedEmails != null) {
                             for(Object object : insertedEmails){
                                 if(object instanceof Email){
                                     mail = (Email) object;
@@ -131,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 checkPriorityForApp();
                             }
+                        }else{
+                            Log.i("MAIN_ZA_LISTU", "Prazna je lista EMAILOVA");
                         }
                         Thread.sleep(60 * 1000);
                     } catch (InterruptedException e) {
@@ -153,6 +155,15 @@ public class MainActivity extends AppCompatActivity {
         if(event.getApplicationId() != 0) {
             priority = new PriorityApp().execute(user.getUserId(), event.getApplicationId()).get();
             Log.i("Prioritet", String.valueOf(priority));
+            if(priority!=0){
+                if(priority == 1){
+                    //radi ono kj je prioritet 1 pozovi
+                }else if(priority == 2){
+                    //radi ono kj je prioritet 2 notificiraj
+                }else{
+                    //radi ono zadnje xD
+                }
+            }
         }
     }
 }

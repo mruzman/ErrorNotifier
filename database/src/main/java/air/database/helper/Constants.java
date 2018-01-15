@@ -23,4 +23,5 @@ public class Constants {
     public static final Integer ERROR = -1;
 
     public static final String STATUS_UNSOLVED = "Unsolved";
+    public static final String ZABBIX_STRING = "Zabbix_problem";
 }

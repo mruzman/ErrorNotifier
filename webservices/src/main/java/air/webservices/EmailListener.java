@@ -75,7 +75,7 @@ public class EmailListener extends AsyncTask<String, Void, List<List<String>>> {
             while (true) {
                 Message individualMsg = messages[i];
                 if (lastThreeDays.getTimeInMillis() < individualMsg.getReceivedDate().getTime()) {
-                    if (individualMsg.getSubject().contains("Zabbix_problem") && !individualMsg.isSet(Flags.Flag.SEEN)) {
+                    if (individualMsg.getSubject().contains(Constants.ZABBIX_STRING) && !individualMsg.isSet(Flags.Flag.SEEN)) {
                         Log.i("Primljeno", individualMsg.getReceivedDate().toString());
                         Log.i("Email subject", individualMsg.getSubject());
                         //individualMsg.setFlag(Flags.Flag.SEEN, true); //TODO: UKLUCITI OVO
