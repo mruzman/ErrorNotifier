@@ -1,6 +1,9 @@
 package air.errornotifier;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,8 +28,16 @@ public class LoginActivity extends AppCompatActivity {
         UsernameEt = (EditText) findViewById(R.id.txtUsername);
         PasswrodEt = (EditText) findViewById(R.id.txtPassword);
         UsernameEt.requestFocus();
+
+
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
     /*private void kreiraj_novog() throws ExecutionException, InterruptedException {
         Evo ovdi je napravljeno kak se zove dok ADMIN hoce dodati novoga korisnika...
         jos budem dodal funkciju koja provjerava dal je admin, ali svejedno vi morate napraviti
@@ -47,6 +58,10 @@ public class LoginActivity extends AppCompatActivity {
 
     public void prijava(View view){
 
+        if(isNetworkAvailable()== false){
+            Toast.makeText(this, "No internet connections", Toast.LENGTH_LONG).show();
+            return;
+        }
         LogInCall logInCall = new LogInCall(UsernameEt.getText().toString(), PasswrodEt.getText().toString());
         if (logInCall.getUser().getFirstName() !=null) {
 

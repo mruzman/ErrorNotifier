@@ -36,8 +36,8 @@ public class AddUserActivity extends AppCompatActivity {
         //Toolbar
         mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Add User");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Add User");
 
         mAddFirstName = (EditText) findViewById(R.id.txtAddFirstName);
         mAddLastName = (EditText) findViewById(R.id.txtAddLastName);
@@ -64,7 +64,6 @@ public class AddUserActivity extends AppCompatActivity {
 
 
     }
-
 
     private void kreiraj_novog() throws ExecutionException, InterruptedException  {
 
