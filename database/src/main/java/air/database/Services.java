@@ -3,6 +3,8 @@ package air.database;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.List;
 
 /**
  * Created by mruzman on 15.11.2017..
@@ -18,4 +20,8 @@ public interface Services {
     Integer getIfExistsApp(String appName) throws IOException;
 
     Integer insertNewApp(String app) throws IOException;
+
+    List<String> insertNewRecivedBug(List<String> strings, int userID) throws IOException, JSONException;
+
+    String getUserPriority(Integer userID,Integer appID) throws IOException;
 }

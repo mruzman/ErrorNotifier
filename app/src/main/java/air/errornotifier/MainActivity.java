@@ -2,6 +2,7 @@ package air.errornotifier;
 
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,16 +14,25 @@ import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 
+
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import air.core.Bean.App;
+import air.core.Bean.Email;
+import air.core.Bean.Event;
+import air.core.Bean.Priority;
 import air.core.Bean.Users;
-import air.core.IncomeMessages.IncomingMail;
+import air.core.MailReader.ReadMails;
 import air.webservices.EmailListener;
+import air.webservices.PriorityApp;
 
 
 public class MainActivity extends AppCompatActivity {
-
-    private static String TAG = "U MAIN ACTIVITYU";
-
-    private Users user;
 
     private Toolbar mTolbar;
     private ViewPager mViewPager;
@@ -30,18 +40,23 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
  //   private FloatingActionMenu floatingActionMenu;
     private FloatingActionButton fabUser,fabGroup;
+    private Users user;
+    private Email mail = new Email();
+    private Priority priority;
+    private Event event= new Event();
+    private App app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         user = (Users) getIntent().getSerializableExtra("User");
-        Log.i(TAG, user.getFirstName() + " "+ user.getLastName());
-        /*try {
-            readMails();
-        } catch (Exception e) {
+        try {
+            checkMail();
+        } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
+        }
+
 
 
         //Dodavanje ActionBar-a
@@ -93,12 +108,62 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
+        //Log.i("MAIN", user.getUsername().toString());
 
     }
 
-    private void readMails() throws Exception {
-        IncomingMail incomingMail = new IncomingMail(user);
+    private void checkMail() throws InterruptedException {
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (user.getEmail() != null || !user.getEmail().equals("")) {
+                    try {
+                        ReadMails readMails = new ReadMails(user);
+                        List<Object> insertedEmails  = readMails.checkIfNewEmailCame();
+                        if (insertedEmails != null) {
+                            for(Object object : insertedEmails){
+                                if(object instanceof Email){
+                                    mail = (Email) object;
+                                    Log.i("VRAĆENO U MAINU", String.valueOf(mail.getEmailId()));
+                                }
+                                if(object instanceof Event){
+                                    event = (Event) object;
+                                }
+                                checkPriorityForApp();
+                            }
+                        }else{
+                            Log.i("MAIN_ZA_LISTU", "Prazna je lista EMAILOVA");
+                        }
+                        Thread.sleep(60 * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void checkPriorityForApp() throws ExecutionException, InterruptedException {
+        int priority = 0;
+        if(event.getApplicationId() != 0) {
+            priority = new PriorityApp().execute(user.getUserId(), event.getApplicationId()).get();
+            Log.i("Prioritet", String.valueOf(priority));
+            if(priority!=0){
+                if(priority == 1){
+                    //radi ono kj je prioritet 1 pozovi
+                }else if(priority == 2){
+                    //radi ono kj je prioritet 2 notificiraj
+                }else{
+                    //radi ono zadnje xD
+                }
+            }
+        }
     }
 }

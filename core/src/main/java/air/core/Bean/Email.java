@@ -8,16 +8,16 @@ import java.sql.Time;
  * Created by mruzman on 21.11.2017..
  */
 
-public class Email implements Serializable{
+public class Email implements Serializable {
     private int emailId;
     private String description;
-    private Timestamp timeError;
-    private Timestamp timeWarning;
+    private java.sql.Timestamp timeError;
+    private java.sql.Timestamp timeWarning;
     private String status;
     private int userId;
     private int eventId;
 
-    public Email(int emailId, String description, Timestamp timeError, Timestamp timeWarning, String status, int userId, int eventId) {
+    public Email(int emailId, String description, java.sql.Timestamp timeError, java.sql.Timestamp timeWarning, String status, int userId, int eventId) {
         this.emailId = emailId;
         this.description = description;
         this.timeError = timeError;
@@ -46,19 +46,19 @@ public class Email implements Serializable{
         this.description = description;
     }
 
-    public Timestamp getTimeError() {
+    public java.sql.Timestamp getTimeError() {
         return timeError;
     }
 
-    public void setTimeError(Timestamp timeError) {
+    public void setTimeError(java.sql.Timestamp timeError) {
         this.timeError = timeError;
     }
 
-    public Timestamp getTimeWarning() {
+    public java.sql.Timestamp getTimeWarning() {
         return timeWarning;
     }
 
-    public void setTimeWarning(Timestamp timeWarning) {
+    public void setTimeWarning(java.sql.Timestamp timeWarning) {
         this.timeWarning = timeWarning;
     }
 
@@ -84,5 +84,8 @@ public class Email implements Serializable{
 
     public void setEventId(int eventId) {
         this.eventId = eventId;
+    }
+
+    public void setTimeError(Timestamp timestamp) {
     }
 }
