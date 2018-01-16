@@ -1,4 +1,4 @@
-package air.core.Bean;
+package air.database.Bean;
 
 import java.io.Serializable;
 

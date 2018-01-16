@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
-import air.core.Bean.Users;
+import air.database.Bean.Users;
 import air.webservices.LogIn;
 
 /**

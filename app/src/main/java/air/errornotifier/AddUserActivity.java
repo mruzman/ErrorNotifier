@@ -13,7 +13,7 @@ import android.widget.EditText;
 import java.util.concurrent.ExecutionException;
 
 import air.core.AddNewUser;
-import air.core.Bean.Users;
+import air.database.Bean.Users;
 
 public class AddUserActivity extends AppCompatActivity {
 

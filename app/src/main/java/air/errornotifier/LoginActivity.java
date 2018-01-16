@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 
-import air.core.Bean.Users;
 import air.core.LogInCall;
 
 public class LoginActivity extends AppCompatActivity {
