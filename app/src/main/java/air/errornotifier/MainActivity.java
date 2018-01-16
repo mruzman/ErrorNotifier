@@ -2,7 +2,6 @@ package air.errornotifier;
 
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 
@@ -18,17 +16,15 @@ import com.github.clans.fab.FloatingActionButton;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import air.core.Bean.App;
-import air.core.Bean.Email;
-import air.core.Bean.Event;
-import air.core.Bean.Priority;
-import air.core.Bean.Users;
+import air.database.Bean.App;
+import air.database.Bean.Email;
+import air.database.Bean.Event;
+import air.database.Bean.Priority;
+import air.database.Bean.Users;
 import air.core.MailReader.ReadMails;
-import air.webservices.EmailListener;
 import air.webservices.PriorityApp;
 
 

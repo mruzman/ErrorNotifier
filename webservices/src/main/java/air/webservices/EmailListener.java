@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,29 +27,25 @@ import javax.mail.search.FlagTerm;
 import javax.mail.search.ReceivedDateTerm;
 import javax.mail.search.SearchTerm;
 
+import air.database.Bean.App;
+import air.database.Bean.Email;
+import air.database.Bean.Event;
 import air.database.helper.Constants;
 
 /**
  * Created by mruzman on 5.12.2017..
  */
 
-public class EmailListener extends AsyncTask<String, Void, List<List<String>>> {
+public class EmailListener extends AsyncTask<String, Void, List<Object>> {
     private static String T = "MEJLOVI";
+    Email email;
+    Event event;
+    App app;
 
-    private String desc;
-    private String time_error;
-    private String time_warning;
-    private String name;
-    private String app;
     @Override
-    protected List<List<String>> doInBackground(String... strings) {
-        name = "";
-        app = "";
-        desc="";
-        time_error="";
-        time_warning="";
+    protected List<Object> doInBackground(String... strings) {
 
-        List<List<String>> list = new ArrayList<List<String>>();
+        List<Object> list = new ArrayList<Object>();
         String username = strings[0];
         String passwrod = strings[1];
 
@@ -78,17 +75,32 @@ public class EmailListener extends AsyncTask<String, Void, List<List<String>>> {
                     if (individualMsg.getSubject().contains(Constants.ZABBIX_STRING) && !individualMsg.isSet(Flags.Flag.SEEN)) {
                         Log.i("Primljeno", individualMsg.getReceivedDate().toString());
                         Log.i("Email subject", individualMsg.getSubject());
-                        //individualMsg.setFlag(Flags.Flag.SEEN, true); //TODO: UKLUCITI OVO
+                        //individualMsg.setFlag(Flags.Flag.SEEN, true); //TODO: UKLUCITI OVO DOK BUDEM PREDAVAL
+                        app = new App();
+                        email = new Email();
+                        event = new Event();
                         getStrings(individualMsg);
 
-                        List<String> node = new ArrayList<String>();
-                        node.add(name);
-                        node.add(app);
-                        node.add(desc);
-                        node.add(time_error);
-                        node.add(time_warning);
+                        /*
+                        TU DODATI OVO KJ FALI
+                        DOLE JE ZA PARSANJE DATUMA
+                         */
 
-                        list.add(node);
+                        //TU DODAMO KJ ZAPISUJEM
+                        if ( email.getTimeWarning() == null) {
+                            email.setTimeWarning(formatDate(Constants.NULL_DATE));
+                            Log.i("TIME", email.getTimeError().toString());
+                        }
+                        if ( email.getTimeError() == null) {
+                            email.setTimeError(formatDate(Constants.NULL_DATE));
+                        }
+                        if (event.getDescription() == "" || event.getDescription() == null || email.getDescription() == null || email.getDescription() =="") {
+                            event.setDescription("OPIS");
+                            email.setDescription("OPIS");
+                        }
+                        list.add(email);
+                        list.add(event);
+                        list.add(app);
                     }
                     i--;
                 } else {
@@ -107,8 +119,26 @@ public class EmailListener extends AsyncTask<String, Void, List<List<String>>> {
 
     private void getStrings(Message message) throws MessagingException {
         String[] triggerName = message.getSubject().split("on");
-        app = triggerName[1].split(":")[1];
-        name = triggerName[0].split(":")[1];
+        app.setName(triggerName[1].split(":")[1]);
+        if(triggerName[0].contains("Re")){
+            event.setName(triggerName[0].split(":")[2]);
+        }else {
+            event.setName(triggerName[0].split(":")[1]);
+        }
     }
+
+    private java.sql.Timestamp formatDate(String s) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+            Date parsedDate = dateFormat.parse(s);
+            java.sql.Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            Log.i("TIMESTAMP", timestamp.toString());
+            return timestamp;
+        } catch (Exception e) { //this generic but you can control another types of exception
+            // look the origin of excption
+        }
+        return null;
+    }
+    // TODO TU FALI JOS DOHVACANJE DATUMA I TIH STVARI Z BODY PARTA PORUKE..
 }
 

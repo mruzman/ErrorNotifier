@@ -4,7 +4,7 @@ import android.util.Log;
 
 import java.util.concurrent.ExecutionException;
 
-import air.core.Bean.Users;
+import air.database.Bean.Users;
 import air.webservices.AddUser;
 import air.webservices.InsertNewUser;
 

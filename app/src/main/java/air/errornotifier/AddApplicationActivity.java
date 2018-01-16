@@ -11,7 +11,7 @@ import android.widget.EditText;
 import java.util.concurrent.ExecutionException;
 
 import air.core.AddNewApplication;
-import air.core.Bean.App;
+import air.database.Bean.App;
 
 /**
  * Created by Mateo on 6.12.2017..

@@ -2,7 +2,7 @@ package air.core;
 
 import java.util.concurrent.ExecutionException;
 
-import air.core.Bean.App;
+import air.database.Bean.App;
 import air.webservices.InsertNewApp;
 
 /**

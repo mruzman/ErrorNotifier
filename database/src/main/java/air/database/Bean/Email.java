@@ -1,8 +1,7 @@
-package air.core.Bean;
+package air.database.Bean;
 
 import java.io.Serializable;
 import java.security.Timestamp;
-import java.sql.Time;
 
 /**
  * Created by mruzman on 21.11.2017..

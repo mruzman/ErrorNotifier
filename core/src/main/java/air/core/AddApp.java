@@ -6,7 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-import air.core.Bean.App;
+import air.database.Bean.App;
 import air.database.ServicesImpl;
 import air.database.helper.Constants;
 
