@@ -25,4 +25,6 @@ public class Constants {
     public static final String STATUS_UNSOLVED = "Unsolved";
     public static final String ZABBIX_STRING = "Zabbix_problem";
     public static final String NULL_DATE = "0000-00-00 00:00:00";
+    public static final String TYPE_USER = "USER";
+    public static final String TYPE_ADMIN = "ADMIN";
 }

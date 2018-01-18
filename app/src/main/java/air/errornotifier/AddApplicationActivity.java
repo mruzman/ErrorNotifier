@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
@@ -24,6 +26,17 @@ public class AddApplicationActivity extends AppCompatActivity{
     private EditText mName;
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if ( id == android.R.id.home ) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,8 +72,10 @@ public class AddApplicationActivity extends AppCompatActivity{
         int done = new AddNewApplication(app).insertApp();
 
         if(done == 1){
-            Intent intent = new Intent(AddApplicationActivity.this, MainActivity.class);
-            startActivity(intent);
+            Toast.makeText(this, "Aplikacija dodana", Toast.LENGTH_LONG).show();
+            finish();
+            //Intent intent = new Intent(AddApplicationActivity.this, MainActivity.class);
+            //startActivity(intent);
         }
     }
 }

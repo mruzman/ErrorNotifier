@@ -9,13 +9,16 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -25,6 +28,7 @@ import air.database.Bean.Event;
 import air.database.Bean.Priority;
 import air.database.Bean.Users;
 import air.core.MailReader.ReadMails;
+import air.database.helper.Constants;
 import air.webservices.PriorityApp;
 
 
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private Event event= new Event();
     private App app;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,27 +58,58 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        if(user.getType().equals(Constants.TYPE_ADMIN)){
 
-        //Dodavanje ActionBar-a
-        mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
-        setSupportActionBar(mTolbar);
-        getSupportActionBar().setTitle("ErrorNotifier");
+            //Dodavanje ActionBar-a
+            mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
+            setSupportActionBar(mTolbar);
+            getSupportActionBar().setTitle("ErrorNotifier");
 
-        //Tabs
-        mViewPager = (ViewPager) findViewById(R.id.tabPager);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+            //Tabs
+            mViewPager = (ViewPager) findViewById(R.id.tabPager);
+            SectionsPagerAdapter.countMenu = 2;
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        //ViewPager
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+            //ViewPager
+            mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        //TabLayout
-        mTabLayout = (TabLayout) findViewById(R.id.main_tabs);
-        mTabLayout.setupWithViewPager(mViewPager);
+            //TabLayout
+            mTabLayout = (TabLayout) findViewById(R.id.main_tabs);
+            mTabLayout.setupWithViewPager(mViewPager);
 
-        //FloatingAction
-  //      floatingActionMenu = (FloatingActionMenu) findViewById(R.id.menuFab);
-        fabUser = (FloatingActionButton) findViewById(R.id.menuFabAddUser);
-        fabGroup = (FloatingActionButton) findViewById(R.id.menuFabAddApplication);
+
+            //FloatingAction
+            //      floatingActionMenu = (FloatingActionMenu) findViewById(R.id.menuFab);
+            fabUser = (FloatingActionButton) findViewById(R.id.menuFabAddUser);
+            fabGroup = (FloatingActionButton) findViewById(R.id.menuFabAddApplication);
+
+
+        }else{
+            //Dodavanje ActionBar-a
+            mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
+            setSupportActionBar(mTolbar);
+            getSupportActionBar().setTitle("ErrorNotifier");
+
+            //Tabs
+            mViewPager = (ViewPager) findViewById(R.id.tabPager);
+            SectionsPagerAdapter.countMenu = 1;
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+            //ViewPager
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+
+            //TabLayout
+            mTabLayout = (TabLayout) findViewById(R.id.main_tabs);
+            mTabLayout.setupWithViewPager(mViewPager);
+
+            //FloatingAction
+            fabUser = (FloatingActionButton) findViewById(R.id.menuFabAddUser);
+            fabGroup = (FloatingActionButton) findViewById(R.id.menuFabAddApplication);
+            FloatingActionMenu fabButton = (FloatingActionMenu) findViewById(R.id.menuFab);
+            fabButton.setVisibility(View.GONE);
+
+        }
+
 
 //        floatingActionMenu.setOnClickListener(new View.OnClickListener() {
 //            @Override

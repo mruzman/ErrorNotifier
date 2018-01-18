@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 class SectionsPagerAdapter extends FragmentPagerAdapter{
 
+    static public int countMenu;
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -34,7 +35,7 @@ class SectionsPagerAdapter extends FragmentPagerAdapter{
 
     @Override
     public int getCount() {
-        return 2;
+        return countMenu;
     }
 
     public CharSequence getPageTitle(int position){

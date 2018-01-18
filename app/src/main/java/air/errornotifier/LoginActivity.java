@@ -19,6 +19,8 @@ public class LoginActivity extends AppCompatActivity {
     private static String TAG = "MAIN ACTIVITY";
     EditText UsernameEt, PasswrodEt;
     String etString;
+    public static int admin =1;
+    public static int user = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
 
           //  Toast.makeText(LoginActivity.this, "Uspješna prijava!!!", Toast.LENGTH_LONG).show();
             Log.i("MAIN", "Nije prazno");
-            Log.i(TAG, "Prijavljen korisnik: " + logInCall.getUser().getFirstName() + " " + logInCall.getUser().getLastName());
+            Log.i(TAG, "Prijavljen korisnik: " + logInCall.getUser().getFirstName() + " " + logInCall.getUser().getLastName()+ " " +logInCall.getUser().getType());
 
 
             //provjeri dal je admin Constant.TYPE = 1 (to bude za admin)
