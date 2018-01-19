@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -107,10 +108,26 @@ public class MainActivity extends AppCompatActivity {
         //Log.i("MAIN", user.getUsername().toString());
 
     }
+    //Dodavanje ikona u App Bar
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item){
+        switch (item.getItemId()){
+            case R.id.menu_logout:
+                Intent Logout = new Intent(MainActivity.this, air.errornotifier.LoginActivity.class);
+                startActivity(Logout);
+                return true;
+            case R.id.menu_settings:
+                //ovdje će se pozvati settings
+                return true;
+            default:
+                return true;
+        }
     }
 
     @Override
