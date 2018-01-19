@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +25,7 @@ public class AddApplicationActivity extends AppCompatActivity{
     private Toolbar mToolbar;
     private Button btnAddApplication;
     private EditText mName;
-
+    private static String TAG = "ADD APPLICATION ACTIVITY";
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -72,10 +73,14 @@ public class AddApplicationActivity extends AppCompatActivity{
         int done = new AddNewApplication(app).insertApp();
 
         if(done == 1){
-            Toast.makeText(this, "Aplikacija dodana", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Application is successfully added", Toast.LENGTH_LONG).show();
             finish();
             //Intent intent = new Intent(AddApplicationActivity.this, MainActivity.class);
             //startActivity(intent);
+        }else if(done == 2){
+            Toast.makeText(this, "Application with that name already exists", Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this, "There was a problem while adding an application, please try again", Toast.LENGTH_SHORT).show();
         }
     }
 }
