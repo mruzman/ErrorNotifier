@@ -80,7 +80,7 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
                         //Timestamp timestamp = Timestamp.valueOf(getDate(getTextFromMessage(individualMsg)));
                         email.setTimeEventOccured(Timestamp.valueOf(getDate(bp)));
                         email.setDescription(getDescription(bp));
-                        Log.i("BP", bp);
+                        event.setDescription(getDescription(bp));
                         //TU DODAMO KJ ZAPISUJEM
                         list.add(email);
                         list.add(event);
