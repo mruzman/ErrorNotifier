@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,19 +14,14 @@ import java.util.List;
 import java.util.Properties;
 
 import javax.mail.BodyPart;
-import javax.mail.FetchProfile;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Store;
-import javax.mail.internet.ContentType;
 import javax.mail.internet.MimeMultipart;
-import javax.mail.search.ComparisonTerm;
-import javax.mail.search.FlagTerm;
-import javax.mail.search.ReceivedDateTerm;
-import javax.mail.search.SearchTerm;
 
 import air.database.Bean.App;
 import air.database.Bean.Email;
@@ -80,24 +76,12 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
                         email = new Email();
                         event = new Event();
                         getStrings(individualMsg);
-
-                        /*
-                        TU DODATI OVO KJ FALI
-                        DOLE JE ZA PARSANJE DATUMA
-                         */
-
+                        String bp = getTextFromMessage(individualMsg);
+                        //Timestamp timestamp = Timestamp.valueOf(getDate(getTextFromMessage(individualMsg)));
+                        email.setTimeEventOccured(Timestamp.valueOf(getDate(bp)));
+                        email.setDescription(getDescription(bp));
+                        Log.i("BP", bp);
                         //TU DODAMO KJ ZAPISUJEM
-                        if ( email.getTimeWarning() == null) {
-                            email.setTimeWarning(formatDate(Constants.NULL_DATE));
-                            Log.i("TIME", email.getTimeError().toString());
-                        }
-                        if ( email.getTimeError() == null) {
-                            email.setTimeError(formatDate(Constants.NULL_DATE));
-                        }
-                        if (event.getDescription() == "" || event.getDescription() == null || email.getDescription() == null || email.getDescription() =="") {
-                            event.setDescription("OPIS");
-                            email.setDescription("OPIS");
-                        }
                         list.add(email);
                         list.add(event);
                         list.add(app);
@@ -139,6 +123,48 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
         }
         return null;
     }
-    // TODO TU FALI JOS DOHVACANJE DATUMA I TIH STVARI Z BODY PARTA PORUKE..
+
+    private String getTextFromMessage(Message message) throws MessagingException, IOException {
+        String result = "";
+        if (message.isMimeType("text/plain")) {
+            result = message.getContent().toString();
+        } else if (message.isMimeType("multipart/*")) {
+            MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
+            result = getTextFromMimeMultipart(mimeMultipart);
+        }
+        return result;
+    }
+
+    private String getTextFromMimeMultipart(
+            MimeMultipart mimeMultipart)  throws MessagingException, IOException{
+        String result = "";
+        int count = mimeMultipart.getCount();
+        for (int i = 0; i < count; i++) {
+            BodyPart bodyPart = mimeMultipart.getBodyPart(i);
+            if (bodyPart.isMimeType("text/plain")) {
+                result = result + "\n" + bodyPart.getContent();
+                break; // without break same text appears twice in my tests
+            } else if (bodyPart.isMimeType("text/html")) {
+                String html = (String) bodyPart.getContent();
+                result = result + "\n" + org.jsoup.Jsoup.parse(html).text();
+            } else if (bodyPart.getContent() instanceof MimeMultipart){
+                result = result + getTextFromMimeMultipart((MimeMultipart)bodyPart.getContent());
+            }
+        }
+        return result;
+    }
+
+    private String getDate(String s){
+        String d= s.substring(s.indexOf("Problem started at"), s.indexOf("Problem name"));
+        String date = d.split("on")[1].replace("/", "-").trim() + " " +d.split("at")[1].substring(1,9).trim();
+        return date;
+    }
+
+    private String getDescription(String s){
+        String problemName = s.substring(s.indexOf("Problem name"),s.indexOf("Host"));
+        problemName = problemName.split(":")[1].trim();
+        Log.i("PROBLEM NAME", problemName);
+        return problemName;
+    }
 }
 

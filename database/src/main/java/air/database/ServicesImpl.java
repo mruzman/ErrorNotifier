@@ -198,9 +198,9 @@ public class ServicesImpl implements Services {
             }
             JSONObject object1 = new JSONObject(eventIDString);
             eventID = object1.getInt("event_id");
-            String emailIDString = checkAndGetEmail(mail.getDescription(),mail.getTimeError(),mail.getTimeWarning(),Constants.STATUS_UNSOLVED,eventID,userID);
+            String emailIDString = checkAndGetEmail(mail.getDescription(),mail.getTimeEventOccured(),Constants.STATUS_UNSOLVED,eventID,userID);
             if(emailIDString.length() == 0 || emailIDString.isEmpty()){ //strigs 2 - desc, strings 3- time error, strings 4 - time warning
-                emailIDString = insertNewMail(mail.getDescription(),mail.getTimeError(),mail.getTimeWarning(),Constants.STATUS_UNSOLVED,eventID,userID);
+                emailIDString = insertNewMail(mail.getDescription(),mail.getTimeEventOccured(),Constants.STATUS_UNSOLVED,eventID,userID);
             }
             object1 = new JSONObject(emailIDString);
             emailID = object1.getInt("email_id");
@@ -214,10 +214,10 @@ public class ServicesImpl implements Services {
         return newValuesToReturn;
     }
 
-    private String insertNewMail(String s, Timestamp s1, Timestamp s2, String statusUnsolved, int eventID, int userID) throws IOException {
+    private String insertNewMail(String s, Timestamp s1, String statusUnsolved, int eventID, int userID) throws IOException {
         ByteArrayOutputStream out;
-        String query = "INSERT INTO email(description, "+(s1 != null ? "time_error " : "time_warning ") + ", status, user_id, event_id) ";
-        query += "VALUES('" + s + "','" + (s1 != null ? s1 : s2) + "','" + statusUnsolved + "','"+userID+"','"+eventID+"')";
+        String query = "INSERT INTO email(description, time_event_occured, status, user_id, event_id) ";
+        query += "VALUES('" + s + "','" + s1 + "','" + statusUnsolved + "','"+userID+"','"+eventID+"')";
         Log.i(TAG, query);
         String createURL = Constants.URL + "?q=" + query;
         Log.i(TAG, createURL);
@@ -240,13 +240,13 @@ public class ServicesImpl implements Services {
         } finally {
             connection.disconnect();
         }
-        return checkAndGetEmail(s,s1,s2,statusUnsolved,eventID,userID);
+        return checkAndGetEmail(s,s1,statusUnsolved,eventID,userID);
     }
 
-    private String checkAndGetEmail(String s, Timestamp s1, Timestamp s2, String statusUnsolved, int eventID, int userID) throws IOException {
+    private String checkAndGetEmail(String s, Timestamp s1, String statusUnsolved, int eventID, int userID) throws IOException {
         ByteArrayOutputStream out;
         String query = "SELECT email_id FROM email ";
-        query += "WHERE description='" + s + "' AND "+(s1 != null ? "time_error = '" + s1 : "time_warning = '"+s2) +
+        query += "WHERE description='" + s + "' AND time_event_occured = '" + s1 +
                 "' AND user_id ='"+userID+"' AND event_id ='"+eventID+"' LIMIT 1;";
         Log.i("QUERY", query);
         String createURL = Constants.URL + "?q=" + query;

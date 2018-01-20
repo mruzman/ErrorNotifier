@@ -10,17 +10,15 @@ import java.security.Timestamp;
 public class Email implements Serializable {
     private int emailId;
     private String description;
-    private java.sql.Timestamp timeError;
-    private java.sql.Timestamp timeWarning;
+    private java.sql.Timestamp timeEventOccured;
     private String status;
     private int userId;
     private int eventId;
 
-    public Email(int emailId, String description, java.sql.Timestamp timeError, java.sql.Timestamp timeWarning, String status, int userId, int eventId) {
+    public Email(int emailId, String description, java.sql.Timestamp timeEventOccured, String status, int userId, int eventId) {
         this.emailId = emailId;
         this.description = description;
-        this.timeError = timeError;
-        this.timeWarning = timeWarning;
+        this.timeEventOccured = timeEventOccured;
         this.status = status;
         this.userId = userId;
         this.eventId = eventId;
@@ -45,20 +43,8 @@ public class Email implements Serializable {
         this.description = description;
     }
 
-    public java.sql.Timestamp getTimeError() {
-        return timeError;
-    }
-
-    public void setTimeError(java.sql.Timestamp timeError) {
-        this.timeError = timeError;
-    }
-
-    public java.sql.Timestamp getTimeWarning() {
-        return timeWarning;
-    }
-
-    public void setTimeWarning(java.sql.Timestamp timeWarning) {
-        this.timeWarning = timeWarning;
+    public java.sql.Timestamp getTimeEventOccured() {
+        return timeEventOccured;
     }
 
     public String getStatus() {
@@ -85,6 +71,7 @@ public class Email implements Serializable {
         this.eventId = eventId;
     }
 
-    public void setTimeError(Timestamp timestamp) {
+    public void setTimeEventOccured(java.sql.Timestamp timeEventOccured) {
+        this.timeEventOccured = timeEventOccured;
     }
 }
