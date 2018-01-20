@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import air.core.MailReader.MailResponse;
 import air.database.Bean.App;
 import air.database.Bean.Email;
 import air.database.Bean.Event;
@@ -47,14 +48,13 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TabLayout mTabLayout;
- //   private FloatingActionMenu floatingActionMenu;
-    private FloatingActionButton fabUser,fabGroup;
+    //   private FloatingActionMenu floatingActionMenu;
+    private FloatingActionButton fabUser, fabGroup;
     private Users user;
-    private Email mail = new Email();
+    private Email mail;
     private Priority priority;
-    private Event event= new Event();
+    private Event event;
     private App app;
-
 
 
     @Override
@@ -63,17 +63,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         user = (Users) getIntent().getSerializableExtra("User");
 
-
-
-
-
         try {
             checkMail();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        if(user.getType().equals(Constants.TYPE_ADMIN)){
+        if (user.getType().equals(Constants.TYPE_ADMIN)) {
 
             //Dodavanje ActionBar-a
             mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
@@ -99,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             fabGroup = (FloatingActionButton) findViewById(R.id.menuFabAddApplication);
 
 
-        }else{
+        } else {
             //Dodavanje ActionBar-a
             mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
             setSupportActionBar(mTolbar);
@@ -139,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent addUserIntent = new Intent(MainActivity.this, AddUserActivity.class);
                 startActivity(addUserIntent);
 
-              //  Toast.makeText(MainActivity.this,"korisnik",Toast.LENGTH_LONG).show();
+                //  Toast.makeText(MainActivity.this,"korisnik",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -157,16 +153,17 @@ public class MainActivity extends AppCompatActivity {
         //Log.i("MAIN", user.getUsername().toString());
 
     }
+
     //Dodavanje ikona u App Bar
     @Override
-    public boolean onCreateOptionsMenu (Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected (MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.menu_logout:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
                 builder.setTitle("Potvrda");
@@ -176,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         Intent Logout = new Intent(MainActivity.this, air.errornotifier.LoginActivity.class);
+                        user = null;
                         startActivity(Logout);
 
                     }
@@ -210,22 +208,34 @@ public class MainActivity extends AppCompatActivity {
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (user.getEmail() != null || !user.getEmail().equals("")) {
+                while (user != null) {
                     try {
+                        mail = null;
+                        event = null;
+                        app = null;
                         ReadMails readMails = new ReadMails(user);
-                        List<Object> insertedEmails  = readMails.checkIfNewEmailCame();
+                        List<Object> insertedEmails = readMails.checkIfNewEmailCame();
                         if (insertedEmails != null) {
-                            for(Object object : insertedEmails){
-                                if(object instanceof Email){
+                            for (Object object : insertedEmails) {
+                                if (object instanceof Email) {
                                     mail = (Email) object;
-                                    Log.i("VRAĆENO U MAINU", String.valueOf(mail.getEmailId()));
                                 }
-                                if(object instanceof Event){
+                                if (object instanceof Event) {
                                     event = (Event) object;
+                                    Log.i("U MAINU--", String.valueOf(event.getApplicationId()));
                                 }
-                                checkPriorityForApp();
+                                if (object instanceof App) {
+                                    app = (App) object;
+                                }
+                                if (mail != null && event != null && app != null) {
+                                    checkPriorityForApp();
+                                    mail = null;
+                                    event = null;
+                                    app = null;
+                                }
                             }
-                        }else{
+
+                        } else {
                             Log.i("MAIN_ZA_LISTU", "Prazna je lista EMAILOVA");
                         }
                         Thread.sleep(60 * 1000);
@@ -246,15 +256,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkPriorityForApp() throws ExecutionException, InterruptedException {
         int priority = 0;
-        if(event.getApplicationId() != 0) {
+        if (event.getApplicationId() != 0) {
             priority = new PriorityApp().execute(user.getUserId(), event.getApplicationId()).get();
             Log.i("Prioritet", String.valueOf(priority));
-            if(priority!=0){
-                if(priority == 1){
-                    //radi ono kj je prioritet 1 pozovi
-                }else if(priority == 2){
+            if (priority != 0) {
+                if (priority == 1) {
+                    Log.i("PRIORITY", "Tu smo");
+                    MailResponse response = new MailResponse(mail, user, null);
+                    //response.insertAnswer("TU IDE ODGOVOR");
+                } else if (priority == 2) {
                     //radi ono kj je prioritet 2 notificiraj
-                }else{
+                } else {
                     //radi ono zadnje xD
                 }
             }

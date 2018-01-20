@@ -10,6 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.List;
 import air.database.Bean.App;
 import air.database.Bean.Email;
 import air.database.Bean.Event;
+import air.database.Bean.Response;
 import air.database.helper.Constants;
 
 /**
@@ -180,19 +182,21 @@ public class ServicesImpl implements Services {
 
     private int eventID;
     private int emailID;
+    private int appID;
+
     //TODO Dodati ova sranja do kraja
     @Override
     public List<String> insertNewRecivedBug(Event event, Email mail, App app, int userID) throws IOException, JSONException {
         List<String> newValuesToReturn = new ArrayList<String>();
         eventID = 0;
-        emailID =0;
+        emailID = 0;
         String stringAppID = findAppId(app.getName());
         JSONObject jsonObject = new JSONObject(stringAppID);
         JSONArray jsonArray = jsonObject.getJSONArray("records");
         Log.i("appID", String.valueOf(stringAppID));
         if (stringAppID.length() > 0 || !stringAppID.isEmpty()) {
             JSONObject object = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
-            int appID = object.getInt("application_id");
+            appID = object.getInt("application_id");
             Log.i("APPID", String.valueOf(appID));
             String eventIDString = checkIfEventExists(event.getName(), event.getDescription(), appID);
             jsonObject = new JSONObject(eventIDString);
@@ -205,17 +209,16 @@ public class ServicesImpl implements Services {
             }
             object1 = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
             eventID = object1.getInt("event_id");
-            String emailIDString = checkAndGetEmail(mail.getDescription(),mail.getTimeEventOccured(),Constants.STATUS_UNSOLVED,eventID,userID);
+            String emailIDString = checkAndGetEmail(mail.getDescription(), mail.getTimeEventOccured(), Constants.STATUS_UNSOLVED, eventID, userID);
             jsonObject = new JSONObject(emailIDString);
             jsonArray = jsonObject.getJSONArray("records");
-            if(jsonArray.length() == 0){
-                emailIDString = insertNewMail(mail.getDescription(),mail.getTimeEventOccured(),Constants.STATUS_UNSOLVED,eventID,userID);
+            if (jsonArray.length() == 0) {
+                emailIDString = insertNewMail(mail.getDescription(), mail.getTimeEventOccured(), Constants.STATUS_UNSOLVED, eventID, userID);
                 object1 = new JSONObject(emailIDString);
                 jsonArray = object1.getJSONArray("records");
             }
             object1 = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
             emailID = object1.getInt("email_id");
-            Log.i("VRACENOOOOOO VREDNOSTI", String.valueOf(eventID)+" "+String.valueOf(emailID));
             newValuesToReturn.add(String.valueOf(appID));
             newValuesToReturn.add(String.valueOf(eventID));
             newValuesToReturn.add(String.valueOf(emailID));
@@ -229,7 +232,7 @@ public class ServicesImpl implements Services {
     private String insertNewMail(String s, Timestamp s1, String statusUnsolved, int eventID, int userID) throws IOException {
         ByteArrayOutputStream out;
         String query = "INSERT INTO email(description, time_event_occured, status, user_id, event_id) ";
-        query += "VALUES('" + s + "','" + s1 + "','" + statusUnsolved + "','"+userID+"','"+eventID+"')";
+        query += "VALUES('" + s + "','" + s1 + "','" + statusUnsolved + "','" + userID + "','" + eventID + "')";
         Log.i(TAG, query);
         String createURL = Constants.URL + "?q=" + query;
         Log.i(TAG, createURL);
@@ -252,14 +255,14 @@ public class ServicesImpl implements Services {
         } finally {
             connection.disconnect();
         }
-        return checkAndGetEmail(s,s1,statusUnsolved,eventID,userID);
+        return checkAndGetEmail(s, s1, statusUnsolved, eventID, userID);
     }
 
     private String checkAndGetEmail(String s, Timestamp s1, String statusUnsolved, int eventID, int userID) throws IOException {
         ByteArrayOutputStream out;
         String query = "SELECT email_id FROM email ";
         query += "WHERE description='" + s + "' AND time_event_occured = '" + s1 +
-                "' AND user_id ='"+userID+"' AND event_id ='"+eventID+"' LIMIT 1;";
+                "' AND user_id ='" + userID + "' AND event_id ='" + eventID + "' LIMIT 1;";
         Log.i("QUERY", query);
         String createURL = Constants.URL + "?q=" + query;
         Log.i(TAG, createURL);
@@ -394,9 +397,39 @@ public class ServicesImpl implements Services {
             out.close();
             Log.i(TAG, out.toString());
             return out.toString();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    @Override
+    public void insertRespond(Response response) throws IOException {
+        ByteArrayOutputStream out;
+        Log.i("SERVISI", "SERVISI");
+        String query = "INSERT INTO response(email_id,user_id,response) ";
+        query += "VALUES ('" + response.getEmailId() + "','" + response.getUserId() +
+                "','" + response.getResponse() + "');";
+        String createURL = Constants.URL + "?q=" + query;
+        Log.i(TAG, createURL);
+        URL url = new URL(createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try {
+            out = new ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            int byteRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
+            }
+            out.close();
+            Log.i(TAG, out.toString());
+        } finally {
+            connection.disconnect();
         }
     }
 
