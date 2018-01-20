@@ -12,17 +12,11 @@
         $result = $con->query($query);
         $polje=array();
 		$polje['records'] = array();
-		if(mysqli_num_rows($result) > 1){
-			while($row = $result->fetch_assoc()){
-				array_push($polje['records'], $row);
-			}
-			echo json_encode($polje);
-		}else{
-			while($row = $result->fetch_assoc()){
-				echo json_encode($row);
-			}
-			
+		while($row = $result->fetch_assoc()){
+			array_push($polje['records'], $row);
 		}
+		echo json_encode($polje);
+		
    }else if((0 === strpos($query, 'insert'))||(0 === strpos($query, 'INSERT'))){
         $result = $con->query($query);
         if($result){ echo 1;}

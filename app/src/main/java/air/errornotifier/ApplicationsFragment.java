@@ -19,7 +19,9 @@ import java.util.concurrent.ExecutionException;
 
 import air.database.Bean.App;
 import air.database.Bean.Users;
+import air.database.helper.Constants;
 import air.webservices.GetListOfApps;
+import air.webservices.GetListOfUserApps;
 import air.webservices.GetListOfUsers;
 
 
@@ -30,6 +32,7 @@ public class ApplicationsFragment extends Fragment {
     private List<App> appsList = new ArrayList<>();
     private RecyclerView recyclerView;
     private AppsViewAdapter uAdapter;
+    private Users user;
 
     public ApplicationsFragment() {
         // Required empty public constructor
@@ -40,6 +43,9 @@ public class ApplicationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_applications, container, false);
+
+        user = (Users) getActivity().getIntent().getSerializableExtra("User");
+
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         uAdapter = new AppsViewAdapter(appsList);
         try {
@@ -65,7 +71,12 @@ public class ApplicationsFragment extends Fragment {
     }
 
     private void getApps() throws IOException, JSONException, ExecutionException, InterruptedException {
-        appsList = (List<App>) new GetListOfApps().execute().get();
+        if(user.getType().equals(Constants.TYPE_ADMIN)){
+            appsList = (List<App>) new GetListOfApps().execute().get();
+        }else{
+            appsList = (List<App>) new GetListOfUserApps().execute(String.valueOf(user.getUserId())).get();
+        }
+
         uAdapter.notifyDataSetChanged();
     }
 }

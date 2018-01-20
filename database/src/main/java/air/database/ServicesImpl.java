@@ -329,6 +329,34 @@ public class ServicesImpl implements Services {
         }
     }
 
+    public byte[] getUserApps(String userID) throws IOException {
+        ByteArrayOutputStream out;
+        String query = "SELECT a.* FROM application AS a INNER JOIN user_application AS ua ON a.application_id = ua.application_id WHERE ua.user_id = '" + userID + "'";
+        Log.i("QUERY", query);
+        String createURL = Constants.URL + "?q=" + query;
+        Log.i(TAG, createURL);
+        URL url = new URL(createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try {
+            out = new ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            int byteRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
+                Log.i("fef", String.valueOf(byteRead));
+            }
+            out.close();
+            return out.toByteArray();
+        } finally {
+            connection.disconnect();
+        }
+    }
+
     @Override
     public String getUserPriority(Integer userID, Integer appID) throws IOException {
         ByteArrayOutputStream out;
