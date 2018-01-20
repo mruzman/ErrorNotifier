@@ -6,6 +6,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +22,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -29,6 +33,7 @@ import air.database.Bean.Priority;
 import air.database.Bean.Users;
 import air.core.MailReader.ReadMails;
 import air.database.helper.Constants;
+import air.webservices.GetListOfUsers;
 import air.webservices.PriorityApp;
 
 
@@ -47,11 +52,17 @@ public class MainActivity extends AppCompatActivity {
     private App app;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         user = (Users) getIntent().getSerializableExtra("User");
+
+
+
+
+
         try {
             checkMail();
         } catch (InterruptedException e) {
@@ -142,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         //Log.i("MAIN", user.getUsername().toString());
 
     }
+
 
     @Override
     public void onBackPressed() {

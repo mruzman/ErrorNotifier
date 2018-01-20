@@ -9,7 +9,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -271,6 +270,35 @@ public class ServicesImpl implements Services {
             connection.disconnect();
         }
         return out.toString();
+    }
+
+
+    public byte[] getUsers() throws IOException {
+        ByteArrayOutputStream out;
+        String query = "SELECT * FROM user";
+        Log.i("QUERY", query);
+        String createURL = Constants.URL + "?q=" + query;
+        Log.i(TAG, createURL);
+        URL url = new URL(createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try {
+            out = new ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            int byteRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
+                Log.i("fef", String.valueOf(byteRead));
+            }
+            out.close();
+            return out.toByteArray();
+        } finally {
+            connection.disconnect();
+        }
     }
 
     @Override
