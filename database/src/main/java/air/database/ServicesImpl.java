@@ -201,9 +201,9 @@ public class ServicesImpl implements Services {
             if (jsonArray.length() == 0) {
                 eventIDString = insertEvent(event.getName(), event.getDescription(), appID);
                 object1 = new JSONObject(eventIDString);
-            }else {
-                object1 = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
+                jsonArray = object1.getJSONArray("records");
             }
+            object1 = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
             eventID = object1.getInt("event_id");
             String emailIDString = checkAndGetEmail(mail.getDescription(),mail.getTimeEventOccured(),Constants.STATUS_UNSOLVED,eventID,userID);
             jsonObject = new JSONObject(emailIDString);
@@ -211,9 +211,9 @@ public class ServicesImpl implements Services {
             if(jsonArray.length() == 0){
                 emailIDString = insertNewMail(mail.getDescription(),mail.getTimeEventOccured(),Constants.STATUS_UNSOLVED,eventID,userID);
                 object1 = new JSONObject(emailIDString);
-            }else{
-                object1 = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
+                jsonArray = object1.getJSONArray("records");
             }
+            object1 = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
             emailID = object1.getInt("email_id");
             Log.i("VRACENOOOOOO VREDNOSTI", String.valueOf(eventID)+" "+String.valueOf(emailID));
             newValuesToReturn.add(String.valueOf(appID));
