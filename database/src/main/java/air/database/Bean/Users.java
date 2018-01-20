@@ -1,12 +1,24 @@
 package air.database.Bean;
 
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import air.database.ServicesImpl;
 
 /**
  * Created by mruzman on 8.11.2017..
  */
 
 public class Users implements Serializable{
+    private static final String TAG = "USERS";
     private int userId;
     private String firstName;
     private String lastName;
@@ -86,5 +98,20 @@ public class Users implements Serializable{
 
     public void insertUser(Users user){
 
+    }
+
+    public static List<Users> getAll() throws IOException, JSONException {
+        List<Users> usersList = new ArrayList<Users>();
+        String result = new String(new ServicesImpl().getUsers());
+
+        JSONArray jsonArray = new JSONArray(new JSONObject(result));
+        if(jsonArray != null){
+            for(int i = 0;i<jsonArray.length(); i++){
+                JSONObject o = (JSONObject) jsonArray.get(i);
+                usersList.add(new Users(o.getInt("userId"), o.getString("firstName"), o.getString("lastName"), o.getString("username"), o.getString("email"), o.getString("type"), o.getString("password")));
+            }
+        }
+
+        return usersList;
     }
 }
