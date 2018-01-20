@@ -2,6 +2,7 @@ package air.database;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -186,23 +187,35 @@ public class ServicesImpl implements Services {
         eventID = 0;
         emailID =0;
         String stringAppID = findAppId(app.getName());
+        JSONObject jsonObject = new JSONObject(stringAppID);
+        JSONArray jsonArray = jsonObject.getJSONArray("records");
         Log.i("appID", String.valueOf(stringAppID));
         if (stringAppID.length() > 0 || !stringAppID.isEmpty()) {
-            JSONObject object = new JSONObject(stringAppID);
+            JSONObject object = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
             int appID = object.getInt("application_id");
             Log.i("APPID", String.valueOf(appID));
             String eventIDString = checkIfEventExists(event.getName(), event.getDescription(), appID);
-            if (eventIDString.length() == 0 || eventIDString.isEmpty()) {
+            jsonObject = new JSONObject(eventIDString);
+            jsonArray = jsonObject.getJSONArray("records");
+            JSONObject object1;
+            if (jsonArray.length() == 0) {
                 eventIDString = insertEvent(event.getName(), event.getDescription(), appID);
+                object1 = new JSONObject(eventIDString);
+            }else {
+                object1 = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
             }
-            JSONObject object1 = new JSONObject(eventIDString);
             eventID = object1.getInt("event_id");
             String emailIDString = checkAndGetEmail(mail.getDescription(),mail.getTimeEventOccured(),Constants.STATUS_UNSOLVED,eventID,userID);
-            if(emailIDString.length() == 0 || emailIDString.isEmpty()){ //strigs 2 - desc, strings 3- time error, strings 4 - time warning
+            jsonObject = new JSONObject(emailIDString);
+            jsonArray = jsonObject.getJSONArray("records");
+            if(jsonArray.length() == 0){
                 emailIDString = insertNewMail(mail.getDescription(),mail.getTimeEventOccured(),Constants.STATUS_UNSOLVED,eventID,userID);
+                object1 = new JSONObject(emailIDString);
+            }else{
+                object1 = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
             }
-            object1 = new JSONObject(emailIDString);
             emailID = object1.getInt("email_id");
+            Log.i("VRACENOOOOOO VREDNOSTI", String.valueOf(eventID)+" "+String.valueOf(emailID));
             newValuesToReturn.add(String.valueOf(appID));
             newValuesToReturn.add(String.valueOf(eventID));
             newValuesToReturn.add(String.valueOf(emailID));
