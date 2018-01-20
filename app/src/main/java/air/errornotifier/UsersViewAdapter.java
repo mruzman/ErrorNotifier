@@ -48,8 +48,6 @@ public class UsersViewAdapter extends RecyclerView.Adapter<UsersViewAdapter.User
 
     @Override
     public int getItemCount() {
-
-        Log.i("broj usera", String.valueOf(usersList.size()));
         return usersList.size();
     }
 }

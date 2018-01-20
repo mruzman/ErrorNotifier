@@ -5,9 +5,9 @@
     tools:context="air.errornotifier.ApplicationsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Aplikacije" />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>
