@@ -71,7 +71,6 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
                     if (individualMsg.getSubject().contains(Constants.ZABBIX_STRING) && !individualMsg.isSet(Flags.Flag.SEEN)) {
                         Log.i("Primljeno", individualMsg.getReceivedDate().toString());
                         Log.i("Email subject", individualMsg.getSubject());
-                        //individualMsg.setFlag(Flags.Flag.SEEN, true); //TODO: UKLUCITI OVO DOK BUDEM PREDAVAL
                         app = new App();
                         email = new Email();
                         event = new Event();
@@ -85,6 +84,7 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
                         list.add(email);
                         list.add(event);
                         list.add(app);
+                        individualMsg.setFlag(Flags.Flag.SEEN, true);
                     }
                     i--;
                 } else {

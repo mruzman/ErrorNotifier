@@ -10,7 +10,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -430,6 +429,36 @@ public class ServicesImpl implements Services {
             Log.i(TAG, out.toString());
         } finally {
             connection.disconnect();
+        }
+    }
+
+    @Override
+    public String getAllResponsesForProblem(String emailID) throws IOException {//odraditi ovo
+        ByteArrayOutputStream out;
+        String query = "SELECT * FROM response";
+        query += "WHERE  email=" + emailID + " ORDER BY date_respond;";
+        Log.i(TAG, query);
+        String createURL = Constants.URL + "?q=" + query;
+        URL url = new URL(createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try {
+            out = new ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            int byteRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
+            }
+            out.close();
+            Log.i(TAG, out.toString());
+            return out.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
