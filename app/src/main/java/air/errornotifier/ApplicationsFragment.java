@@ -1,11 +1,13 @@
 package air.errornotifier;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +66,20 @@ public class ApplicationsFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(uAdapter);
+        recyclerView.addOnItemTouchListener (new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                int pos = position;
+                Intent intent = new Intent(getContext(), EmailActivity.class);
+                //intent.putExtra();
+                startActivity(intent);
+            }
 
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+        }));
 
         // Inflate the layout for this fragment
         return rootView;
