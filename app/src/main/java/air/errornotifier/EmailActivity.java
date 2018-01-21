@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.util.Log;
+
+import air.database.Bean.App;
 
 public class EmailActivity extends AppCompatActivity {
     private Toolbar mTolbar;
@@ -16,6 +19,8 @@ public class EmailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email);
+        int selectedApp = getIntent().getExtras().getInt("appid");
+        //Log.i("position", "value" + selectedApp);
         mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mTolbar);
         getSupportActionBar().setTitle("Emails");

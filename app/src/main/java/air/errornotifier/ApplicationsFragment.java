@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -66,12 +67,14 @@ public class ApplicationsFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(uAdapter);
+
         recyclerView.addOnItemTouchListener (new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                int pos = position;
+                App selectedApp = appsList.get(position);
+                int id = selectedApp.getApplicationId();
                 Intent intent = new Intent(getContext(), EmailActivity.class);
-                //intent.putExtra();
+                intent.putExtra("appid", id);
                 startActivity(intent);
             }
 
