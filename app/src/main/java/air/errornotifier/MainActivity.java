@@ -166,9 +166,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_logout:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-                builder.setTitle("Potvrda");
-                builder.setMessage("Jeste li sigurni da se želite odjaviti?");
-                builder.setPositiveButton("DA", new DialogInterface.OnClickListener() {
+                builder.setTitle("Log Out");
+                builder.setMessage("Are you sure you want to log out ?");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-                builder.setNegativeButton("NE", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
