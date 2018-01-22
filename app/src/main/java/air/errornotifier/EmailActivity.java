@@ -34,7 +34,7 @@ public class EmailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email);
         int selectedApp = getIntent().getExtras().getInt("appid");
-        //Log.i("position", "value" + selectedApp);
+        Log.i("position", "value" + selectedApp);
         mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mTolbar);
         getSupportActionBar().setTitle("Emails");
@@ -95,7 +95,10 @@ public class EmailActivity extends AppCompatActivity {
                 alert.show();
                 return true;
             case R.id.menu_settings:
-                //ovdje će se pozvati settings
+                Intent intent = new Intent(getApplicationContext(), ApplicationUsersActivity.class);
+                intent.putExtra("appid", getIntent().getExtras().getInt("appid"));
+                Log.i("AppID: ", String.valueOf(getIntent().getExtras().getInt("appid")));
+                startActivity(intent);
                 return true;
             default:
                 return true;
