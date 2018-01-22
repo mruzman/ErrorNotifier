@@ -20,11 +20,13 @@ public class EmailViewAdapter extends RecyclerView.Adapter<EmailViewAdapter.Emai
 
     public class EmailViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView email;
+        public TextView desc, status, time;
 
         public EmailViewHolder (View view){
             super(view);
-            email = (TextView) view.findViewById(R.id.emailRow);
+            desc = (TextView) view.findViewById(R.id.description);
+            status = (TextView) view.findViewById(R.id.status);
+            time = (TextView) view.findViewById(R.id.time);
         }
     }
 
@@ -41,7 +43,9 @@ public class EmailViewAdapter extends RecyclerView.Adapter<EmailViewAdapter.Emai
     @Override
     public void onBindViewHolder (EmailViewHolder holder, int position){
         Email email = emailList.get(position);
-        holder.email.setText(email.getDescription());
+        holder.desc.setText(email.getDescription());
+        holder.status.setText(email.getStatus());
+        holder.time.setText(String.valueOf(email.getTimeEventOccured()));
     }
 
     @Override

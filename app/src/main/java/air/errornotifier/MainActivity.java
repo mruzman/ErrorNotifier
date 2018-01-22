@@ -223,6 +223,13 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = (MenuItem) menu.getItem(1);
+        item.setVisible(false);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public void onBackPressed() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
