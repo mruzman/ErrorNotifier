@@ -88,6 +88,23 @@ public class ApplicationsFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            getApps();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        uAdapter = new AppsViewAdapter(appsList);
+    }
+
     private void getApps() throws IOException, JSONException, ExecutionException, InterruptedException {
         if(user.getType().equals(Constants.TYPE_ADMIN)){
             appsList = (List<App>) new GetListOfApps().execute().get();

@@ -3,8 +3,15 @@ package air.webservices;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import air.database.Bean.Users;
 import air.database.ServicesImpl;
 
 /**
@@ -16,18 +23,36 @@ public class AddUser extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... strings) {
+        JSONObject jsonObject = null;
+        List<Users> usersList = new ArrayList<>();
         try {
             String username = strings[0];
             String email = strings[1];
             ServicesImpl services = new ServicesImpl();
             String result = new String(services.getIfExistsUser(username, email));
-            if (!result.isEmpty()) {
+            jsonObject= new JSONObject(result);
+            JSONArray jsonArray = jsonObject.getJSONArray("records");
+            if(jsonArray != null){
+                for(int i = 0;i<jsonArray.length(); i++){
+                    JSONObject o = null;
+                    try {
+                        o = jsonArray.getJSONObject(i);
+                        Log.i("user", o.toString());
+                        usersList.add(new Users(o.getInt("user_id"), o.getString("first_name"), o.getString("last_name"), o.getString("username"), o.getString("email"), o.getString("type"), o.getString("password")));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            if (usersList.size() != 0) {
                 Log.i(TAG, "Dohvaceni podaci: " + result);
                 return "exists";
             }
 
         } catch (IOException ioe) {
             Log.e(TAG, "Propao pokusaj dohvacanja: ", ioe);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return null;
     }
