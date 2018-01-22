@@ -149,6 +149,33 @@ public class ServicesImpl implements Services {
     }
 
 
+    public Integer getIfExistsAppUser(String appID, String userID) throws IOException {
+        String query = "SELECT * FROM user_application WHERE application_id='" + appID + "' AND user_id = '"+userID+"'";
+        String createURL = Constants.URL + "?q=" + query;
+        URL url = new URL(createURL);
+        Log.i(TAG, createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try {
+            InputStream in = connection.getInputStream();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            byte[] buffer = new byte[1024];
+            if (in.read(buffer) > 0) {
+                connection.disconnect();
+                return Constants.DATA_EXISTS_IN_DATABASE; //ako postoje podaci unutra vrati 0
+            } else {
+                connection.disconnect();
+                return Constants.DATA_DOESNT_EXISTS_IN_DATABASE;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Constants.ERROR;
+        }
+    }
+
+
     @Override
     public Integer insertNewApp(String app) throws IOException {
         ByteArrayOutputStream out;
@@ -179,6 +206,64 @@ public class ServicesImpl implements Services {
         return Integer.valueOf(out.toString());
     }
 
+
+    public Integer insertNewAppUser(String appID, String userID) throws IOException {
+        ByteArrayOutputStream out;
+        String query = "INSERT INTO user_application(application_id, user_id) ";
+        query += "VALUES('" + appID + "', '"+ userID +"')";
+        Log.i(TAG, query);
+        String createURL = Constants.URL + "?q=" + query;
+        Log.i(TAG, createURL);
+        URL url = new URL(createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try {
+            out = new ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            int byteRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
+            }
+            out.close();
+            Log.i(TAG, out.toString());
+        } finally {
+            connection.disconnect();
+        }
+        return Integer.valueOf(out.toString());
+    }
+
+    public Integer deleteAppUser(String appID, String userID) throws IOException {
+        ByteArrayOutputStream out;
+        String query = "DELETE FROM user_application WHERE application_id = '"+appID+"'AND user_id = '"+userID+"' ";
+
+        Log.i(TAG, query);
+        String createURL = Constants.URL + "?q=" + query;
+        Log.i(TAG, createURL);
+        URL url = new URL(createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try {
+            out = new ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            int byteRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
+            }
+            out.close();
+            Log.i(TAG, out.toString());
+        } finally {
+            connection.disconnect();
+        }
+        return Integer.valueOf(out.toString());
+    }
     private int eventID;
     private int emailID;
     private int appID;
@@ -344,9 +429,37 @@ public class ServicesImpl implements Services {
         }
     }
 
+    public byte[] getEmails(String appID) throws IOException {
+        ByteArrayOutputStream out;
+        String query = "select e.* from email as e inner join `event` as ev on e.event_id = ev.event_id WHERE ev.application_id = '"+appID+"' ";
+        Log.i("QUERY", query);
+        String createURL = Constants.URL + "?q=" + query;
+        Log.i(TAG, createURL);
+        URL url = new URL(createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try {
+            out = new ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            int byteRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
+                Log.i("fef", String.valueOf(byteRead));
+            }
+            out.close();
+            return out.toByteArray();
+        } finally {
+            connection.disconnect();
+        }
+    }
+
     public byte[] getAppUsers() throws IOException {
         ByteArrayOutputStream out;
-        String query = "select u.*, coalesce(ua.application_id, 0) as application_id from user as u left join user_application as ua on u.user_id = ua.user_id";
+        String query = "select u.*, coalesce(ua.application_id, 0) as applicationID from user as u left join user_application as ua on u.user_id = ua.user_id";
         Log.i("QUERY", query);
         String createURL = Constants.URL + "?q=" + query;
         Log.i(TAG, createURL);
