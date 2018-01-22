@@ -101,8 +101,6 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
 
 
         } else {
-
-
             //Dodavanje ActionBar-a
             mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
             setSupportActionBar(mTolbar);
@@ -165,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
     //Dialog koji se treba otvoriti korisniku prilikom pojave greške u nekoj app
     public List<String> openDialogResponse(String appName) throws InterruptedException {
         ResponseDialog exampleDialog = new ResponseDialog();
-        exampleDialog.setAppName(appName);
+        //exampleDialog.setAppName(appName);
         exampleDialog.show(getSupportFragmentManager(), "Example dialog");
         while (exampleDialog.getOdgovori() == null || exampleDialog.getOdgovori().size() == 0) {
             Thread.sleep(2000);
