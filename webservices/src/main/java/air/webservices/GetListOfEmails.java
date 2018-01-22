@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import air.database.Bean.AppUser;
+import air.database.Bean.Email;
 import air.database.Bean.Users;
 import air.database.ServicesImpl;
 
@@ -19,18 +19,18 @@ import air.database.ServicesImpl;
  * Created by Harm on 19.1.2018..
  */
 
-public class GetListOfAppUsers extends AsyncTask<String, String, List<AppUser>> {
+public class GetListOfEmails extends AsyncTask<String, String, List<Email>> {
 
 
     @Override
-    protected List<AppUser> doInBackground(String... strings) {
-        List<AppUser> usersList = new ArrayList<AppUser>();
+    protected List<Email> doInBackground(String... strings) {
+        List<Email> emailList = new ArrayList<Email>();
         byte[] result = new byte[0];
         JSONObject jsonObject= null;
         JSONArray jsonArray = null;
         ServicesImpl services = new ServicesImpl();
         try {
-            String res2 =  new String(new ServicesImpl().getAppUsers());
+            String res2 =  new String(new ServicesImpl().getEmails(strings[0]));
             Log.i("RES2", res2.toString());
             jsonObject= new JSONObject(res2);
             jsonArray = jsonObject.getJSONArray("records");
@@ -47,15 +47,14 @@ public class GetListOfAppUsers extends AsyncTask<String, String, List<AppUser>> 
                 JSONObject o = null;
                 try {
                     o = jsonArray.getJSONObject(i);
-                    usersList.add(new AppUser(o.getInt("user_id"), o.getString("first_name"), o.getString("last_name"), o.getInt("applicationID")));
-                    Log.i("AppIDD: ", String.valueOf(o.getInt("applicationID")));
+                    emailList.add(new Email(o.getInt("email_id"), o.getString("description"), java.sql.Timestamp.valueOf(o.getString("time_event_occured")), o.getString("status"), o.getInt("user_id"), o.getInt("event_id")));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }
 
-        return usersList;
+        return emailList;
 
     }
 }

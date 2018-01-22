@@ -16,18 +16,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:theme="@style/checkBoxStyle"
-        android:text="" />
-
-    <TextView
-        android:id="@+id/user"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="16dp"
-        android:layout_toEndOf="@+id/checkBox"
-        android:textColor="@color/title"
-        android:textSize="16dp"
-        android:textStyle="bold" />
-
+        android:checked="false"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textColorHighlight="@color/colorPrimary"
+        android:theme="@style/checkBoxStyle" />
 </RelativeLayout>

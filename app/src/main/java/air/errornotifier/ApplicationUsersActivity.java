@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 
 import org.json.JSONException;
 
@@ -23,9 +24,11 @@ import air.database.Bean.App;
 import air.database.Bean.AppUser;
 import air.database.Bean.Users;
 import air.database.helper.Constants;
+import air.webservices.DeleteAppUser;
 import air.webservices.GetListOfAppUsers;
 import air.webservices.GetListOfApps;
 import air.webservices.GetListOfUserApps;
+import air.webservices.InsertNewAppUser;
 
 /**
  * Created by Harm on 22.1.2018..
@@ -67,27 +70,44 @@ public class ApplicationUsersActivity extends AppCompatActivity{
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(uAdapter);
 
-        /*recyclerView.addOnItemTouchListener (new RecyclerItemClickListener(recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                AppUser selectedApp = appsList.get(position);
-                int id = selectedApp.getApplicationId();
-                intent.putExtra("appid", id);
-                startActivity(intent);
+            public void onItemClick(View view, int position) throws ExecutionException, InterruptedException {
+                AppUser appUser = appsList.get(position);
+                appUser.setApplicationId(appId);
+                CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+
+                if(checkBox.isChecked()){
+                    deleteAppUser(appUser);
+                    checkBox.setChecked(false);
+                }else{
+                    saveAppUser(appUser);
+                    checkBox.setChecked(true);
+                }
+                Log.i("Application ID: ", String.valueOf(appUser.getApplicationId()));
             }
 
             @Override
             public void onLongItemClick(View view, int position) {
 
             }
-        }));*/
+        }));
 
     }
 
+    private void saveAppUser(AppUser appUser) throws ExecutionException, InterruptedException {
+        new InsertNewAppUser().execute(String.valueOf(appUser.getApplicationId()), String.valueOf(appUser.getUserId())).get();
+    }
+
+    private void deleteAppUser(AppUser appUser) throws ExecutionException, InterruptedException {
+        new DeleteAppUser().execute(String.valueOf(appUser.getApplicationId()), String.valueOf(appUser.getUserId())).get();
+    }
     private void getAppUsers() throws IOException, JSONException, ExecutionException, InterruptedException {
 
         appsList = (List<AppUser>) new GetListOfAppUsers().execute().get();
 
         uAdapter.notifyDataSetChanged();
     }
+
+
 }
