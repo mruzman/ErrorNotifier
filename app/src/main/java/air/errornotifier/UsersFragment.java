@@ -65,6 +65,23 @@ public class UsersFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            getUsers();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        uAdapter = new UsersViewAdapter(usersList);
+    }
+
     private void getUsers() throws IOException, JSONException, ExecutionException, InterruptedException {
         usersList = (List<Users>) new GetListOfUsers().execute().get();
         uAdapter.notifyDataSetChanged();
