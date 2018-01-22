@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
 
 
     //Dialog koji se treba otvoriti korisniku prilikom pojave greške u nekoj app
-    public List<String> openDialogResponse(String appName) throws InterruptedException {
+    public List<String> openDialogResponse() throws InterruptedException {
         ResponseDialog exampleDialog = new ResponseDialog();
         //exampleDialog.setAppName(appName);
         exampleDialog.show(getSupportFragmentManager(), "Example dialog");
@@ -293,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
             if (priority != 0) {
                 if (priority == 1) {
                     response = new Response();
-                    List<String> answer = openDialogResponse(app.getName());
+                    List<String> answer = openDialogResponse();
                     Log.i("ODGOVOR DOBIVENI", answer.get(1) + " " + answer.get(0));
                     if (answer.get(1) != "") {
                         response.setEmailId(mail.getEmailId());

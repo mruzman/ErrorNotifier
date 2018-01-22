@@ -95,11 +95,6 @@ public class ResponseDialog extends AppCompatDialogFragment  {
         }
     }
 
-    public void setAppName(String appName) {
-        this.appName = appName;
-        Log.i("STRING APP NAME", this.appName);
-    }
-
     public interface ResponseDialogListener{
         void applyTexts(String resposne);
     }
