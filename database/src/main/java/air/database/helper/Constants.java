@@ -30,6 +30,7 @@ public class Constants {
 
     //ZA EMAILOVE
     public static final String STATUS_UNSOLVED = "Unsolved";
+    public static final String STATUS_LATER = "Do that later";
     public static final String STATUS_IN_PROGRESS = "In progress";
     public static final String STATUS_FIXED = "Fixed";
 }

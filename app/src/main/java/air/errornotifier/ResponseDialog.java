@@ -12,7 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import air.database.Bean.Response;
+import air.database.helper.Constants;
 
 /**
  * Created by Oliver on 22-Jan-18.
@@ -28,13 +32,18 @@ public class ResponseDialog extends AppCompatDialogFragment  {
     private RadioButton odbijam;
     private EditText odgovor;
     private ResponseDialogListener listener;
+    private List<String> odgovori;
+
+    public List<String> getOdgovori(){
+        return odgovori;
+    }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.response_layout,null);
 
+        odgovori = new ArrayList<String>();
         builder.setView(view)
                 .setTitle("Problem with (naziv aplikacije)");
 
@@ -43,21 +52,25 @@ public class ResponseDialog extends AppCompatDialogFragment  {
             @Override
             public void onClick(View v) {
                 if(preuzimam.isChecked()){
-                    String odabir = preuzimam.getText().toString();
+                    String odabir = Constants.STATUS_IN_PROGRESS;
                     listener.applyTexts(odabir);
+                    odgovori.add(odabir);
+                    odgovori.add(odgovor.getText().toString());
                     ResponseDialog.this.dismiss();
                 }else if(odbijam.isChecked()){
-                    String odabir2 = odbijam.getText().toString();
-                    listener.applyTexts(odabir2);
+                    String odabir = Constants.STATUS_UNSOLVED;
+                    listener.applyTexts(odabir);
+                    odgovori.add(odabir);
+                    odgovori.add(odgovor.getText().toString());
                     ResponseDialog.this.dismiss();
                 }else if(kasnije.isChecked()){
-                    String odabir3 = kasnije.getText().toString();
-                    listener.applyTexts(odabir3);
+                    String odabir = Constants.STATUS_LATER;
+                    listener.applyTexts(odabir);
+                    odgovori.add(odabir);
+                    odgovori.add(odgovor.getText().toString());
                     ResponseDialog.this.dismiss();
                 }else {
-                    String odg = odgovor.getText().toString();
-                    listener.applyTexts(odg);
-                    ResponseDialog.this.dismiss();
+
                 }
             }
         });

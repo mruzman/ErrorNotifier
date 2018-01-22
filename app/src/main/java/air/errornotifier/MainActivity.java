@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
     private Priority priority;
     private Event event;
     private App app;
-
+    private Response response;
 
 
     @Override
@@ -160,10 +160,13 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
     }
 
     //Dialog koji se treba otvoriti korisniku prilikom pojave greške u nekoj app
-    public void openDialogResponse(){
+    public List<String> openDialogResponse() throws InterruptedException {
         ResponseDialog exampleDialog = new ResponseDialog();
         exampleDialog.show(getSupportFragmentManager(), "Example dialog");
-
+        while (exampleDialog.getOdgovori() == null || exampleDialog.getOdgovori().size() == 0) {
+            Thread.sleep(2000);
+        }
+        return exampleDialog.getOdgovori();
     }
 
     //Metoda u kojoj se sprema odgovor iz responsa
@@ -280,8 +283,23 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
             Log.i("Prioritet", String.valueOf(priority));
             if (priority != 0) {
                 if (priority == 1) {
-                    Log.i("PRIORITY", "Tu smo");
-                    MailResponse response = new MailResponse(mail, user, null);
+                    response = new Response();
+                    List<String> answer = openDialogResponse();
+                    Log.i("ODGOVOR DOBIVENI", answer.get(1) + " " + answer.get(0));
+                    if (answer.get(1) != "") {
+                        response.setEmailId(mail.getEmailId());
+                        response.setResponse(answer.get(1));
+                        response.setUserId(user.getUserId());
+                    }
+                    mail.setStatus(answer.get(0));
+                    MailResponse mailResponse = new MailResponse(mail, user, response);
+
+                    if(response.getResponse() != "") {
+                        mailResponse.insertAnswer(response.getResponse());
+                    }
+                    if(mail.getStatus() ==Constants.STATUS_IN_PROGRESS || mail.getStatus() ==Constants.STATUS_LATER){
+                        mailResponse.insertNewStatus();
+                    }
                     //response.insertAnswer("TU IDE ODGOVOR");
                 } else if (priority == 2) {
                     //radi ono kj je prioritet 2 notificiraj
