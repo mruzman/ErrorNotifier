@@ -101,12 +101,6 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
 
 
         } else {
-
-            try {
-                openDialogResponse("app1");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             //Dodavanje ActionBar-a
             mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
             setSupportActionBar(mTolbar);
