@@ -30,6 +30,8 @@ public class ReadMails {
     private Priority priority;
     private App app;
 
+    private static String TAG = "READ MAILS";
+
     public ReadMails(Users user) {
         this.user = user;
         event = null;
@@ -63,6 +65,8 @@ public class ReadMails {
                         app.setApplicationId(Integer.valueOf(idData.get(0)));
                         event.setEventId(Integer.valueOf(idData.get(1)));
                         mail.setEmailId(Integer.valueOf(idData.get(2)));
+                        event.setApplicationId(app.getApplicationId());
+                        Log.i(TAG, String.valueOf(event.getApplicationId()));
                         returnObjects.add(app);
                         returnObjects.add(event);
                         returnObjects.add(mail);

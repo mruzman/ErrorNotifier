@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     public void prijava(View view){
 
         if(isNetworkAvailable()== false){
-            Toast.makeText(this, "No internet connections", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
             return;
         }
         LogInCall logInCall = new LogInCall(UsernameEt.getText().toString(), PasswrodEt.getText().toString());
@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
             //else provjeri dal je korisnik
             //prebaci se na mod korisnik
         } else {
-            Toast.makeText(LoginActivity.this, "Pogrešan username ili lozinka", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "Wrong username or password", Toast.LENGTH_LONG).show();
             Log.i("MAIN", "NETOCNA PRIJAVA");
             UsernameEt.setText("");
             PasswrodEt.setText("");

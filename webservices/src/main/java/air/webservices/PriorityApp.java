@@ -3,6 +3,7 @@ package air.webservices;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,6 +25,8 @@ public class PriorityApp extends AsyncTask<Integer, Void, Integer>{
         JSONObject object= null;
         try {
             object = new JSONObject(new ServicesImpl().getUserPriority(userID,appID));
+            JSONArray jsonArray = object.getJSONArray("records");
+            object = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
             if(object.length()!=0) priority = object.getInt("priority");
         } catch (JSONException e) {
             e.printStackTrace();

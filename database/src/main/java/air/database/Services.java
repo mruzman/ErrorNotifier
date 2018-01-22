@@ -3,12 +3,12 @@ package air.database;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 import air.database.Bean.App;
 import air.database.Bean.Email;
 import air.database.Bean.Event;
+import air.database.Bean.Response;
 
 /**
  * Created by mruzman on 15.11.2017..
@@ -28,4 +28,8 @@ public interface Services {
     List<String> insertNewRecivedBug(Event event,Email email, App app, int userID) throws IOException, JSONException;
 
     String getUserPriority(Integer userID,Integer appID) throws IOException;
+
+    void insertRespond(Response response) throws IOException;
+
+    String getAllResponsesForProblem(String emailID) throws IOException;
 }

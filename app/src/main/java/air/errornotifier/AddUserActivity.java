@@ -85,16 +85,16 @@ public class AddUserActivity extends AppCompatActivity {
         unesi = new AddNewUser(user).insertNewUser();
         Log.i(TAG, String.valueOf(unesi));
         if(unesi == 1){
-            Toast.makeText(this, "Korisnik dodan", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "User added", Toast.LENGTH_LONG).show();
             //Log.i(TAG, "DOBRO JE");
             finish();
             //Intent intent = new Intent(AddUserActivity.this, MainActivity.class);
             //startActivity(intent);
         }else if(unesi == 2){
-            Toast.makeText(this, "Korisnik postoji", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "The User exists", Toast.LENGTH_LONG).show();
             Log.i(TAG, "KORISNIK POSTOJI!");
         }else{
-            Toast.makeText(this, "Korisnik nije unese, pokušajte ponovo", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "User isn't entered, try again", Toast.LENGTH_SHORT).show();
             Log.i(TAG, "Potkrala se greska");
         }
     }

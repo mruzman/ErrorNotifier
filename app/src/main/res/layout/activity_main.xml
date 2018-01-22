@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_action_user_add"
-            fab:fab_label="Dodaj korisnika"
+            fab:fab_label="Add User"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_action_group_add"
-            fab:fab_label="Dodaj aplikaciju"
+            fab:fab_label="Add App"
             fab:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>
