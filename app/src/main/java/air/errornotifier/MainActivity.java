@@ -4,6 +4,7 @@ package air.errornotifier;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,7 @@ import air.database.Bean.App;
 import air.database.Bean.Email;
 import air.database.Bean.Event;
 import air.database.Bean.Priority;
+import air.database.Bean.Response;
 import air.database.Bean.Users;
 import air.core.MailReader.ReadMails;
 import air.database.helper.Constants;
@@ -42,7 +44,7 @@ import air.webservices.GetListOfUsers;
 import air.webservices.PriorityApp;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ResponseDialog.ResponseDialogListener {
 
     private Toolbar mTolbar;
     private ViewPager mViewPager;
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private Priority priority;
     private Event event;
     private App app;
+
 
 
     @Override
@@ -96,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         } else {
+
+
             //Dodavanje ActionBar-a
             mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
             setSupportActionBar(mTolbar);
@@ -152,6 +157,21 @@ public class MainActivity extends AppCompatActivity {
 
         //Log.i("MAIN", user.getUsername().toString());
 
+    }
+
+    //Dialog koji se treba otvoriti korisniku prilikom pojave greške u nekoj app
+    public void openDialogResponse(){
+        ResponseDialog exampleDialog = new ResponseDialog();
+        exampleDialog.show(getSupportFragmentManager(), "Example dialog");
+
+    }
+
+    //Metoda u kojoj se sprema odgovor iz responsa
+    //Tu bi trebalo implementirati sto se dogada kada korisnik odabere hoce li rješavati problem ili ne
+    @Override
+    public void applyTexts(String resposne) {
+        //textViewOdabir.setText(resposne);
+        Intent mainActivity = new Intent(MainActivity.this, MainActivity.class);
     }
 
     //Dodavanje ikona u App Bar
