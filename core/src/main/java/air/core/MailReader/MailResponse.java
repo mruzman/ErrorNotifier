@@ -28,6 +28,10 @@ public class MailResponse {
         this.response = response;
     }
 
+    public void insertNewStatus(){
+
+    }
+
     public void insertAnswer(String answer) throws ExecutionException, InterruptedException {
         Log.i("TU SMO", "TU SMO");
         new InsertNewAnswer().execute(String.valueOf(email.getEmailId()), String.valueOf(user.getUserId()), answer).get();
