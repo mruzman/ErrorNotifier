@@ -14,8 +14,8 @@
         android:id="@+id/appBarLayout">
 
         <include
-            android:id="@+id/main_page_toolbar"
-            layout="@layout/app_bar_layout" />
+            android:id="@+id/main_page_toolbar2"
+            layout="@layout/app_bar_layout2" />
 
     </android.support.design.widget.AppBarLayout>
 
