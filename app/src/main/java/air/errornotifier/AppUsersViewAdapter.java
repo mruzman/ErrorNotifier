@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,12 +25,10 @@ public class AppUsersViewAdapter extends RecyclerView.Adapter<AppUsersViewAdapte
 
     public class UsersViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView user;
         public CheckBox checkBox;
 
         public UsersViewHolder(View view){
             super(view);
-            user = (TextView) view.findViewById(R.id.user);
             checkBox = (CheckBox) view.findViewById(R.id.checkBox);
         }
     }
@@ -48,13 +47,14 @@ public class AppUsersViewAdapter extends RecyclerView.Adapter<AppUsersViewAdapte
     @Override
     public void onBindViewHolder(UsersViewHolder holder, int position) {
         AppUser user = usersList.get(position);
-        holder.user.setText(user.getFirstName() + ' ' + user.getLastName());
 
         if(user.getApplicationId() == appId){
             holder.checkBox.setChecked(true);
         }else{
             holder.checkBox.setChecked(false);
         }
+        holder.checkBox.setText(user.getFirstName() + ' ' + user.getLastName());
+
     }
 
     @Override
@@ -62,4 +62,5 @@ public class AppUsersViewAdapter extends RecyclerView.Adapter<AppUsersViewAdapte
         Log.i("Count: ", String.valueOf(usersList.size()));
         return usersList.size();
     }
+
 }

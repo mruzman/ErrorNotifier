@@ -47,7 +47,8 @@ public class GetListOfAppUsers extends AsyncTask<String, String, List<AppUser>> 
                 JSONObject o = null;
                 try {
                     o = jsonArray.getJSONObject(i);
-                    usersList.add(new AppUser(o.getInt("user_id"), o.getString("first_name"), o.getString("last_name"), o.getInt("application_id")));
+                    usersList.add(new AppUser(o.getInt("user_id"), o.getString("first_name"), o.getString("last_name"), o.getInt("applicationID")));
+                    Log.i("AppIDD: ", String.valueOf(o.getInt("applicationID")));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
