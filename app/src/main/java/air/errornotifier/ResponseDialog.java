@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -46,7 +47,7 @@ public class ResponseDialog extends AppCompatDialogFragment  {
 
         odgovori = new ArrayList<String>();
         builder.setView(view)
-                .setTitle("Problem with "+appName);
+                .setTitle("Problem with (app name)");
 
         potvrdi = view.findViewById(R.id.btnPotvrdi);
         potvrdi.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +97,7 @@ public class ResponseDialog extends AppCompatDialogFragment  {
 
     public void setAppName(String appName) {
         this.appName = appName;
+        Log.i("STRING APP NAME", this.appName);
     }
 
     public interface ResponseDialogListener{
