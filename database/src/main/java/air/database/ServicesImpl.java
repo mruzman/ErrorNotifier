@@ -344,6 +344,34 @@ public class ServicesImpl implements Services {
         }
     }
 
+    public byte[] getAppUsers() throws IOException {
+        ByteArrayOutputStream out;
+        String query = "select u.*, coalesce(ua.application_id, 0) as application_id from user as u left join user_application as ua on u.user_id = ua.user_id";
+        Log.i("QUERY", query);
+        String createURL = Constants.URL + "?q=" + query;
+        Log.i(TAG, createURL);
+        URL url = new URL(createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try {
+            out = new ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            int byteRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
+                Log.i("fef", String.valueOf(byteRead));
+            }
+            out.close();
+            return out.toByteArray();
+        } finally {
+            connection.disconnect();
+        }
+    }
+
     public byte[] getUserApps(String userID) throws IOException {
         ByteArrayOutputStream out;
         String query = "SELECT a.* FROM application AS a INNER JOIN user_application AS ua ON a.application_id = ua.application_id WHERE ua.user_id = '" + userID + "'";

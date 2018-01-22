@@ -215,7 +215,6 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         }
     }
 
-
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
