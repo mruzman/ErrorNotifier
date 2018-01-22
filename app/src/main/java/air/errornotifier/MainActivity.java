@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
     private Event event;
     private App app;
     private Response response;
+    private String appName;
 
 
     @Override
@@ -159,9 +160,11 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
 
     }
 
+
     //Dialog koji se treba otvoriti korisniku prilikom pojave greške u nekoj app
-    public List<String> openDialogResponse() throws InterruptedException {
+    public List<String> openDialogResponse(String appName) throws InterruptedException {
         ResponseDialog exampleDialog = new ResponseDialog();
+        exampleDialog.setAppName(appName);
         exampleDialog.show(getSupportFragmentManager(), "Example dialog");
         while (exampleDialog.getOdgovori() == null || exampleDialog.getOdgovori().size() == 0) {
             Thread.sleep(2000);
@@ -284,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
             if (priority != 0) {
                 if (priority == 1) {
                     response = new Response();
-                    List<String> answer = openDialogResponse();
+                    List<String> answer = openDialogResponse(app.getName());
                     Log.i("ODGOVOR DOBIVENI", answer.get(1) + " " + answer.get(0));
                     if (answer.get(1) != "") {
                         response.setEmailId(mail.getEmailId());
@@ -302,7 +305,8 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
                     }
                     //response.insertAnswer("TU IDE ODGOVOR");
                 } else if (priority == 2) {
-                    //radi ono kj je prioritet 2 notificiraj
+
+
                 } else {
                     //radi ono zadnje xD
                 }

@@ -33,6 +33,7 @@ public class ResponseDialog extends AppCompatDialogFragment  {
     private EditText odgovor;
     private ResponseDialogListener listener;
     private List<String> odgovori;
+    private String appName="";
 
     public List<String> getOdgovori(){
         return odgovori;
@@ -45,7 +46,7 @@ public class ResponseDialog extends AppCompatDialogFragment  {
 
         odgovori = new ArrayList<String>();
         builder.setView(view)
-                .setTitle("Problem with (naziv aplikacije)");
+                .setTitle("Problem with "+appName);
 
         potvrdi = view.findViewById(R.id.btnPotvrdi);
         potvrdi.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +92,10 @@ public class ResponseDialog extends AppCompatDialogFragment  {
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()+ "Must implement ExampleDialogListener");
         }
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
     }
 
     public interface ResponseDialogListener{
