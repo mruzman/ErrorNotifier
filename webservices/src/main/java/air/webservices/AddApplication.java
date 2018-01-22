@@ -20,10 +20,10 @@ public class AddApplication extends AsyncTask<String, String, String> {
             String name = strings[0];
             ServicesImpl services = new ServicesImpl();
             Integer result = new Integer(services.getIfExistsApp(name));
-            if (result == 0) {
+            /*if (result == 0) {
                 Log.i(TAG, "Dohvaceni podaci: " + result);
                 return "exists";
-            }
+            }*/
 
         } catch (IOException ioe) {
             Log.e(TAG, "Propao pokusaj dohvacanja: ", ioe);
