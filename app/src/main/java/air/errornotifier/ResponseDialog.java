@@ -1,5 +1,6 @@
 package air.errornotifier;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -36,6 +37,11 @@ public class ResponseDialog extends AppCompatDialogFragment  {
     private List<String> odgovori;
     private String appName="";
 
+    @SuppressLint("ValidFragment")
+    public ResponseDialog(String appName){
+        this.appName = appName;
+    }
+
     public List<String> getOdgovori(){
         return odgovori;
     }
@@ -47,7 +53,7 @@ public class ResponseDialog extends AppCompatDialogFragment  {
 
         odgovori = new ArrayList<String>();
         builder.setView(view)
-                .setTitle("Problem with (app name)");
+                .setTitle("Problem with "+ appName);
 
         potvrdi = view.findViewById(R.id.btnPotvrdi);
         potvrdi.setOnClickListener(new View.OnClickListener() {

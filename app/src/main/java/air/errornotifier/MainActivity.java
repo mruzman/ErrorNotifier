@@ -54,12 +54,6 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
     //   private FloatingActionMenu floatingActionMenu;
     private FloatingActionButton fabUser, fabGroup;
     private Users user;
-    private Email mail;
-    private Priority priority;
-    private Event event;
-    private App app;
-    private Response response;
-    private String appName;
 
 
     @Override
@@ -67,12 +61,6 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         user = (Users) getIntent().getSerializableExtra("User");
-
-        try {
-            checkMail();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         if (user.getType().equals(Constants.TYPE_ADMIN)) {
 
@@ -156,17 +144,21 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
 
 
         //Log.i("MAIN", user.getUsername().toString());
-
+        checkMail();
     }
 
 
     //Dialog koji se treba otvoriti korisniku prilikom pojave greške u nekoj app
-    public List<String> openDialogResponse() throws InterruptedException {
-        ResponseDialog exampleDialog = new ResponseDialog();
+    List<String> openDialogResponse(String appName){
+        ResponseDialog exampleDialog = new ResponseDialog(appName);
         //exampleDialog.setAppName(appName);
         exampleDialog.show(getSupportFragmentManager(), "Example dialog");
         while (exampleDialog.getOdgovori() == null || exampleDialog.getOdgovori().size() == 0) {
-            Thread.sleep(2000);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         return exampleDialog.getOdgovori();
     }
@@ -235,88 +227,8 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         startActivity(intent);
     }
 
-    private void checkMail() throws InterruptedException {
-        final Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (user != null) {
-                    try {
-                        mail = null;
-                        event = null;
-                        app = null;
-                        ReadMails readMails = new ReadMails(user);
-                        List<Object> insertedEmails = readMails.checkIfNewEmailCame();
-                        if (insertedEmails != null) {
-                            for (Object object : insertedEmails) {
-                                if (object instanceof Email) {
-                                    mail = (Email) object;
-                                }
-                                if (object instanceof Event) {
-                                    event = (Event) object;
-                                    Log.i("U MAINU--", String.valueOf(event.getApplicationId()));
-                                }
-                                if (object instanceof App) {
-                                    app = (App) object;
-                                }
-                                if (mail != null && event != null && app != null) {
-                                    checkPriorityForApp();
-                                    mail = null;
-                                    event = null;
-                                    app = null;
-                                }
-                            }
-
-                        } else {
-                            Log.i("MAIN_ZA_LISTU", "Prazna je lista EMAILOVA");
-                        }
-                        Thread.sleep(60 * 1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        thread.start();
-    }
-
-    private void checkPriorityForApp() throws ExecutionException, InterruptedException {
-        int priority = 0;
-        if (event.getApplicationId() != 0) {
-            priority = new PriorityApp().execute(user.getUserId(), event.getApplicationId()).get();
-            Log.i("Prioritet", String.valueOf(priority));
-            if (priority != 0) {
-                if (priority == 1) {
-                    response = new Response();
-                    List<String> answer = openDialogResponse();
-                    Log.i("ODGOVOR DOBIVENI", answer.get(1) + " " + answer.get(0));
-                    if (answer.get(1) != "") {
-                        response.setEmailId(mail.getEmailId());
-                        response.setResponse(answer.get(1));
-                        response.setUserId(user.getUserId());
-                    }
-                    mail.setStatus(answer.get(0));
-                    MailResponse mailResponse = new MailResponse(mail, user, response);
-
-                    if(response.getResponse() != "") {
-                        mailResponse.insertAnswer(response.getResponse());
-                    }
-                    if(mail.getStatus() ==Constants.STATUS_IN_PROGRESS || mail.getStatus() ==Constants.STATUS_LATER){
-                        mailResponse.insertNewStatus();
-                    }
-                    //response.insertAnswer("TU IDE ODGOVOR");
-                } else if (priority == 2) {
-
-
-                } else {
-                    //radi ono zadnje xD
-                }
-            }
-        }
+    private void checkMail() {
+        CheckMail checkMail = new CheckMail(user, this);
+        checkMail.start();
     }
 }
