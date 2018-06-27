@@ -36,9 +36,16 @@ public class ServicesImpl implements Services {
         String createURL = Constants.URL + "?q=" + query;
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        InputStream in = null;
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            InputStream in = connection.getInputStream();
+            try{
+                in = connection.getInputStream();
+            }catch(IOException exception){
+                in = connection.getErrorStream();
+                Log.i(TAG, "error: " + exception.getMessage());
+            }
+
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 throw new IOException(connection.getResponseMessage() +
                         ": with " + createURL);

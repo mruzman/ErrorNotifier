@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.TextKeyListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -71,22 +72,15 @@ public class LoginActivity extends AppCompatActivity {
             mainActivity.putExtra("User",(Serializable) logInCall.getUser());
             startActivity(mainActivity);
 
-          //  Toast.makeText(LoginActivity.this, "Uspješna prijava!!!", Toast.LENGTH_LONG).show();
-            Log.i("MAIN", "Nije prazno");
-            Log.i(TAG, "Prijavljen korisnik: " + logInCall.getUser().getFirstName() + " " + logInCall.getUser().getLastName()+ " " +logInCall.getUser().getType());
-
-
             //provjeri dal je admin Constant.TYPE = 1 (to bude za admin)
             //prebaci se na aktivnost logiran admin
             //else provjeri dal je korisnik
             //prebaci se na mod korisnik
         } else {
             Toast.makeText(LoginActivity.this, "Wrong username or password", Toast.LENGTH_LONG).show();
-            Log.i("MAIN", "NETOCNA PRIJAVA");
-            UsernameEt.setText("");
-            PasswrodEt.setText("");
+            TextKeyListener.clear(UsernameEt.getText());
+            TextKeyListener.clear(PasswrodEt.getText());
             UsernameEt.requestFocus();
-            //netocna prijava
         }
     }
 }

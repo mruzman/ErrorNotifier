@@ -45,14 +45,13 @@ public class LogIn extends AsyncTask<String, String, JSONObject> {
                 }
             }
             if (usersList.size() != 0) {
-                Log.i(TAG, "Dohvaceni podaci: " + result);
                 return jsonArray.getJSONObject(0);
             }
 
         } catch (IOException ioe) {
             Log.e(TAG, "Propao pokusaj dohvacanja: ", ioe);
         } catch (JSONException joe) {
-            Log.e(TAG, "Nemogu parsirat JSON: ", joe);
+            Log.e(TAG, "Nemogu parsirati JSON: ", joe);
         }
         return null;
     }
