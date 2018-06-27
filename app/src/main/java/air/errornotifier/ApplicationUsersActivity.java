@@ -54,7 +54,7 @@ public class ApplicationUsersActivity extends AppCompatActivity{
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         uAdapter = new AppUsersViewAdapter(appsList, appId);
         try {
-            getAppUsers();
+            getAppUsers(appId);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -102,9 +102,9 @@ public class ApplicationUsersActivity extends AppCompatActivity{
     private void deleteAppUser(AppUser appUser) throws ExecutionException, InterruptedException {
         new DeleteAppUser().execute(String.valueOf(appUser.getApplicationId()), String.valueOf(appUser.getUserId())).get();
     }
-    private void getAppUsers() throws IOException, JSONException, ExecutionException, InterruptedException {
+    private void getAppUsers(int appID) throws IOException, JSONException, ExecutionException, InterruptedException {
 
-        appsList = (List<AppUser>) new GetListOfAppUsers().execute().get();
+        appsList = (List<AppUser>) new GetListOfAppUsers().execute(String.valueOf(appID)).get();
 
         uAdapter.notifyDataSetChanged();
     }

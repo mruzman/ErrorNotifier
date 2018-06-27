@@ -35,6 +35,7 @@ public class ServicesImpl implements Services {
         query += "AND password='" + password + "'";
         String createURL = Constants.URL + "?q=" + query;
         URL url = new URL(createURL);
+        Log.i(TAG, "URL: " +url);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         InputStream in = null;
         try {
@@ -464,9 +465,9 @@ public class ServicesImpl implements Services {
         }
     }
 
-    public byte[] getAppUsers() throws IOException {
+    public byte[] getAppUsers(int appID) throws IOException {
         ByteArrayOutputStream out;
-        String query = "select u.*, coalesce(ua.application_id, 0) as applicationID from user as u left join user_application as ua on u.user_id = ua.user_id";
+        String query = "select u.*, case when ua.application_id is null then 0 else ua.application_id end as application_id from user as u left join user_application as ua on ua.user_id = u.user_id and ua.application_id = " + appID;
         Log.i("QUERY", query);
         String createURL = Constants.URL + "?q=" + query;
         Log.i(TAG, createURL);

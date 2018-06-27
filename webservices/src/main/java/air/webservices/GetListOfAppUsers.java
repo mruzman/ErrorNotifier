@@ -30,7 +30,7 @@ public class GetListOfAppUsers extends AsyncTask<String, String, List<AppUser>> 
         JSONArray jsonArray = null;
         ServicesImpl services = new ServicesImpl();
         try {
-            String res2 =  new String(new ServicesImpl().getAppUsers());
+            String res2 =  new String(new ServicesImpl().getAppUsers(Integer.parseInt(strings[0])));
             Log.i("RES2", res2.toString());
             jsonObject= new JSONObject(res2);
             jsonArray = jsonObject.getJSONArray("records");
@@ -47,7 +47,7 @@ public class GetListOfAppUsers extends AsyncTask<String, String, List<AppUser>> 
                 JSONObject o = null;
                 try {
                     o = jsonArray.getJSONObject(i);
-                    usersList.add(new AppUser(o.getInt("user_id"), o.getString("first_name"), o.getString("last_name"), o.getInt("applicationID")));
+                    usersList.add(new AppUser(o.getInt("user_id"), o.getString("first_name"), o.getString("last_name"), o.getInt("application_id")));
                     Log.i("AppIDD: ", String.valueOf(o.getInt("applicationID")));
                 } catch (JSONException e) {
                     e.printStackTrace();
