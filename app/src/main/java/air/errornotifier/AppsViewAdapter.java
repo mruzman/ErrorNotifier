@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import air.database.Bean.App;
 import air.database.Bean.Users;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Mateo on 20.1.2018..
@@ -18,20 +20,23 @@ import air.database.Bean.Users;
 public class AppsViewAdapter extends RecyclerView.Adapter<AppsViewAdapter.AppsViewHolder> {
 
     private List<App> appsList;
+    private List<String> mImages = new ArrayList<>();
 
     public class AppsViewHolder extends RecyclerView.ViewHolder{
-
+        CircleImageView image;
         public TextView app;
 
         public AppsViewHolder(View view){
             super(view);
-            app = (TextView) view.findViewById(R.id.tvApplication);
+            image = itemView.findViewById(R.id.image);
+            app = (TextView) view.findViewById(R.id.appRow);
         }
     }
 
-    public AppsViewAdapter(List<App> appsList){
+    public AppsViewAdapter(List<App> appsList, List<String> mImages){
 
         this.appsList = appsList;
+        this.mImages = mImages;
     }
 
     @Override

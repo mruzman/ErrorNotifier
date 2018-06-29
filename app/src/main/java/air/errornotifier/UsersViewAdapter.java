@@ -24,7 +24,6 @@ public class UsersViewAdapter extends RecyclerView.Adapter<UsersViewAdapter.User
 
     public class UsersViewHolder extends RecyclerView.ViewHolder{
         CircleImageView image;
-        RelativeLayout parentLayout;
         public TextView user;
 
         public UsersViewHolder(View view){
