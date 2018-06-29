@@ -29,6 +29,7 @@ import air.webservices.GetListOfUsers;
 public class UsersFragment extends Fragment {
 
     private List<Users> usersList = new ArrayList<>();
+    private List<String> mImages = new ArrayList<>();
     private RecyclerView recyclerView;
     private UsersViewAdapter uAdapter;
     public UsersFragment() {
@@ -42,7 +43,7 @@ public class UsersFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_users, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
-        uAdapter = new UsersViewAdapter(usersList);
+        uAdapter = new UsersViewAdapter(usersList,mImages);
         try {
             getUsers();
         } catch (IOException e) {
@@ -54,7 +55,7 @@ public class UsersFragment extends Fragment {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        uAdapter = new UsersViewAdapter(usersList);
+        uAdapter = new UsersViewAdapter(usersList, mImages);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -79,7 +80,7 @@ public class UsersFragment extends Fragment {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        uAdapter = new UsersViewAdapter(usersList);
+        uAdapter = new UsersViewAdapter(usersList, mImages);
     }
 
     private void getUsers() throws IOException, JSONException, ExecutionException, InterruptedException {

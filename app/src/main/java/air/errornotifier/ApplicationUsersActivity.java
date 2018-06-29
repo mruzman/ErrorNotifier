@@ -50,6 +50,9 @@ public class ApplicationUsersActivity extends AppCompatActivity{
         mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         appId = getIntent().getExtras().getInt("appid");
 
+        setSupportActionBar(mTolbar);
+        getSupportActionBar().setTitle("Add Users to Application");
+
         Log.i("App id: ", String.valueOf(appId));
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         uAdapter = new AppUsersViewAdapter(appsList, appId);
