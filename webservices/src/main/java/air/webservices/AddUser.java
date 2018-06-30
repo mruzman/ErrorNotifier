@@ -43,11 +43,11 @@ public class AddUser extends AsyncTask<String, String, String> {
                         e.printStackTrace();
                     }
                 }
-            }/*
+            }
             if (usersList.size() != 0) {
                 Log.i(TAG, "Dohvaceni podaci: " + result);
                 return "exists";
-            }*/
+            }
 
         } catch (IOException ioe) {
             Log.e(TAG, "Propao pokusaj dohvacanja: ", ioe);
