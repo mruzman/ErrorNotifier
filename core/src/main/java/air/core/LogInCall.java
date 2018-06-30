@@ -36,6 +36,7 @@ public class LogInCall {
                     user.setUserId(object.getInt("user_id"));
                     user.setPassword(object.getString("password"));
                     user.setUsername(object.getString("username"));
+                    user.setGmailPassword(object.getString("gmail_password"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -27,7 +27,6 @@ public class Users implements Serializable{
     private String password;
     private String gmailPassword;
     private String type;
-    private String mailPass;
 
     public Users(int userId, String firstName, String lastName, String username, String email, String type, String password, String gmailPassword) {
         this.userId = userId;

@@ -44,7 +44,7 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
         List<Object> list = new ArrayList<Object>();
         String username = strings[0];
         String passwrod = strings[1];
-
+        Log.i("Pass", passwrod);
         Properties properties = System.getProperties();
         if (properties == null) {
             Log.i(T, "Properties su null");

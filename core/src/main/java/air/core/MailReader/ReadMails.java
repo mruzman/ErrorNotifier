@@ -46,7 +46,7 @@ public class ReadMails {
     public List<Object> checkIfNewEmailCame() throws ExecutionException, InterruptedException, IOException, JSONException {
         List<Object> objects = new ArrayList<Object>();
         List<Object> returnObjects = new ArrayList<Object>();
-        objects = new ArrayList(new EmailListener().execute(user.getEmail(), user.getMailPass()).get());
+        objects = new ArrayList(new EmailListener().execute(user.getEmail(), user.getGmailPassword()).get());
         Log.i("LISTA", String.valueOf(objects.size()));
         if (objects != null || !objects.isEmpty()) {//ako je nesto doslo s listom
             for (Object object: objects) {
