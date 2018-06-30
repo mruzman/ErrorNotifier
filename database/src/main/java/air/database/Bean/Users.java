@@ -25,10 +25,11 @@ public class Users implements Serializable{
     private String username;
     private String email;
     private String password;
+    private String gmailPassword;
     private String type;
     private String mailPass;
 
-    public Users(int userId, String firstName, String lastName, String username, String email, String type, String password, String mailPass) {
+    public Users(int userId, String firstName, String lastName, String username, String email, String type, String password, String gmailPassword) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,7 +37,7 @@ public class Users implements Serializable{
         this.email = email;
         this.type = type;
         this.password = password;
-        this.mailPass = mailPass;
+        this.gmailPassword = gmailPassword;
     }
 
     public Users() {
@@ -94,16 +95,14 @@ public class Users implements Serializable{
         return password;
     }
 
+    public String getGmailPassword(){ return gmailPassword; }
+
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getMailPass() {
-        return mailPass;
-    }
-
-    public void setMailPass(String mailPass) {
-        this.mailPass = mailPass;
+    public void setGmailPassword(String gmailPassword) {
+        this.gmailPassword = gmailPassword;
     }
 
     public void insertUser(Users user){
@@ -118,7 +117,7 @@ public class Users implements Serializable{
         if(jsonArray != null){
             for(int i = 0;i<jsonArray.length(); i++){
                 JSONObject o = (JSONObject) jsonArray.get(i);
-                usersList.add(new Users(o.getInt("userId"), o.getString("firstName"), o.getString("lastName"), o.getString("username"), o.getString("email"), o.getString("type"), o.getString("password"), o.getString("emailPass")));
+                usersList.add(new Users(o.getInt("userId"), o.getString("firstName"), o.getString("lastName"), o.getString("username"), o.getString("email"), o.getString("type"), o.getString("password"), o.getString("gmail_password")));
             }
         }
 

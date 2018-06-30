@@ -27,6 +27,7 @@ public class AddUserActivity extends AppCompatActivity {
     private EditText mAddUserName;
     private EditText mAddEmail;
     private EditText mAddPassword;
+    private EditText mAddGmailPassword;
 
 
     @Override
@@ -57,6 +58,7 @@ public class AddUserActivity extends AppCompatActivity {
         mAddUserName = (EditText) findViewById(R.id.txtAddUserName);
         mAddEmail = (EditText) findViewById(R.id.inputEmail);
         mAddPassword = (EditText) findViewById(R.id.txtInputPass);
+        mAddGmailPassword = (EditText) findViewById(R.id.txtInputGmailPass);
 
 
         mAddUser = (Button) findViewById(R.id.btnAddUser);
@@ -80,10 +82,9 @@ public class AddUserActivity extends AppCompatActivity {
 
     private void kreiraj_novog() throws ExecutionException, InterruptedException  {
 
-        Users user = new Users(1, mAddFirstName.getText().toString(),mAddLastName.getText().toString(), mAddUserName.getText().toString(),mAddEmail.getText().toString(), "USER", mAddPassword.getText().toString());
+        Users user = new Users(1, mAddFirstName.getText().toString(),mAddLastName.getText().toString(), mAddUserName.getText().toString(),mAddEmail.getText().toString(), "USER", mAddPassword.getText().toString(), mAddGmailPassword.getText().toString());
         int unesi;
         unesi = new AddNewUser(user).insertNewUser();
-        Log.i(TAG, String.valueOf(unesi));
         if(unesi == 1){
             Toast.makeText(this, "User added", Toast.LENGTH_LONG).show();
             finish();

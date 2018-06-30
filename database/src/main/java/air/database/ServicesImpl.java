@@ -96,13 +96,15 @@ public class ServicesImpl implements Services {
         String username = strings[2];
         String email = strings[3];
         String password = strings[4];
+        String gmailPassword = strings[5];
         String query = "INSERT INTO user(user_id,first_name,last_name,";
-        query += "username,email,password,type) VALUES( default,'";
+        query += "username,email,password,type, gmail_password) VALUES( default,'";
         query += firstName + "','" + lastName + "','";
         query += username + "','" + email + "','";
-        query += password + "','USER')";
+        query += password + "','USER'" + ", '" + gmailPassword + "')";
         String createURL = Constants.URL + "?q=" + query;
         URL url = new URL(createURL);
+        Log.i(TAG, "URL: " + url);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
             out = new ByteArrayOutputStream();
