@@ -135,7 +135,7 @@ public class CheckMail extends Thread {
 
                 } else {
                     //TU TREBA DOCI NOTIFIKACIJA NA SCREENU
-                    
+
                 }
             }
         }

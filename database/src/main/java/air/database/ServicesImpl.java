@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import air.database.Bean.App;
@@ -513,7 +514,7 @@ public class ServicesImpl implements Services {
         ByteArrayOutputStream out;
         String query = "INSERT INTO response(email_id,user_id,response,date_respond) ";
         query += "VALUES ('" + response.getEmailId() + "','" + response.getUserId() +
-                "','" + response.getResponse() + "',"+new java.sql.Date()");";
+                "','" + response.getResponse() + "',"+new Date()+");";
         String createURL = Constants.URL + "?q=" + query;
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
