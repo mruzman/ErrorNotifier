@@ -7,7 +7,7 @@ package air.database.helper;
 public class Constants {
 
     //KONSTANTE ZA DOHVAT PODATAKA
-    public static final String URL = "https://errornotifier.000webhostapp.com/getData.php";
+    public static final String URL = "https://error-notifier.000webhostapp.com//getData.php";
     public static final String HOST = "smtp.gmail.com";
     public static final String MAIL_STORE_TYPE = "smtp";
 
