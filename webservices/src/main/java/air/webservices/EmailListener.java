@@ -88,7 +88,6 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
                     }
                     i--;
                 } else {
-                    Log.i("BREAK", "Brejkalo je");
                     break;
                 }
             }
@@ -116,7 +115,6 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
             Date parsedDate = dateFormat.parse(s);
             java.sql.Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-            Log.i("TIMESTAMP", timestamp.toString());
             return timestamp;
         } catch (Exception e) { //this generic but you can control another types of exception
             // look the origin of excption
@@ -163,7 +161,6 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
     private String getDescription(String s){
         String problemName = s.substring(s.indexOf("Problem name"),s.indexOf("Host"));
         problemName = problemName.split(":")[1].trim();
-        Log.i("PROBLEM NAME", problemName);
         return problemName;
     }
 }

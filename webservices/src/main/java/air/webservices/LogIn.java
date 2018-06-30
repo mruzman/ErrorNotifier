@@ -37,7 +37,6 @@ public class LogIn extends AsyncTask<String, String, JSONObject> {
                     JSONObject o = null;
                     try {
                         o = jsonArray.getJSONObject(i);
-                        Log.i("user", o.toString());
                         usersList.add(new Users(o.getInt("user_id"), o.getString("first_name"), o.getString("last_name"), o.getString("username"), o.getString("email"), o.getString("type"), o.getString("password")));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -49,9 +48,9 @@ public class LogIn extends AsyncTask<String, String, JSONObject> {
             }
 
         } catch (IOException ioe) {
-            Log.e(TAG, "Propao pokusaj dohvacanja: ", ioe);
+            ioe.printStackTrace();
         } catch (JSONException joe) {
-            Log.e(TAG, "Nemogu parsirati JSON: ", joe);
+            joe.printStackTrace();
         }
         return null;
     }

@@ -40,13 +40,11 @@ public class EmailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_email);
         int selectedApp = getIntent().getExtras().getInt("appid");
         appID = selectedApp;
-        Log.i("position", "value" + selectedApp);
         mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar2);
 
         setSupportActionBar(mTolbar);
         getSupportActionBar().setTitle("Emails");
 
-        //
         recyclerView = findViewById(R.id.recycler2);
         emailViewAdapter = new EmailViewAdapter(emailList);
         try {
@@ -125,7 +123,6 @@ public class EmailActivity extends AppCompatActivity {
             case R.id.menu_settings:
                 Intent intent = new Intent(getApplicationContext(), ApplicationUsersActivity.class);
                 intent.putExtra("appid", getIntent().getExtras().getInt("appid"));
-                Log.i("AppID: ", String.valueOf(getIntent().getExtras().getInt("appid")));
                 startActivity(intent);
                 return true;
             default:

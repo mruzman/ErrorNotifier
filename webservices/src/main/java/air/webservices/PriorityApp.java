@@ -33,7 +33,7 @@ public class PriorityApp extends AsyncTask<Integer, Void, Integer>{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.i("PRIORITET:", String.valueOf(priority));
+
         return priority;
     }
 }

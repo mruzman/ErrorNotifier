@@ -22,7 +22,6 @@ public class AddApplicationUser extends AsyncTask<String, String, String> {
             ServicesImpl services = new ServicesImpl();
             Integer result = new Integer(services.getIfExistsAppUser(appID, userID));
             if (result == 0) {
-                Log.i(TAG, "Dohvaceni podaci: " + result);
                 return "exists";
             }
 

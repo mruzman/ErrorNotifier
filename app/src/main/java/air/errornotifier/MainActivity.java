@@ -142,8 +142,6 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
             }
         });
 
-
-        //Log.i("MAIN", user.getUsername().toString());
         checkMail();
     }
 

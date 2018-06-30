@@ -40,23 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-    /*private void kreiraj_novog() throws ExecutionException, InterruptedException {
-        Evo ovdi je napravljeno kak se zove dok ADMIN hoce dodati novoga korisnika...
-        jos budem dodal funkciju koja provjerava dal je admin, ali svejedno vi morate napraviti
-        to da ADMIN jedini vidi ovakve stvari :)
-        Users user = new Users(1, "Marko", "Ružman", "mruzman","mruzman@errornotifier.com", "USER", "marko123");
-        int unesi;
-        unesi = new AddNewUser(user).insertNewUser();
-        Log.i(TAG, String.valueOf(unesi));
-        if(unesi == 1){
-            Log.i(TAG, "DOBRO JE");
-        }else if(unesi == 2){
-            Log.i(TAG, "KORISNIK POSTOJI!");
-        }else{
-            Log.i(TAG, "Potkrala se greska");
-        }
-    }*/
-
 
     public void prijava(View view){
 
@@ -71,11 +54,6 @@ public class LoginActivity extends AppCompatActivity {
             Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
             mainActivity.putExtra("User",(Serializable) logInCall.getUser());
             startActivity(mainActivity);
-
-            //provjeri dal je admin Constant.TYPE = 1 (to bude za admin)
-            //prebaci se na aktivnost logiran admin
-            //else provjeri dal je korisnik
-            //prebaci se na mod korisnik
         } else {
             Toast.makeText(LoginActivity.this, "Wrong username or password", Toast.LENGTH_LONG).show();
             TextKeyListener.clear(UsernameEt.getText());

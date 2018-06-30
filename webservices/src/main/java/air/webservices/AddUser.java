@@ -37,7 +37,6 @@ public class AddUser extends AsyncTask<String, String, String> {
                     JSONObject o = null;
                     try {
                         o = jsonArray.getJSONObject(i);
-                        Log.i("user", o.toString());
                         usersList.add(new Users(o.getInt("user_id"), o.getString("first_name"), o.getString("last_name"), o.getString("username"), o.getString("email"), o.getString("type"), o.getString("password")));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -45,7 +44,6 @@ public class AddUser extends AsyncTask<String, String, String> {
                 }
             }
             if (usersList.size() != 0) {
-                Log.i(TAG, "Dohvaceni podaci: " + result);
                 return "exists";
             }
 

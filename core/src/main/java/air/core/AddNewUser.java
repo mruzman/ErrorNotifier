@@ -27,12 +27,10 @@ public class AddNewUser {
         }
         int checkIfUserExists = checkIfUserExists();
         if (checkIfUserExists == 0) {
-            Log.i(TAG, "KORISNIK POSTOJI!");
             return 2;
         } else if (checkIfUserExists == -1) {
             return -1;
         } else {
-            Log.i(TAG, "KORISNIK NE POSTOJI!");
             if (new InsertNewUser().execute(user.getFirstName(), user.getLastName(), user.getUsername(),
                     user.getEmail(), user.getPassword()).get() == 1) {
                 return 1;
@@ -55,7 +53,6 @@ public class AddNewUser {
             return -1;
         }
         if (value != null) {
-            Log.i(TAG, value.toString());
             return 0;
         }
         return 1;

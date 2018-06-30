@@ -53,7 +53,6 @@ public class ApplicationUsersActivity extends AppCompatActivity{
         setSupportActionBar(mTolbar);
         getSupportActionBar().setTitle("Add Users to Application");
 
-        Log.i("App id: ", String.valueOf(appId));
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         uAdapter = new AppUsersViewAdapter(appsList, appId);
         try {
@@ -87,7 +86,6 @@ public class ApplicationUsersActivity extends AppCompatActivity{
                     saveAppUser(appUser);
                     checkBox.setChecked(true);
                 }
-                Log.i("Application ID: ", String.valueOf(appUser.getApplicationId()));
             }
 
             @Override

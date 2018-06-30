@@ -35,7 +35,6 @@ public class ServicesImpl implements Services {
         query += "AND password='" + password + "'";
         String createURL = Constants.URL + "?q=" + query;
         URL url = new URL(createURL);
-        Log.i(TAG, "URL: " +url);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         InputStream in = null;
         try {
@@ -44,7 +43,6 @@ public class ServicesImpl implements Services {
                 in = connection.getInputStream();
             }catch(IOException exception){
                 in = connection.getErrorStream();
-                Log.i(TAG, "error: " + exception.getMessage());
             }
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
@@ -69,7 +67,6 @@ public class ServicesImpl implements Services {
         query += "WHERE username='" + username + "' ";
         query += "OR email='" + email + "'";
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, query.toString());
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -104,9 +101,7 @@ public class ServicesImpl implements Services {
         query += firstName + "','" + lastName + "','";
         query += username + "','" + email + "','";
         query += password + "','USER')";
-        Log.i(TAG, query.toString());
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL.toString());
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -122,7 +117,6 @@ public class ServicesImpl implements Services {
                 out.write(buffer, 0, byteRead);
             }
             out.close();
-            Log.i(TAG, out.toString());
         } finally {
             connection.disconnect();
         }
@@ -134,7 +128,6 @@ public class ServicesImpl implements Services {
         String query = "SELECT * FROM application WHERE name='" + appName + "'";
         String createURL = Constants.URL + "?q=" + query;
         URL url = new URL(createURL);
-        Log.i(TAG, createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = connection.getInputStream();
@@ -161,7 +154,6 @@ public class ServicesImpl implements Services {
         String query = "SELECT * FROM user_application WHERE application_id='" + appID + "' AND user_id = '"+userID+"'";
         String createURL = Constants.URL + "?q=" + query;
         URL url = new URL(createURL);
-        Log.i(TAG, createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = connection.getInputStream();
@@ -189,9 +181,7 @@ public class ServicesImpl implements Services {
         ByteArrayOutputStream out;
         String query = "INSERT INTO application(name) ";
         query += "VALUES('" + app + "')";
-        Log.i(TAG, query);
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -207,7 +197,6 @@ public class ServicesImpl implements Services {
                 out.write(buffer, 0, byteRead);
             }
             out.close();
-            Log.i(TAG, out.toString());
         } finally {
             connection.disconnect();
         }
@@ -219,9 +208,7 @@ public class ServicesImpl implements Services {
         ByteArrayOutputStream out;
         String query = "INSERT INTO user_application(application_id, user_id) ";
         query += "VALUES('" + appID + "', '"+ userID +"')";
-        Log.i(TAG, query);
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -237,7 +224,6 @@ public class ServicesImpl implements Services {
                 out.write(buffer, 0, byteRead);
             }
             out.close();
-            Log.i(TAG, out.toString());
         } finally {
             connection.disconnect();
         }
@@ -247,10 +233,7 @@ public class ServicesImpl implements Services {
     public Integer deleteAppUser(String appID, String userID) throws IOException {
         ByteArrayOutputStream out;
         String query = "DELETE FROM user_application WHERE application_id = '"+appID+"'AND user_id = '"+userID+"' ";
-
-        Log.i(TAG, query);
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -266,7 +249,6 @@ public class ServicesImpl implements Services {
                 out.write(buffer, 0, byteRead);
             }
             out.close();
-            Log.i(TAG, out.toString());
         } finally {
             connection.disconnect();
         }
@@ -276,7 +258,6 @@ public class ServicesImpl implements Services {
     private int emailID;
     private int appID;
 
-    //TODO Dodati ova sranja do kraja
     @Override
     public List<String> insertNewRecivedBug(Event event, Email mail, App app, int userID) throws IOException, JSONException {
         List<String> newValuesToReturn = new ArrayList<String>();
@@ -285,11 +266,9 @@ public class ServicesImpl implements Services {
         String stringAppID = findAppId(app.getName());
         JSONObject jsonObject = new JSONObject(stringAppID);
         JSONArray jsonArray = jsonObject.getJSONArray("records");
-        Log.i("appID", String.valueOf(stringAppID));
         if (stringAppID.length() > 0 || !stringAppID.isEmpty()) {
             JSONObject object = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
             appID = object.getInt("application_id");
-            Log.i("APPID", String.valueOf(appID));
             String eventIDString = checkIfEventExists(event.getName(), event.getDescription(), appID);
             jsonObject = new JSONObject(eventIDString);
             jsonArray = jsonObject.getJSONArray("records");
@@ -316,7 +295,6 @@ public class ServicesImpl implements Services {
             newValuesToReturn.add(String.valueOf(emailID));
         } else {
             Log.i(TAG, "Ne postoji aplikacija");
-            //vratiti da nepostoji aplikacija -- treba unesti aplikaciju.
         }
         return newValuesToReturn;
     }
@@ -325,9 +303,7 @@ public class ServicesImpl implements Services {
         ByteArrayOutputStream out;
         String query = "INSERT INTO email(description, time_event_occured, status, user_id, event_id) ";
         query += "VALUES('" + s + "','" + s1 + "','" + statusUnsolved + "','" + userID + "','" + eventID + "')";
-        Log.i(TAG, query);
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -343,7 +319,6 @@ public class ServicesImpl implements Services {
                 out.write(buffer, 0, byteRead);
             }
             out.close();
-            Log.i(TAG, out.toString());
         } finally {
             connection.disconnect();
         }
@@ -355,9 +330,7 @@ public class ServicesImpl implements Services {
         String query = "SELECT email_id FROM email ";
         query += "WHERE description='" + s + "' AND time_event_occured = '" + s1 +
                 "' AND user_id ='" + userID + "' AND event_id ='" + eventID + "' LIMIT 1;";
-        Log.i("QUERY", query);
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -373,7 +346,6 @@ public class ServicesImpl implements Services {
                 out.write(buffer, 0, byteRead);
             }
             out.close();
-            Log.i(TAG, out.toString());
         } finally {
             connection.disconnect();
         }
@@ -384,9 +356,7 @@ public class ServicesImpl implements Services {
     public byte[] getUsers() throws IOException {
         ByteArrayOutputStream out;
         String query = "SELECT * FROM user";
-        Log.i("QUERY", query);
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -400,7 +370,6 @@ public class ServicesImpl implements Services {
             byte[] buffer = new byte[1024];
             while ((byteRead = in.read(buffer)) > 0) {
                 out.write(buffer, 0, byteRead);
-                Log.i("fef", String.valueOf(byteRead));
             }
             out.close();
             return out.toByteArray();
@@ -412,9 +381,7 @@ public class ServicesImpl implements Services {
     public byte[] getApps() throws IOException {
         ByteArrayOutputStream out;
         String query = "SELECT * FROM application";
-        Log.i("QUERY", query);
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -428,7 +395,6 @@ public class ServicesImpl implements Services {
             byte[] buffer = new byte[1024];
             while ((byteRead = in.read(buffer)) > 0) {
                 out.write(buffer, 0, byteRead);
-                Log.i("fef", String.valueOf(byteRead));
             }
             out.close();
             return out.toByteArray();
@@ -440,9 +406,7 @@ public class ServicesImpl implements Services {
     public byte[] getEmails(String appID) throws IOException {
         ByteArrayOutputStream out;
         String query = "select e.* from email as e inner join `event` as ev on e.event_id = ev.event_id WHERE ev.application_id = '"+appID+"' ";
-        Log.i("QUERY", query);
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -456,7 +420,6 @@ public class ServicesImpl implements Services {
             byte[] buffer = new byte[1024];
             while ((byteRead = in.read(buffer)) > 0) {
                 out.write(buffer, 0, byteRead);
-                Log.i("fef", String.valueOf(byteRead));
             }
             out.close();
             return out.toByteArray();
@@ -468,9 +431,7 @@ public class ServicesImpl implements Services {
     public byte[] getAppUsers(int appID) throws IOException {
         ByteArrayOutputStream out;
         String query = "select u.*, case when ua.application_id is null then 0 else ua.application_id end as application_id from user as u left join user_application as ua on ua.user_id = u.user_id and ua.application_id = " + appID;
-        Log.i("QUERY", query);
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -484,7 +445,6 @@ public class ServicesImpl implements Services {
             byte[] buffer = new byte[1024];
             while ((byteRead = in.read(buffer)) > 0) {
                 out.write(buffer, 0, byteRead);
-                Log.i("fef", String.valueOf(byteRead));
             }
             out.close();
             return out.toByteArray();
@@ -496,9 +456,7 @@ public class ServicesImpl implements Services {
     public byte[] getUserApps(String userID) throws IOException {
         ByteArrayOutputStream out;
         String query = "SELECT a.* FROM application AS a INNER JOIN user_application AS ua ON a.application_id = ua.application_id WHERE ua.user_id = '" + userID + "'";
-        Log.i("QUERY", query);
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -512,7 +470,6 @@ public class ServicesImpl implements Services {
             byte[] buffer = new byte[1024];
             while ((byteRead = in.read(buffer)) > 0) {
                 out.write(buffer, 0, byteRead);
-                Log.i("fef", String.valueOf(byteRead));
             }
             out.close();
             return out.toByteArray();
@@ -526,7 +483,6 @@ public class ServicesImpl implements Services {
         ByteArrayOutputStream out;
         String query = "SELECT priority FROM user_application ";
         query += "WHERE user_id=" + userID + " AND application_id=" + appID + ";";
-        Log.i(TAG, query);
         String createURL = Constants.URL + "?q=" + query;
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -543,7 +499,6 @@ public class ServicesImpl implements Services {
                 out.write(buffer, 0, byteRead);
             }
             out.close();
-            Log.i(TAG, out.toString());
             return out.toString();
         } catch (Exception e) {
             e.printStackTrace();
@@ -554,12 +509,10 @@ public class ServicesImpl implements Services {
     @Override
     public void insertRespond(Response response) throws IOException {
         ByteArrayOutputStream out;
-        Log.i("SERVISI", "SERVISI");
         String query = "INSERT INTO response(email_id,user_id,response) ";
         query += "VALUES ('" + response.getEmailId() + "','" + response.getUserId() +
                 "','" + response.getResponse() + "');";
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -575,7 +528,6 @@ public class ServicesImpl implements Services {
                 out.write(buffer, 0, byteRead);
             }
             out.close();
-            Log.i(TAG, out.toString());
         } finally {
             connection.disconnect();
         }
@@ -586,7 +538,6 @@ public class ServicesImpl implements Services {
         ByteArrayOutputStream out;
         String query = "SELECT * FROM response";
         query += "WHERE  email=" + emailID + " ORDER BY date_respond;";
-        Log.i(TAG, query);
         String createURL = Constants.URL + "?q=" + query;
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -603,7 +554,6 @@ public class ServicesImpl implements Services {
                 out.write(buffer, 0, byteRead);
             }
             out.close();
-            Log.i(TAG, out.toString());
             return out.toString();
         } catch (Exception e) {
             e.printStackTrace();
@@ -616,9 +566,7 @@ public class ServicesImpl implements Services {
         ByteArrayOutputStream out;
         String query = "INSERT INTO event(name,description,application_id) ";
         query += "VALUES('" + name + "','" + desc + "','" + appID + "')";
-        Log.i(TAG, query);
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -634,7 +582,6 @@ public class ServicesImpl implements Services {
                 out.write(buffer, 0, byteRead);
             }
             out.close();
-            Log.i(TAG, out.toString());
         } finally {
             connection.disconnect();
         }
@@ -645,9 +592,7 @@ public class ServicesImpl implements Services {
         ByteArrayOutputStream out;
         String query = "SELECT event_id FROM event ";
         query += "WHERE name='" + name + "' AND description = '" + desc + "' AND application_id ='" + appID + "' LIMIT 1;";
-        Log.i("QUERY", query);
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
@@ -663,7 +608,6 @@ public class ServicesImpl implements Services {
                 out.write(buffer, 0, byteRead);
             }
             out.close();
-            Log.i(TAG, out.toString());
         } finally {
             connection.disconnect();
         }
@@ -675,7 +619,6 @@ public class ServicesImpl implements Services {
         String query = "SELECT application_id FROM application ";
         query += "WHERE name='" + s + "';";
         String createURL = Constants.URL + "?q=" + query;
-        Log.i(TAG, createURL);
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {

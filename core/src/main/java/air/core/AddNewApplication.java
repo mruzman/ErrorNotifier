@@ -26,7 +26,6 @@ public class AddNewApplication {
     public int insertApp()throws ExecutionException, InterruptedException{
         int checkIfAppExists = checkIfAppExists();
         if (checkIfAppExists == 0) {
-            Log.i(TAG, "App already exists!");
             return 2;
         } else if (checkIfAppExists == -1) {
             return -1;
@@ -52,7 +51,6 @@ public class AddNewApplication {
             return -1;
         }
         if (value != null) {
-            Log.i(TAG, value.toString());
             return 0;
         }
         return 1;

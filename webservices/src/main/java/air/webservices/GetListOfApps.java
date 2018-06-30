@@ -31,15 +31,12 @@ public class GetListOfApps extends AsyncTask<String, String, List<App>> {
         ServicesImpl services = new ServicesImpl();
         try {
             String res2 =  new String(new ServicesImpl().getApps());
-            Log.i("RES2", res2.toString());
             jsonObject= new JSONObject(res2);
             jsonArray = jsonObject.getJSONArray("records");
 
         } catch (IOException e) {
-            Log.i("ZBLJ", "ZBLJUB");
             e.printStackTrace();
         } catch (JSONException e) {
-            Log.i("ZBLJ", "ZBLJUB2");
             e.printStackTrace();
         }
         if(jsonArray != null){
