@@ -24,26 +24,25 @@ import air.webservices.PriorityApp;
 
 public class CheckMail extends Thread {
 
-    private Users user;
+
     private MainActivity activity;
     private Email mail;
     private Event event;
     private App app;
     private Response response;
 
-    public CheckMail(Users user,MainActivity activity){
-        this.user = user;
+    public CheckMail(MainActivity activity){
         this.activity = activity;
     }
 
     @Override
     public void run(){
-        while (user != null) {
+        while (MainActivity.user != null) {
             try {
                 mail = null;
                 event = null;
                 app = null;
-                ReadMails readMails = new ReadMails(user);
+                ReadMails readMails = new ReadMails(MainActivity.user);
                 List<Object> insertedEmails = readMails.checkIfNewEmailCame();
                 if (insertedEmails != null) {
                     for (Object object : insertedEmails) {
@@ -94,7 +93,7 @@ public class CheckMail extends Thread {
     private void checkPriorityForApp() throws ExecutionException, InterruptedException {
         int priority = 0;
         if (event.getApplicationId() != 0) {
-            priority = new PriorityApp().execute(user.getUserId(), event.getApplicationId()).get();
+            priority = new PriorityApp().execute(MainActivity.user.getUserId(), event.getApplicationId()).get();
             Log.i("Prioritet", String.valueOf(priority));
             if (priority != 0) {
                 if (priority == 1) {
@@ -104,10 +103,10 @@ public class CheckMail extends Thread {
                     if (answer.get(1) != "") {
                         response.setEmailId(mail.getEmailId());
                         response.setResponse(answer.get(1));
-                        response.setUserId(user.getUserId());
+                        response.setUserId(MainActivity.user.getUserId());
                     }
                     mail.setStatus(answer.get(0));
-                    MailResponse mailResponse = new MailResponse(mail, user, response);
+                    MailResponse mailResponse = new MailResponse(mail, MainActivity.user, response);
 
                     if (response.getResponse() != "") {
                         mailResponse.insertAnswer(response.getResponse());

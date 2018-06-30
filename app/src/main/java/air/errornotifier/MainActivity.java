@@ -53,7 +53,8 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
     private TabLayout mTabLayout;
     //   private FloatingActionMenu floatingActionMenu;
     private FloatingActionButton fabUser, fabGroup;
-    private Users user;
+    public static Users user;
+    private CheckMail checkMail;
 
 
     @Override
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         user = (Users) getIntent().getSerializableExtra("User");
-
+        checkMail();
         if (user.getType().equals(Constants.TYPE_ADMIN)) {
 
             //Dodavanje ActionBar-a
@@ -141,8 +142,6 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
                 //Toast.makeText(MainActivity.this,"grupa",Toast.LENGTH_LONG).show();
             }
         });
-
-        checkMail();
     }
 
 
@@ -226,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
     }
 
     private void checkMail() {
-        CheckMail checkMail = new CheckMail(user, this);
+        checkMail = new CheckMail(this);
         checkMail.start();
     }
 }

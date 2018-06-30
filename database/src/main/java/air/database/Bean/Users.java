@@ -26,8 +26,9 @@ public class Users implements Serializable{
     private String email;
     private String password;
     private String type;
+    private String mailPass;
 
-    public Users(int userId, String firstName, String lastName, String username, String email, String type, String password) {
+    public Users(int userId, String firstName, String lastName, String username, String email, String type, String password, String mailPass) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,6 +36,7 @@ public class Users implements Serializable{
         this.email = email;
         this.type = type;
         this.password = password;
+        this.mailPass = mailPass;
     }
 
     public Users() {
@@ -96,6 +98,14 @@ public class Users implements Serializable{
         this.password = password;
     }
 
+    public String getMailPass() {
+        return mailPass;
+    }
+
+    public void setMailPass(String mailPass) {
+        this.mailPass = mailPass;
+    }
+
     public void insertUser(Users user){
 
     }
@@ -108,7 +118,7 @@ public class Users implements Serializable{
         if(jsonArray != null){
             for(int i = 0;i<jsonArray.length(); i++){
                 JSONObject o = (JSONObject) jsonArray.get(i);
-                usersList.add(new Users(o.getInt("userId"), o.getString("firstName"), o.getString("lastName"), o.getString("username"), o.getString("email"), o.getString("type"), o.getString("password")));
+                usersList.add(new Users(o.getInt("userId"), o.getString("firstName"), o.getString("lastName"), o.getString("username"), o.getString("email"), o.getString("type"), o.getString("password"), o.getString("emailPass")));
             }
         }
 
