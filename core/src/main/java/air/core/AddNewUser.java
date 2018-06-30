@@ -22,6 +22,9 @@ public class AddNewUser {
     }
 
     public int insertNewUser() throws ExecutionException, InterruptedException {
+        if(user.getFirstName().length() == 0 || user.getEmail().length() == 0 || user.getLastName().length() == 0 || user.getPassword().length() == 0 || user.getUsername().length() == 0){
+            return -2;
+        }
         int checkIfUserExists = checkIfUserExists();
         if (checkIfUserExists == 0) {
             Log.i(TAG, "KORISNIK POSTOJI!");
