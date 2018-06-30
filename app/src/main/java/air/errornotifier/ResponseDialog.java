@@ -30,9 +30,7 @@ public class ResponseDialog extends AppCompatDialogFragment  {
 
     private Button potvrdi;
     private RadioButton preuzimam;
-    private RadioButton kasnije;
     private RadioButton odbijam;
-    private EditText odgovor;
     private ResponseDialogListener listener;
     private List<String> odgovori;
     private String appName="";
@@ -63,29 +61,17 @@ public class ResponseDialog extends AppCompatDialogFragment  {
                     String odabir = Constants.STATUS_IN_PROGRESS;
                     listener.applyTexts(odabir);
                     odgovori.add(odabir);
-                    odgovori.add(odgovor.getText().toString());
                     ResponseDialog.this.dismiss();
                 }else if(odbijam.isChecked()){
                     String odabir = Constants.STATUS_UNSOLVED;
                     listener.applyTexts(odabir);
                     odgovori.add(odabir);
-                    odgovori.add(odgovor.getText().toString());
                     ResponseDialog.this.dismiss();
-                }else if(kasnije.isChecked()){
-                    String odabir = Constants.STATUS_LATER;
-                    listener.applyTexts(odabir);
-                    odgovori.add(odabir);
-                    odgovori.add(odgovor.getText().toString());
-                    ResponseDialog.this.dismiss();
-                }else {
-
                 }
             }
         });
         preuzimam = view.findViewById(R.id.rbtnPreuzimam);
         odbijam = view.findViewById(R.id.rbtnOdbijam);
-        kasnije = view.findViewById(R.id.rbtnKasnije);
-        odgovor = view.findViewById(R.id.txtPoruka);
         final AlertDialog dialog = builder.create();
         dialog.show();
         return dialog;
