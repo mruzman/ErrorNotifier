@@ -24,7 +24,7 @@ public class LogInActivityIntegrationTest {
 
     @Test
     public void testLogIn() throws ExecutionException, InterruptedException {
-        Users user = new Users(1, "Oli","Grbavac","oli4","ogrbavac@foi.hr","USER", "oli4");
+        Users user = new Users(1, "Robert","Knjaz","knjaz","knjaz@gmail.com","USER", "knjaz","kUyJM9tz");
         new AddNewUser(user).insertNewUser();
 
         LogInCall logInCall = new LogInCall(user.getUsername(), user.getPassword());

@@ -22,19 +22,18 @@ public class AddUserActivityIntegrationTest{
 
     @Test
     public void testLogIn() throws ExecutionException, InterruptedException {
-        Users user = new Users(1, "Oli", "", "oli4", "ogrbavac@foi.hr", "USER", "oli4");
+        Users user = new Users(1, "Yakov", "Fain", "Yako", "Yako@gmail.com", "USER", "Yako","Yako");
         int unos = new AddNewUser(user).insertNewUser();
-
         assertEquals("Uneseni podaci nisu potpuni", 1, unos);
 
-        user = new Users(1, "", "", "", "", "", "");
+        user = new Users(1, "", "", "", "", "", "","");
         assertEquals("Nisu uneseni nikakvi podaci", 1, unos);
 
 
-        user = new Users(1, "Zlatko", "", "", "zstapic", "", "");
+        user = new Users(1, "Zlatko", "", "", "zstapic", "", "","");
         assertEquals("Uneseni podaci nisu potpuni", 1, unos);
 
-        user = new Users(1, "", "", "ogrbavac", "", "", "oli");
+        user = new Users(1, "", "", "ogrbavac", "", "", "oli","oli");
         assertEquals("Uneseni podaci nisu potpuni", 1, unos);
 
 
