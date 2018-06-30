@@ -68,7 +68,7 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
             while (true) {
                 Message individualMsg = messages[i];
                 if (lastThreeDays.getTimeInMillis() < individualMsg.getReceivedDate().getTime()) {
-                    if (individualMsg.getSubject().contains(Constants.ZABBIX_STRING) && !individualMsg.isSet(Flags.Flag.SEEN)) {
+                    if (individualMsg.getSubject().trim().contains(Constants.ZABBIX_STRING) && !individualMsg.isSet(Flags.Flag.SEEN)) {
                         Log.i("Primljeno", individualMsg.getReceivedDate().toString());
                         Log.i("Email subject", individualMsg.getSubject());
                         app = new App();
@@ -102,11 +102,11 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
 
     private void getStrings(Message message) throws MessagingException {
         String[] triggerName = message.getSubject().split("on");
-        app.setName(triggerName[1].split(":")[1]);
+        app.setName(triggerName[1].split(":")[1].trim());
         if(triggerName[0].contains("Re")){
-            event.setName(triggerName[0].split(":")[2]);
+            event.setName(triggerName[0].split(":")[2].trim());
         }else {
-            event.setName(triggerName[0].split(":")[1]);
+            event.setName(triggerName[0].split(":")[1].trim());
         }
     }
 

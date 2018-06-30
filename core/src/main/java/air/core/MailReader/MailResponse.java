@@ -2,6 +2,7 @@ package air.core.MailReader;
 
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -10,6 +11,7 @@ import air.database.Bean.Email;
 import air.database.Bean.Event;
 import air.database.Bean.Response;
 import air.database.Bean.Users;
+import air.database.ServicesImpl;
 import air.webservices.AllRespondedMails;
 import air.webservices.InsertNewAnswer;
 
@@ -28,12 +30,15 @@ public class MailResponse {
         this.response = response;
     }
 
-    public void insertNewStatus(){
-
-    }
-
-    public void insertAnswer(String answer) throws ExecutionException, InterruptedException {
+    public void insertAnswer(String answer) throws ExecutionException, InterruptedException, IOException {
         Log.i("TU SMO", "TU SMO");
+        List<Response> responses = new AllRespondedMails().execute(String.valueOf(email.getEmailId())).get();
+        for(Response response : responses) {
+            if(response.getResponse().equals("1")){
+                Log.i(">>>>>>>>>>>>>DODAVANJE","Netko je preuzeo zadatak..ispisati ga!");
+                return;
+            }
+        }
         new InsertNewAnswer().execute(String.valueOf(email.getEmailId()), String.valueOf(user.getUserId()), answer).get();
     }
 

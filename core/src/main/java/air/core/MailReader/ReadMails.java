@@ -47,17 +47,21 @@ public class ReadMails {
         List<Object> objects = new ArrayList<Object>();
         List<Object> returnObjects = new ArrayList<Object>();
         objects = new ArrayList(new EmailListener().execute(user.getEmail(), user.getGmailPassword()).get());
+
         Log.i("LISTA", String.valueOf(objects.size()));
         if (objects != null || !objects.isEmpty()) {//ako je nesto doslo s listom
             for (Object object: objects) {
                 if(object instanceof Email){
                     this.mail = (Email) object;
+                    Log.i(">>>>>>>>>>>>>>>>LOG EMAILLLLLLL" , String.valueOf(mail.getEmailId()));
                 }
                 if(object instanceof  Event){
                     this.event = (Event) object;
+                    Log.i(">>>>>>>>>>>LOG EVENTTTTT", String.valueOf(event.getEventId()));
                 }
                 if(object instanceof App){
                     this.app = (App) object;
+                    Log.i(">>>>>>>>>>>>LOG APPPP", String.valueOf(app.getApplicationId()));
                 }
                 if(mail != null && event != null && app != null){
                     List<String> idData = new ServicesImpl().insertNewRecivedBug(event, mail, app, user.getUserId());

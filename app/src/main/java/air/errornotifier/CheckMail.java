@@ -90,36 +90,52 @@ public class CheckMail extends Thread {
         super.start();
     }
 
-    private void checkPriorityForApp() throws ExecutionException, InterruptedException {
+    private void checkPriorityForApp() throws ExecutionException, InterruptedException, IOException {
         int priority = 0;
+
         if (event.getApplicationId() != 0) {
             priority = new PriorityApp().execute(MainActivity.user.getUserId(), event.getApplicationId()).get();
             Log.i("Prioritet", String.valueOf(priority));
             if (priority != 0) {
                 if (priority == 1) {
                     response = new Response();
+                    //TU BI TREBALO DOCI POZIV
                     List<String> answer = activity.openDialogResponse(app.getName());
-                    Log.i("ODGOVOR DOBIVENI", answer.get(1) + " " + answer.get(0));
-                    if (answer.get(1) != "") {
+                    Log.i("ODGOVOR DOBIVENI", answer.get(0));
+                    if (answer.get(0) != "") {
                         response.setEmailId(mail.getEmailId());
-                        response.setResponse(answer.get(1));
+                        response.setResponse(answer.get(0));
                         response.setUserId(MainActivity.user.getUserId());
                     }
+
                     mail.setStatus(answer.get(0));
                     MailResponse mailResponse = new MailResponse(mail, MainActivity.user, response);
 
                     if (response.getResponse() != "") {
                         mailResponse.insertAnswer(response.getResponse());
                     }
-                    if (mail.getStatus() == Constants.STATUS_IN_PROGRESS || mail.getStatus() == Constants.STATUS_LATER) {
-                        mailResponse.insertNewStatus();
-                    }
-                    //response.insertAnswer("TU IDE ODGOVOR");
-                } else if (priority == 2) {
 
+                } else if (priority == 2) {
+                    response = new Response();
+                    //TU BI TREBALO DOCI KAO PORUKA
+
+                    List<String> answer = activity.openDialogResponse(app.getName());
+                    if (answer.get(1) != "") {
+                        response.setEmailId(mail.getEmailId());
+                        response.setResponse(answer.get(1));
+                        response.setUserId(MainActivity.user.getUserId());
+                    }
+
+                    mail.setStatus(answer.get(0));
+                    MailResponse mailResponse = new MailResponse(mail, MainActivity.user, response);
+
+                    if (response.getResponse() != "") {
+                        mailResponse.insertAnswer(response.getResponse());
+                    }
 
                 } else {
-                    //radi ono zadnje xD
+                    //TU TREBA DOCI NOTIFIKACIJA NA SCREENU
+                    
                 }
             }
         }

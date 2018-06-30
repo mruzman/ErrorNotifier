@@ -511,9 +511,9 @@ public class ServicesImpl implements Services {
     @Override
     public void insertRespond(Response response) throws IOException {
         ByteArrayOutputStream out;
-        String query = "INSERT INTO response(email_id,user_id,response) ";
+        String query = "INSERT INTO response(email_id,user_id,response,date_respond) ";
         query += "VALUES ('" + response.getEmailId() + "','" + response.getUserId() +
-                "','" + response.getResponse() + "');";
+                "','" + response.getResponse() + "',"+new java.sql.Date()");";
         String createURL = Constants.URL + "?q=" + query;
         URL url = new URL(createURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
