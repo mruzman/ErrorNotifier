@@ -22,7 +22,7 @@ public class AddNewUser {
     }
 
     public int insertNewUser() throws ExecutionException, InterruptedException {
-        if(user.getFirstName().length() == 0 || user.getEmail().length() == 0 || user.getLastName().length() == 0 || user.getPassword().length() == 0 || user.getUsername().length() == 0){
+        if(user.getFirstName().length() == 0 || user.getEmail().length() == 0 || user.getLastName().length() == 0 || user.getPassword().length() == 0 || user.getUsername().length() == 0 || user.getGmailPassword().length() == 0){
             return -2;
         }
         int checkIfUserExists = checkIfUserExists();
@@ -32,7 +32,7 @@ public class AddNewUser {
             return -1;
         } else {
             if (new InsertNewUser().execute(user.getFirstName(), user.getLastName(), user.getUsername(),
-                    user.getEmail(), user.getPassword()).get() == 1) {
+                    user.getEmail(), user.getPassword(), user.getGmailPassword()).get() == 1) {
                 return 1;
             } else {//doslo je do greske
                 return -1;
