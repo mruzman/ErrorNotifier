@@ -18,14 +18,12 @@ import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.internet.MimeMultipart;
 
 import air.database.Bean.App;
 import air.database.Bean.Email;
-import air.database.Bean.Event;
 import air.database.helper.Constants;
 
 /**
@@ -35,7 +33,6 @@ import air.database.helper.Constants;
 public class EmailListener extends AsyncTask<String, Void, List<Object>> {
     private static String T = "MEJLOVI";
     Email email;
-    Event event;
     App app;
 
     @Override
@@ -73,16 +70,13 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
                         Log.i("Email subject", individualMsg.getSubject());
                         app = new App();
                         email = new Email();
-                        event = new Event();
                         getStrings(individualMsg);
                         String bp = getTextFromMessage(individualMsg);
                         //Timestamp timestamp = Timestamp.valueOf(getDate(getTextFromMessage(individualMsg)));
                         email.setTimeEventOccured(Timestamp.valueOf(getDate(bp)));
                         email.setDescription(getDescription(bp));
-                        event.setDescription(getDescription(bp));
                         //TU DODAMO KJ ZAPISUJEM
                         list.add(email);
-                        list.add(event);
                         list.add(app);
                         individualMsg.setFlag(Flags.Flag.SEEN, true);
                     }
@@ -91,7 +85,6 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
                     break;
                 }
             }
-
             inbox.close(true);
             store.close();
         } catch (Exception e) {
@@ -103,11 +96,11 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
     private void getStrings(Message message) throws MessagingException {
         String[] triggerName = message.getSubject().split("on");
         app.setName(triggerName[1].split(":")[1].trim());
-        if(triggerName[0].contains("Re")){
-            event.setName(triggerName[0].split(":")[2].trim());
-        }else {
-            event.setName(triggerName[0].split(":")[1].trim());
-        }
+//        if(triggerName[0].contains("Re")){
+//            event.setName(triggerName[0].split(":")[2].trim());
+//        }else {
+//            event.setName(triggerName[0].split(":")[1].trim());
+//        }
     }
 
     private java.sql.Timestamp formatDate(String s) {

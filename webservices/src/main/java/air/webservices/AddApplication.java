@@ -19,7 +19,7 @@ public class AddApplication extends AsyncTask<String, String, String> {
         try {
             String name = strings[0];
             ServicesImpl services = new ServicesImpl();
-            Integer result = new Integer(services.getIfExistsApp(name));
+            Integer result = new Integer(services.getIfExistsApp(name).toString());
             /*if (result == 0) {
                 Log.i(TAG, "Dohvaceni podaci: " + result);
                 return "exists";

@@ -12,10 +12,7 @@ import air.core.MailReader.MailResponse;
 import air.core.MailReader.ReadMails;
 import air.database.Bean.App;
 import air.database.Bean.Email;
-import air.database.Bean.Event;
 import air.database.Bean.Response;
-import air.database.Bean.Users;
-import air.database.helper.Constants;
 import air.webservices.PriorityApp;
 
 /**
@@ -27,7 +24,6 @@ public class CheckMail extends Thread {
 
     private MainActivity activity;
     private Email mail;
-    private Event event;
     private App app;
     private Response response;
 
@@ -40,7 +36,6 @@ public class CheckMail extends Thread {
         while (MainActivity.user != null) {
             try {
                 mail = null;
-                event = null;
                 app = null;
                 ReadMails readMails = new ReadMails(MainActivity.user);
                 List<Object> insertedEmails = readMails.checkIfNewEmailCame();
@@ -49,17 +44,12 @@ public class CheckMail extends Thread {
                         if (object instanceof Email) {
                             mail = (Email) object;
                         }
-                        if (object instanceof Event) {
-                            event = (Event) object;
-                            Log.i("U MAINU--", String.valueOf(event.getApplicationId()));
-                        }
                         if (object instanceof App) {
                             app = (App) object;
                         }
-                        if (mail != null && event != null && app != null) {
+                        if (mail != null && app != null) {
                             checkPriorityForApp();
                             mail = null;
-                            event = null;
                             app = null;
                         }
                     }
@@ -93,8 +83,8 @@ public class CheckMail extends Thread {
     private void checkPriorityForApp() throws ExecutionException, InterruptedException, IOException {
         int priority = 0;
 
-        if (event.getApplicationId() != 0) {
-            priority = new PriorityApp().execute(MainActivity.user.getUserId(), event.getApplicationId()).get();
+        if (mail.getAppId() != 0) {
+            priority = new PriorityApp().execute(MainActivity.user.getUserId(), mail.getAppId()).get();
             Log.i("Prioritet", String.valueOf(priority));
             if (priority != 0) {
                 if (priority == 1) {
@@ -108,7 +98,7 @@ public class CheckMail extends Thread {
                         response.setUserId(MainActivity.user.getUserId());
                     }
 
-                    mail.setStatus(answer.get(0));
+                    mail.setStatus(0);
                     MailResponse mailResponse = new MailResponse(mail, MainActivity.user, response);
 
                     if (response.getResponse() != "") {
@@ -126,7 +116,7 @@ public class CheckMail extends Thread {
                         response.setUserId(MainActivity.user.getUserId());
                     }
 
-                    mail.setStatus(answer.get(0));
+                    mail.setStatus(0);
                     MailResponse mailResponse = new MailResponse(mail, MainActivity.user, response);
 
                     if (response.getResponse() != "") {

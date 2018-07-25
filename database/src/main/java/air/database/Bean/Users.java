@@ -104,10 +104,6 @@ public class Users implements Serializable{
         this.gmailPassword = gmailPassword;
     }
 
-    public void insertUser(Users user){
-
-    }
-
     public static List<Users> getAll() throws IOException, JSONException {
         List<Users> usersList = new ArrayList<Users>();
         String result = new String(new ServicesImpl().getUsers());

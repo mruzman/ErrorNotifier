@@ -8,10 +8,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import air.database.Bean.Email;
-import air.database.Bean.Event;
 import air.database.Bean.Response;
 import air.database.Bean.Users;
-import air.database.ServicesImpl;
 import air.webservices.AllRespondedMails;
 import air.webservices.InsertNewAnswer;
 

@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
             return;
         }
+
         LogInCall logInCall = new LogInCall(UsernameEt.getText().toString(), PasswrodEt.getText().toString());
         if (logInCall.getUser().getFirstName() !=null) {
 

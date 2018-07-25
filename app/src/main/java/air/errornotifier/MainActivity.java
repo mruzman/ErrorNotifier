@@ -3,46 +3,24 @@ package air.errornotifier;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
-import air.core.MailReader.MailResponse;
-import air.database.Bean.App;
-import air.database.Bean.Email;
-import air.database.Bean.Event;
-import air.database.Bean.Priority;
-import air.database.Bean.Response;
 import air.database.Bean.Users;
-import air.core.MailReader.ReadMails;
 import air.database.helper.Constants;
-import air.webservices.GetListOfUsers;
-import air.webservices.PriorityApp;
 
 
 public class MainActivity extends AppCompatActivity implements ResponseDialog.ResponseDialogListener {

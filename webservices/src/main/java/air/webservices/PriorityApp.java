@@ -24,7 +24,7 @@ public class PriorityApp extends AsyncTask<Integer, Void, Integer>{
         int priority =0;
         JSONObject object= null;
         try {
-            object = new JSONObject(new ServicesImpl().getUserPriority(userID,appID));
+            object = new JSONObject(new ServicesImpl().getUserPriority(userID,appID).toString());
             JSONArray jsonArray = object.getJSONArray("records");
             object = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
             if(object.length()!=0) priority = object.getInt("priority");

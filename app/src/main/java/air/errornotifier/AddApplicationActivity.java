@@ -69,7 +69,7 @@ public class AddApplicationActivity extends AppCompatActivity{
 
     private void addApplication() throws ExecutionException, InterruptedException  {
 
-        App app = new App(1, mName.getText().toString());
+        App app = new App(1, mName.getText().toString(), 1);
         int done = new AddNewApplication(app).insertApp();
 
         if(done == 1){

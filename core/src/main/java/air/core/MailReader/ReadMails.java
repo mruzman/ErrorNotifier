@@ -13,7 +13,6 @@ import java.util.concurrent.ExecutionException;
 
 import air.database.Bean.App;
 import air.database.Bean.Email;
-import air.database.Bean.Event;
 import air.database.Bean.Priority;
 import air.database.Bean.Users;
 import air.database.ServicesImpl;
@@ -26,7 +25,6 @@ import air.webservices.EmailListener;
 public class ReadMails {
     private Users user;
     private Email mail;
-    private Event event;
     private Priority priority;
     private App app;
 
@@ -34,7 +32,6 @@ public class ReadMails {
 
     public ReadMails(Users user) {
         this.user = user;
-        event = null;
         mail = null;
         app = null;
     }
@@ -55,28 +52,19 @@ public class ReadMails {
                     this.mail = (Email) object;
                     Log.i(">>>>>>>>>>>>>>>>LOG EMAILLLLLLL" , String.valueOf(mail.getEmailId()));
                 }
-                if(object instanceof  Event){
-                    this.event = (Event) object;
-                    Log.i(">>>>>>>>>>>LOG EVENTTTTT", String.valueOf(event.getEventId()));
-                }
                 if(object instanceof App){
                     this.app = (App) object;
                     Log.i(">>>>>>>>>>>>LOG APPPP", String.valueOf(app.getApplicationId()));
                 }
-                if(mail != null && event != null && app != null){
-                    List<String> idData = new ServicesImpl().insertNewRecivedBug(event, mail, app, user.getUserId());
+                if(mail != null  && app != null){
+                    List<String> idData = new ServicesImpl().insertNewRecivedBug(mail, app, user.getUserId());
                     if(idData != null || !idData.isEmpty()){
                         app.setApplicationId(Integer.valueOf(idData.get(0)));
-                        event.setEventId(Integer.valueOf(idData.get(1)));
                         mail.setEmailId(Integer.valueOf(idData.get(2)));
-                        event.setApplicationId(app.getApplicationId());
-                        Log.i(TAG, String.valueOf(event.getApplicationId()));
                         returnObjects.add(app);
-                        returnObjects.add(event);
                         returnObjects.add(mail);
                     }
                     app = null;
-                    event = null;
                     mail = null;
                 }
             }

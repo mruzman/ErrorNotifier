@@ -24,7 +24,7 @@ public class AllRespondedMails extends AsyncTask<String,Void,List<Response>>{
         List<Response> responses = new ArrayList<Response>();
         try {
             String emailID = strings[0];
-            JSONObject o = new JSONObject(new ServicesImpl().getAllResponsesForProblem(emailID));
+            JSONObject o = new JSONObject(new ServicesImpl().getAllResponsesForProblem(emailID).toString());
             JSONArray jsonArray = o.getJSONArray("responses");
             for(int i=0;i<jsonArray.length();i++){
                 o = jsonArray.getJSONObject(i);

@@ -7,23 +7,25 @@ import java.io.Serializable;
  */
 
 public class App implements Serializable{
-    private int applicationId;
+    private int appID;
     private String name;
+    private int status;
 
-    public App(int applicationId, String name) {
-        this.applicationId = applicationId;
+    public App(int applicationId, String name, int status) {
+        this.appID = applicationId;
         this.name = name;
+        this.status = status; //status je 0 - neaktivna ili 1 - aktivna
     }
 
     public App() {
     }
 
     public int getApplicationId() {
-        return applicationId;
+        return appID;
     }
 
     public void setApplicationId(int applicationId) {
-        this.applicationId = applicationId;
+        this.appID = applicationId;
     }
 
     public String getName() {
@@ -32,5 +34,13 @@ public class App implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

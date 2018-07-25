@@ -9,19 +9,32 @@ import java.security.Timestamp;
 
 public class Email implements Serializable {
     private int emailId;
+    private String header;
     private String description;
     private java.sql.Timestamp timeEventOccured;
-    private String status;
-    private int userId;
-    private int eventId;
+    private int status;
+    private int appId;
+    private int closed;
+    private java.sql.Timestamp timeEventClosed;
 
-    public Email(int emailId, String description, java.sql.Timestamp timeEventOccured, String status, int userId, int eventId) {
+    public Email(int emailId, String header, String description, java.sql.Timestamp timeEventOccured, int status, int appId) {
         this.emailId = emailId;
         this.description = description;
         this.timeEventOccured = timeEventOccured;
         this.status = status;
-        this.userId = userId;
-        this.eventId = eventId;
+        this.appId = appId;
+        this.header = header;
+    }
+
+    public Email(int emailId, String header, String description, java.sql.Timestamp timeEventOccured, int status, int appId, int closed, java.sql.Timestamp timeEventClosed) {
+        this.emailId = emailId;
+        this.header = header;
+        this.description = description;
+        this.timeEventOccured = timeEventOccured;
+        this.status = status;
+        this.appId = appId;
+        this.closed = closed;
+        this.timeEventClosed = timeEventClosed;
     }
 
     public Email() {
@@ -47,31 +60,39 @@ public class Email implements Serializable {
         return timeEventOccured;
     }
 
-    public String getStatus() {
+    public void setTimeEventOccured(java.sql.Timestamp timeEventOccured) {
+        this.timeEventOccured = timeEventOccured;
+    }
+
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getAppId() {
+        return appId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setAppId(int appId) {
+        this.appId = appId;
     }
 
-    public int getEventId() {
-        return eventId;
+    public int getClosed() {
+        return closed;
     }
 
-    public void setEventId(int eventId) {
-        this.eventId = eventId;
+    public void setClosed(int closed) {
+        this.closed = closed;
     }
 
-    public void setTimeEventOccured(java.sql.Timestamp timeEventOccured) {
-        this.timeEventOccured = timeEventOccured;
+    public java.sql.Timestamp getTimeEventClosed() {
+        return timeEventClosed;
+    }
+
+    public void setTimeEventClosed(java.sql.Timestamp timeEventClosed) {
+        this.timeEventClosed = timeEventClosed;
     }
 }

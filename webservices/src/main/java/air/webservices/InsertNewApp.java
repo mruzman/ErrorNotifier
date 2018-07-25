@@ -17,7 +17,7 @@ public class InsertNewApp  extends AsyncTask<String, String, Integer> {
     @Override
     public Integer doInBackground(String... strings) {
         try {
-            if (new ServicesImpl().insertNewApp(strings[0]) == 1)
+            if (new ServicesImpl().insertNewApp(strings[0]).toString() == "1")
                 return 1;
         } catch (IOException e) {
             e.printStackTrace();

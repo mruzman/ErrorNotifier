@@ -44,7 +44,7 @@ public class GetListOfApps extends AsyncTask<String, String, List<App>> {
                 JSONObject o = null;
                 try {
                     o = jsonArray.getJSONObject(i);
-                    appsList.add(new App(o.getInt("application_id"), o.getString("name")));
+                    appsList.add(new App(o.getInt("application_id"), o.getString("name"), o.getInt("status")));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
