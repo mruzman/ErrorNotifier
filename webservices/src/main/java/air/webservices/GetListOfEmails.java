@@ -14,6 +14,7 @@ import java.util.List;
 import air.database.Bean.Email;
 import air.database.Bean.Users;
 import air.database.ServicesImpl;
+import air.database.helper.Constants;
 
 /**
  * Created by Harm on 19.1.2018..
@@ -44,8 +45,8 @@ public class GetListOfEmails extends AsyncTask<String, String, List<Email>> {
                 JSONObject o = null;
                 try {
                     o = jsonArray.getJSONObject(i);
-                    emailList.add(new Email(o.getInt("email_id"), o.getString("header"), o.getString("description"),
-                            java.sql.Timestamp.valueOf(o.getString("time_event_occured")), o.getInt("status"),  o.getInt("event_id")));
+                    emailList.add(new Email(o.getInt(Constants.EMAILID), o.getString(Constants.HEADER), o.getString(Constants.DESCRIPTION),
+                            java.sql.Timestamp.valueOf(o.getString(Constants.TIMEEVENTOCCURED)), o.getInt(Constants.STATUS),  o.getInt(Constants.APPLICATION), o.getInt(Constants.USERID)));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -33,4 +33,31 @@ public class Constants {
     public static final String STATUS_LATER = "Do that later";
     public static final String STATUS_IN_PROGRESS = "In progress";
     public static final String STATUS_FIXED = "Fixed";
+
+    //PODACI IZ BAZE -- EMAIL
+    public static final String EMAILID = "email_id";
+    public static final String HEADER = "header";
+    public static final String DESCRIPTION = "description";
+    public static final String TIMEEVENTOCCURED = "time_event_occured";
+    public static final String STATUS = "status";
+    public static final String APPLICATION = "application";
+    public static final String CLOSEDDESC = "closed_desc";
+    public static final String TIMECLOSED = "time_closed";
+    public static final String USERID = "user_id";
+    //USER --UserID imamo
+    public static final String FIRSTNAME="first_name";
+    public static final String LASTNAME="last_name";
+    public static final String EMAIL = "email";
+    public static final String PASSWORD = "password";
+    public static final String TYPE="type";
+    public static final String GMAILPASS="gmail_password";
+    //APPLICATION
+    public static final String APPID = "application_id";
+    public static final String NAME = "name";
+    public static final String ADMIN = "admin";
+    //USER_APPS --userID imamo, applicationID imamo
+    public static final String USERAPP = "user_application_id";
+    public static final String PRIORITY = "priority";
+
+
 }

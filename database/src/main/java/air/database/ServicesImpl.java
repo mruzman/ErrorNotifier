@@ -2,24 +2,19 @@ package air.database;
 
 import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import air.database.Bean.App;
 import air.database.Bean.Email;
-import air.database.Bean.Response;
 import air.database.helper.Constants;
 
 /**
@@ -62,7 +57,12 @@ public class ServicesImpl implements Services {
         query += "WHERE username='" + username + "' ";
         query += "AND password='" + password + "'";
         return queryManipulation(query);
+    }
 
+    @Override
+    public byte[] getAdminApps(Integer userId) throws IOException {
+        String query = "SELECT * FROM application where admin = '"+ userId +"'";
+        return queryManipulation(query);
     }
 
     @Override
@@ -178,7 +178,6 @@ public class ServicesImpl implements Services {
     }
 
     private String checkAndGetEmail(String s, Timestamp s1, String statusUnsolved, int eventID, int userID) throws IOException {
-        ByteArrayOutputStream out;
         String query = "SELECT email_id FROM email ";
         query += "WHERE description='" + s + "' AND time_event_occured = '" + s1 +
                 "' AND user_id ='" + userID + "' AND event_id ='" + eventID + "' LIMIT 1;";
@@ -187,9 +186,7 @@ public class ServicesImpl implements Services {
 
 
     public byte[] getUsers() throws IOException {
-        ByteArrayOutputStream out;
         String query = "SELECT * FROM user";
-        String createURL = Constants.URL + "?q=" + query;
         return queryManipulation(query);
     }
 
@@ -199,12 +196,13 @@ public class ServicesImpl implements Services {
     }
 
     public byte[] getEmails(String appID) throws IOException {
-        String query = "select e.* from email as e inner join `event` as ev on e.event_id = ev.event_id WHERE ev.application_id = '"+appID+"' ";
+        String query = "select * from email WHERE ev.application_id = '"+appID+"' ";
          return queryManipulation(query);
     }
 
     public byte[] getAppUsers(int appID) throws IOException {
-        String query = "select u.*, case when ua.application_id is null then 0 else ua.application_id end as application_id from user as u left join user_application as ua on ua.user_id = u.user_id and ua.application_id = " + appID;
+        String query = "select u.*, case when ua.application_id is null then 0 else ua.application_id end as application_id " +
+                "from user as u left join user_application as ua on ua.user_id = u.user_id and ua.application_id = " + appID;
         return queryManipulation(query);
     }
 
@@ -221,14 +219,6 @@ public class ServicesImpl implements Services {
     }
 
     @Override
-    public byte[] insertRespond(Response response) throws IOException {
-        String query = "INSERT INTO response(email_id,user_id,response,date_respond) ";
-        query += "VALUES ('" + response.getEmailId() + "','" + response.getUserId() +
-                "','" + response.getResponse() + "',"+new Date()+");";
-        return queryManipulation(query);
-    }
-
-    @Override
     public byte[] getAllResponsesForProblem(String emailID) throws IOException {
         //TODO vratiti
         String query = "SELECT * FROM response";
@@ -236,15 +226,6 @@ public class ServicesImpl implements Services {
         return queryManipulation(query);
     }
 
-
-    //TODO preformulirati
-    private String insertEvent(String name, String desc, int appID) throws IOException {
-        ByteArrayOutputStream out;
-        String query = "INSERT INTO event(name,description,application_id) ";
-        query += "VALUES('" + name + "','" + desc + "','" + appID + "')";
-        queryManipulation(query);
-        return "";
-    }
 
     private byte[] findAppId(String s) throws IOException {
         String query = "SELECT application_id FROM application ";

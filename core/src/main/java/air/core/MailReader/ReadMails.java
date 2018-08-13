@@ -36,10 +36,6 @@ public class ReadMails {
         app = null;
     }
 
-    public void initializeEmail() {
-
-    }
-
     public List<Object> checkIfNewEmailCame() throws ExecutionException, InterruptedException, IOException, JSONException {
         List<Object> objects = new ArrayList<Object>();
         List<Object> returnObjects = new ArrayList<Object>();

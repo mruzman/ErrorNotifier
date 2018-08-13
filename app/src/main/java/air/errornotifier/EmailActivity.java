@@ -120,11 +120,6 @@ public class EmailActivity extends AppCompatActivity {
                 AlertDialog alert = builder.create();
                 alert.show();
                 return true;
-            case R.id.menu_settings:
-                Intent intent = new Intent(getApplicationContext(), ApplicationUsersActivity.class);
-                intent.putExtra("appid", getIntent().getExtras().getInt("appid"));
-                startActivity(intent);
-                return true;
             default:
                 return true;
         }

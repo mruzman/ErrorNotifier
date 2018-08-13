@@ -10,6 +10,7 @@ import android.text.method.TextKeyListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ import air.core.LogInCall;
 
 public class LoginActivity extends AppCompatActivity {
     private static String TAG = "MAIN ACTIVITY";
+    public static String USER = "User";
     EditText UsernameEt, PasswrodEt;
     String etString;
     public static int admin =1;
@@ -50,10 +52,8 @@ public class LoginActivity extends AppCompatActivity {
 
         LogInCall logInCall = new LogInCall(UsernameEt.getText().toString(), PasswrodEt.getText().toString());
         if (logInCall.getUser().getFirstName() !=null) {
-
-
             Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
-            mainActivity.putExtra("User",(Serializable) logInCall.getUser());
+            mainActivity.putExtra(USER,(Serializable) logInCall.getUser());
             startActivity(mainActivity);
         } else {
             Toast.makeText(LoginActivity.this, "Wrong username or password", Toast.LENGTH_LONG).show();

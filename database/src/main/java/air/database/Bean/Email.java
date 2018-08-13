@@ -13,28 +13,31 @@ public class Email implements Serializable {
     private String description;
     private java.sql.Timestamp timeEventOccured;
     private int status;
-    private int appId;
+    private int application;
     private int closed;
     private java.sql.Timestamp timeEventClosed;
+    private int userId;
 
-    public Email(int emailId, String header, String description, java.sql.Timestamp timeEventOccured, int status, int appId) {
+    public Email(int emailId, String header, String description, java.sql.Timestamp timeEventOccured, int status, int application, int userId) {
         this.emailId = emailId;
+        this.header = header;
         this.description = description;
         this.timeEventOccured = timeEventOccured;
         this.status = status;
-        this.appId = appId;
-        this.header = header;
+        this.application = application;
+        this.userId = userId;
     }
 
-    public Email(int emailId, String header, String description, java.sql.Timestamp timeEventOccured, int status, int appId, int closed, java.sql.Timestamp timeEventClosed) {
+    public Email(int emailId, String header, String description, java.sql.Timestamp timeEventOccured, int status, int application, int closed, java.sql.Timestamp timeEventClosed, int userId) {
         this.emailId = emailId;
         this.header = header;
         this.description = description;
         this.timeEventOccured = timeEventOccured;
         this.status = status;
-        this.appId = appId;
+        this.application = application;
         this.closed = closed;
         this.timeEventClosed = timeEventClosed;
+        this.userId = userId;
     }
 
     public Email() {
@@ -73,11 +76,11 @@ public class Email implements Serializable {
     }
 
     public int getAppId() {
-        return appId;
+        return application;
     }
 
     public void setAppId(int appId) {
-        this.appId = appId;
+        this.application = appId;
     }
 
     public int getClosed() {
@@ -90,6 +93,22 @@ public class Email implements Serializable {
 
     public java.sql.Timestamp getTimeEventClosed() {
         return timeEventClosed;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public void setTimeEventClosed(java.sql.Timestamp timeEventClosed) {

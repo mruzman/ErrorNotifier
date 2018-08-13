@@ -28,8 +28,6 @@
             android:name=".AddApplicationActivity"
             android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".EmailActivity"></activity>
-        <activity
-            android:name=".ApplicationUsersActivity"></activity>
     </application>
 
 </manifest>

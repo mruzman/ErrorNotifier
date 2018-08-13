@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 
 public class Priority implements Serializable{
+    private int userAppId;
     private int userId;
     private int applicationId;
     private int priority;
@@ -14,10 +15,19 @@ public class Priority implements Serializable{
     public Priority() {
     }
 
-    public Priority(int userId, int applicationId, int priority) {
+    public Priority(int userAppId, int userId, int applicationId, int priority) {
+        this.userAppId = userAppId;
         this.userId = userId;
         this.applicationId = applicationId;
         this.priority = priority;
+    }
+
+    public int getUserAppId() {
+        return userAppId;
+    }
+
+    public void setUserAppId(int userAppId) {
+        this.userAppId = userAppId;
     }
 
     public int getUserId() {

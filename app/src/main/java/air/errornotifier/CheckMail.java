@@ -8,11 +8,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import air.core.MailReader.MailResponse;
 import air.core.MailReader.ReadMails;
+import air.core.StaticMethodes;
 import air.database.Bean.App;
 import air.database.Bean.Email;
-import air.database.Bean.Response;
 import air.webservices.PriorityApp;
 
 /**
@@ -21,18 +20,28 @@ import air.webservices.PriorityApp;
 
 public class CheckMail extends Thread {
 
-
+    private List<App> appList;
     private MainActivity activity;
     private Email mail;
     private App app;
-    private Response response;
 
     public CheckMail(MainActivity activity){
         this.activity = activity;
     }
 
     @Override
-    public void run(){
+    public void run()  {
+        //TODO treba provjeriti kojoj aplikaciji je ovaj user administrator nakon toga će provjeravati mail za točno tu aplikaciju
+        try {
+            appList = StaticMethodes.getAdminApps(MainActivity.user.getUserId());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        if(appList.size() == 0){
+            return;
+        }
         while (MainActivity.user != null) {
             try {
                 mail = null;
@@ -58,13 +67,11 @@ public class CheckMail extends Thread {
                     Log.i("MAIN_ZA_LISTU", "Prazna je lista EMAILOVA");
                 }
                 Thread.sleep(60 * 1000);
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
@@ -87,48 +94,8 @@ public class CheckMail extends Thread {
             priority = new PriorityApp().execute(MainActivity.user.getUserId(), mail.getAppId()).get();
             Log.i("Prioritet", String.valueOf(priority));
             if (priority != 0) {
-                if (priority == 1) {
-                    response = new Response();
-                    //TU BI TREBALO DOCI POZIV
-                    List<String> answer = activity.openDialogResponse(app.getName());
-                    Log.i("ODGOVOR DOBIVENI", answer.get(0));
-                    if (answer.get(0) != "") {
-                        response.setEmailId(mail.getEmailId());
-                        response.setResponse(answer.get(0));
-                        response.setUserId(MainActivity.user.getUserId());
-                    }
 
-                    mail.setStatus(0);
-                    MailResponse mailResponse = new MailResponse(mail, MainActivity.user, response);
-
-                    if (response.getResponse() != "") {
-                        mailResponse.insertAnswer(response.getResponse());
-                    }
-
-                } else if (priority == 2) {
-                    response = new Response();
-                    //TU BI TREBALO DOCI KAO PORUKA
-
-                    List<String> answer = activity.openDialogResponse(app.getName());
-                    if (answer.get(1) != "") {
-                        response.setEmailId(mail.getEmailId());
-                        response.setResponse(answer.get(1));
-                        response.setUserId(MainActivity.user.getUserId());
-                    }
-
-                    mail.setStatus(0);
-                    MailResponse mailResponse = new MailResponse(mail, MainActivity.user, response);
-
-                    if (response.getResponse() != "") {
-                        mailResponse.insertAnswer(response.getResponse());
-                    }
-
-                } else {
-                    //TU TREBA DOCI NOTIFIKACIJA NA SCREENU
-
-                }
             }
         }
     }
-
 }

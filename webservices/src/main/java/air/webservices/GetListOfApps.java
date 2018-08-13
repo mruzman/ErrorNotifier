@@ -24,11 +24,9 @@ public class GetListOfApps extends AsyncTask<String, String, List<App>> {
 
     @Override
     protected List<App> doInBackground(String... strings) {
-        List<App> appsList = new ArrayList<App>();
-        byte[] result = new byte[0];
+        List<App> appsList = new ArrayList<>();
         JSONObject jsonObject= null;
         JSONArray jsonArray = null;
-        ServicesImpl services = new ServicesImpl();
         try {
             String res2 =  new String(new ServicesImpl().getApps());
             jsonObject= new JSONObject(res2);
@@ -44,7 +42,7 @@ public class GetListOfApps extends AsyncTask<String, String, List<App>> {
                 JSONObject o = null;
                 try {
                     o = jsonArray.getJSONObject(i);
-                    appsList.add(new App(o.getInt("application_id"), o.getString("name"), o.getInt("status")));
+                    appsList.add(new App(o.getInt("application_id"), o.getString("name"), o.getInt("admin")));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
