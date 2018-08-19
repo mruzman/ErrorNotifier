@@ -1,6 +1,7 @@
 package air.webservices;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -17,7 +18,7 @@ public class InsertNewApp  extends AsyncTask<String, String, Integer> {
     @Override
     public Integer doInBackground(String... strings) {
         try {
-            if (new ServicesImpl().insertNewApp(strings[0]).toString() == "1")
+            if (new ServicesImpl().insertNewApp(strings[0], strings[1]) == 1)
                 return 1;
         } catch (IOException e) {
             e.printStackTrace();

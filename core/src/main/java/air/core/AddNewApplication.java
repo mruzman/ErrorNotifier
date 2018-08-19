@@ -30,7 +30,7 @@ public class AddNewApplication {
         } else if (checkIfAppExists == -1) {
             return -1;
         } else {
-            if (new InsertNewApp().execute(app.getName()).get() == 1) {
+            if (new InsertNewApp().execute(app.getName(), String.valueOf(app.getUserID())).get() == 1) {
                 return 1;
             } else {
                 return -1;
@@ -50,10 +50,10 @@ public class AddNewApplication {
             e.printStackTrace();
             return -1;
         }
-        if (value != null) {
-            return 0;
+        if (value == "ok") {
+            return 1;
         }
-        return 1;
+        return 0;
     }
 
     private App getApp(){
