@@ -9,12 +9,12 @@ import java.io.Serializable;
 public class App implements Serializable{
     private int appID;
     private String name;
-    private int status;
+    private int userID;
 
-    public App(int applicationId, String name, int status) {
+    public App(int applicationId, String name, int userID) {
         this.appID = applicationId;
         this.name = name;
-        this.status = status; //status je 0 - neaktivna ili 1 - aktivna
+        this.userID = userID;
     }
 
     public App() {
@@ -36,11 +36,11 @@ public class App implements Serializable{
         this.name = name;
     }
 
-    public int getStatus() {
-        return status;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 }
