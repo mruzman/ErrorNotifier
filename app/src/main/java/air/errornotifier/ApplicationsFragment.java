@@ -83,6 +83,7 @@ public class ApplicationsFragment extends Fragment {
             public void onLongItemClick(View view, int position) {
 
             }
+
         }));
 
         // Inflate the layout for this fragment
@@ -114,5 +115,8 @@ public class ApplicationsFragment extends Fragment {
         }
 
         uAdapter.notifyDataSetChanged();
+
     }
+
+
 }
