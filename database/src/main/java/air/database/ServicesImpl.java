@@ -10,7 +10,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import air.database.Bean.App;
@@ -52,6 +51,32 @@ public class ServicesImpl implements Services {
     }
 
     @Override
+    public Integer insertQueryManipulation(String query) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        String createURL = Constants.URL + "?q="+query;
+        Log.i(TAG, query);
+        URL url = new URL(createURL);
+        Log.i(TAG, createURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        InputStream in = null;
+        try{
+            in = connection.getInputStream();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException(connection.getResponseMessage() +
+                        ": with " + createURL);
+            }
+            int byteRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((byteRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, byteRead);
+            }
+            out.close();
+        } finally {
+            connection.disconnect();
+        }
+        return Integer.valueOf(out.toString());
+    }
+    @Override
     public byte[] getLogin(String username, String password) throws IOException, JSONException {
         String query = "SELECT * FROM user ";
         query += "WHERE username='" + username + "' ";
@@ -61,7 +86,7 @@ public class ServicesImpl implements Services {
 
     @Override
     public byte[] getAdminApps(Integer userId) throws IOException {
-        String query = "SELECT * FROM application where admin = '"+ userId +"'";
+        String query = "SELECT * FROM application where user_id = '"+ userId +"'";
         return queryManipulation(query);
     }
 
@@ -104,11 +129,11 @@ public class ServicesImpl implements Services {
 
 
     @Override
-    public byte[] insertNewApp(String app) throws IOException {
+    public Integer insertNewApp(String app, String userID) throws IOException {
         ByteArrayOutputStream out;
-        String query = "INSERT INTO application(name) ";
-        query += "VALUES('" + app + "')";
-        return queryManipulation(query);
+        String query = "INSERT INTO application(name, user_id) ";
+        query += "VALUES('" + app + "', '" + userID + "')";
+        return insertQueryManipulation(query);
     }
 
 

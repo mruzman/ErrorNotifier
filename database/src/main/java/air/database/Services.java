@@ -16,6 +16,8 @@ public interface Services {
 
     byte[] queryManipulation(String query) throws IOException;
 
+    Integer insertQueryManipulation(String query) throws IOException;
+
     byte[] getLogin(String username, String password) throws IOException, JSONException;
 
     byte[] getAdminApps(Integer userId) throws  IOException;
@@ -26,7 +28,7 @@ public interface Services {
 
     byte[] getIfExistsApp(String appName) throws IOException;
 
-    byte[] insertNewApp(String app) throws IOException;
+    Integer insertNewApp(String app, String userID) throws IOException;
 
     List<String> insertNewRecivedBug(Email email, App app, int userID) throws IOException, JSONException;
 
