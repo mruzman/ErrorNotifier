@@ -24,7 +24,7 @@ public interface Services {
 
     byte[] getIfExistsUser(String username, String email) throws IOException;
 
-    byte[] insertNewUser(String...strings) throws IOException;
+    Integer insertNewUser(String...strings) throws IOException;
 
     byte[] getIfExistsApp(String appName) throws IOException;
 

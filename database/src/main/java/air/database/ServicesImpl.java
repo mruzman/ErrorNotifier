@@ -99,7 +99,7 @@ public class ServicesImpl implements Services {
     }
 
     @Override
-    public byte[] insertNewUser(String... strings) throws IOException {
+    public Integer insertNewUser(String... strings) throws IOException {
         String firstName = strings[0];
         String lastName = strings[1];
         String username = strings[2];
@@ -111,7 +111,7 @@ public class ServicesImpl implements Services {
         query += firstName + "','" + lastName + "','";
         query += username + "','" + email + "','";
         query += password + "','USER'" + ", '" + gmailPassword + "')";
-        return queryManipulation(query);
+        return insertQueryManipulation(query);
     }
 
     @Override
@@ -137,17 +137,17 @@ public class ServicesImpl implements Services {
     }
 
 
-    public byte[] insertNewAppUser(String appID, String userID) throws IOException {
+    public Integer insertNewAppUser(String appID, String userID) throws IOException {
         ByteArrayOutputStream out;
         String query = "INSERT INTO user_application(application_id, user_id) ";
         query += "VALUES('" + appID + "', '"+ userID +"')";
-        return queryManipulation(query);
+        return insertQueryManipulation(query);
     }
 
-    public byte[] deleteAppUser(String appID, String userID) throws IOException {
+    public Integer deleteAppUser(String appID, String userID) throws IOException {
         ByteArrayOutputStream out;
         String query = "DELETE FROM user_application WHERE application_id = '"+appID+"'AND user_id = '"+userID+"' ";
-        return queryManipulation(query);
+        return insertQueryManipulation(query);
     }
 
     private int emailID;
