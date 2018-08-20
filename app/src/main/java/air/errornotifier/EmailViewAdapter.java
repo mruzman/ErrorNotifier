@@ -46,7 +46,11 @@ public class EmailViewAdapter extends RecyclerView.Adapter<EmailViewAdapter.Emai
         Email email = emailList.get(position);
         holder.desc.setText(email.getDescription());
         holder.status.setText(email.getStatus());
-        holder.time.setText(String.valueOf(email.getTimeEventOccured()));
+        if(email.getStatus().toString() == "Solved"){
+            holder.time.setText(String.valueOf(email.getTimeEventClosed()));
+        }else{
+            holder.time.setText(String.valueOf(email.getTimeEventOccured()));
+        }
         holder.user.setText(String.valueOf(email.getUserFirstname() + " " + email.getUserLastname()));
     }
 
