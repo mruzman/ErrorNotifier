@@ -221,7 +221,7 @@ public class ServicesImpl implements Services {
     }
 
     public byte[] getEmails(String appID) throws IOException {
-        String query = "select * from email WHERE application = '"+appID+"' ";
+        String query = "SELECT e.*, u.first_name, u.last_name FROM email AS e LEFT JOIN user AS u ON u.user_id = e.user_id WHERE e.application = '"+appID+"' ";
          return queryManipulation(query);
     }
 

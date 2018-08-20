@@ -17,6 +17,8 @@ public class Email implements Serializable {
     private int closed;
     private java.sql.Timestamp timeEventClosed;
     private int userId;
+    private String userFirstname;
+    private String userLastname;
 
     public Email(int emailId, String header, String description, java.sql.Timestamp timeEventOccured, String status, int application, int userId) {
         this.emailId = emailId;
@@ -38,6 +40,17 @@ public class Email implements Serializable {
         this.closed = closed;
         this.timeEventClosed = timeEventClosed;
         this.userId = userId;
+    }
+
+    public Email(int emailId, String header, String description, java.sql.Timestamp timeEventOccured, String status, int application, String userFirstname, String userLastname) {
+        this.emailId = emailId;
+        this.header = header;
+        this.description = description;
+        this.timeEventOccured = timeEventOccured;
+        this.status = status;
+        this.application = application;
+        this.userFirstname = userFirstname;
+        this.userLastname = userLastname;
     }
 
     public Email() {
@@ -113,5 +126,21 @@ public class Email implements Serializable {
 
     public void setTimeEventClosed(java.sql.Timestamp timeEventClosed) {
         this.timeEventClosed = timeEventClosed;
+    }
+
+    public void setUserFirstname(String userFirstname){
+        this.userFirstname = userFirstname;
+    }
+
+    public String getUserFirstname(){
+        return this.userFirstname;
+    }
+
+    public void setUserLastname(String userLastname){
+        this.userLastname = userLastname;
+    }
+
+    public String getUserLastname(){
+        return this.userLastname;
     }
 }

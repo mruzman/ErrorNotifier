@@ -24,7 +24,9 @@
         android:id="@+id/status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/description" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp" />
 
     <TextView
         android:id="@+id/time"
@@ -33,4 +35,12 @@
         android:layout_alignParentRight="true"
         android:textColor="@color/year" />
 
+    <TextView
+        android:id="@+id/userText"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/description"
+        android:layout_alignTop="@+id/status"
+        android:textColor="@color/year" />
 </RelativeLayout>
