@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutionException;
 import air.database.Bean.App;
 import air.database.Bean.Users;
 import air.database.helper.Constants;
+import air.webservices.GetListOfAdminApps;
 import air.webservices.GetListOfApps;
 import air.webservices.GetListOfUserApps;
 import air.webservices.GetListOfUsers;
@@ -109,7 +110,7 @@ public class ApplicationsFragment extends Fragment {
 
     private void getApps() throws IOException, JSONException, ExecutionException, InterruptedException {
         if(user.getType().equals(Constants.TYPE_ADMIN)){
-            appsList = (List<App>) new GetListOfApps().execute().get();
+            appsList = (List<App>) new GetListOfAdminApps().execute(user.getUserId()).get();
         }else{
             appsList = (List<App>) new GetListOfUserApps().execute(String.valueOf(user.getUserId())).get();
         }

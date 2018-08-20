@@ -16,19 +16,22 @@ import air.database.Bean.Users;
 import air.database.ServicesImpl;
 
 /**
- * Created by Mateo on 19.1.2018..
+ * Created by Mateo on 10.8.2018..
  */
 
-public class GetListOfApps extends AsyncTask<String, String, List<App>> {
+public class GetListOfAdminApps extends AsyncTask<Integer, Void, List<App>> {
 
-
+    private Users user;
     @Override
-    protected List<App> doInBackground(String... strings) {
-        List<App> appsList = new ArrayList<>();
+    protected List<App> doInBackground(Integer... integers) {
+
+        List<App> appsList = new ArrayList<App>();
+        byte[] result = new byte[0];
         JSONObject jsonObject= null;
         JSONArray jsonArray = null;
+        ServicesImpl services = new ServicesImpl();
         try {
-            String res2 =  new String(new ServicesImpl().getApps(strings[0]));
+            String res2 =  new String(new ServicesImpl().getAdminApps(integers[0]));
             jsonObject= new JSONObject(res2);
             jsonArray = jsonObject.getJSONArray("records");
 

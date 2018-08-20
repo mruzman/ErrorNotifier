@@ -215,8 +215,8 @@ public class ServicesImpl implements Services {
         return queryManipulation(query);
     }
 
-    public byte[] getApps() throws IOException {
-        String query = "SELECT * FROM application";
+    public byte[] getApps(String userID) throws IOException {
+        String query = "SELECT * FROM application WHERE user_id = '" + userID + "'";
         return queryManipulation(query);
     }
 
