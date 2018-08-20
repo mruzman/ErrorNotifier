@@ -51,7 +51,6 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
         }
         try {
             Session session = Session.getDefaultInstance(properties, null);
-
             Store store = session.getStore("imaps");
             store.connect("imap.gmail.com", username, passwrod);
             Folder inbox = store.getFolder("inbox");
@@ -76,6 +75,7 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
                         //Timestamp timestamp = Timestamp.valueOf(getDate(getTextFromMessage(individualMsg)));
                         email.setTimeEventOccured(Timestamp.valueOf(getDate(bp)));
                         email.setDescription(getDescription(bp));
+                        email.setStatus(Constants.STATUS_UNSOLVED);
                         //TU DODAMO KJ ZAPISUJEM
                         list.add(email);
                         list.add(app);
@@ -96,11 +96,12 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
 
     private void getStrings(Message message) throws MessagingException {
         String[] triggerName = message.getSubject().split("on");
+        email.setHeader(message.getSubject());
         app.setName(triggerName[1].split(":")[1].trim());
-//        if(triggerName[0].contains("Re")){
-//            event.setName(triggerName[0].split(":")[2].trim());
+//        if(triggerName[0].startsWith("Re")){
+//            email.setHeader(triggerName[0].split(":")[2].trim());
 //        }else {
-//            event.setName(triggerName[0].split(":")[1].trim());
+//            email.set(triggerName[0].split(":")[1].trim());
 //        }
     }
 

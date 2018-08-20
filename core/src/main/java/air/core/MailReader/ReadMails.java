@@ -46,20 +46,21 @@ public class ReadMails {
             for (Object object: objects) {
                 if(object instanceof Email){
                     this.mail = (Email) object;
-                    Log.i(">>>>>>>>>>>>>>>>LOG EMAILLLLLLL" , String.valueOf(mail.getEmailId()));
                 }
                 if(object instanceof App){
                     this.app = (App) object;
-                    Log.i(">>>>>>>>>>>>LOG APPPP", String.valueOf(app.getApplicationId()));
+
                 }
                 if(mail != null  && app != null){
                     List<String> idData = new ServicesImpl().insertNewRecivedBug(mail, app, user.getUserId());
                     if(idData != null || !idData.isEmpty()){
                         app.setApplicationId(Integer.valueOf(idData.get(0)));
-                        mail.setEmailId(Integer.valueOf(idData.get(2)));
+                        mail.setEmailId(Integer.valueOf(idData.get(1)));
                         returnObjects.add(app);
                         returnObjects.add(mail);
                     }
+                    Log.i(">>>>>>>>>>>>>>>>LOG EMAILLLLLLL" , String.valueOf(mail.getEmailId()));
+                    Log.i(">>>>>>>>>>>>LOG APPPP", String.valueOf(app.getApplicationId()));
                     app = null;
                     mail = null;
                 }

@@ -2,7 +2,9 @@ package air.database;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import air.database.Bean.App;
@@ -22,6 +25,9 @@ import air.database.helper.Constants;
 
 public class ServicesImpl implements Services {
     private static String TAG = "Services";
+
+    private int emailID;
+    private int appID;
 
     @Override
     public byte[] queryManipulation(String query) throws IOException {
@@ -150,63 +156,42 @@ public class ServicesImpl implements Services {
         return insertQueryManipulation(query);
     }
 
-    private int emailID;
-    private int appID;
-
-    //TODO popraviti
     public List<String> insertNewRecivedBug(Email mail, App app, int userID) throws IOException, JSONException {
-//        List<String> newValuesToReturn = new ArrayList<String>();
-//        emailID = 0;
-//        String stringAppID = findAppId(app.getName());
-//        JSONObject jsonObject = new JSONObject(stringAppID);
-//        JSONArray jsonArray = jsonObject.getJSONArray("records");
-//        if (stringAppID.length() > 0 || !stringAppID.isEmpty()) {
-//            JSONObject object = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
-//            appID = object.getInt("application_id");
-//            String eventIDString = checkIfEventExists(event.getName(), event.getDescription(), appID);
-//            jsonObject = new JSONObject(eventIDString);
-//            jsonArray = jsonObject.getJSONArray("records");
-//            JSONObject object1;
-//            if (jsonArray.length() == 0) {
-//                eventIDString = insertEvent(event.getName(), event.getDescription(), appID);
-//                object1 = new JSONObject(eventIDString);
-//                jsonArray = object1.getJSONArray("records");
-//            }
-//            object1 = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
-//            eventID = object1.getInt("event_id");
-//            String emailIDString = checkAndGetEmail(mail.getDescription(), mail.getTimeEventOccured(), Constants.STATUS_UNSOLVED, eventID, userID);
-//            jsonObject = new JSONObject(emailIDString);
-//            jsonArray = jsonObject.getJSONArray("records");
-//            if (jsonArray.length() == 0) {
-//                emailIDString = insertNewMail(mail.getDescription(), mail.getTimeEventOccured(), Constants.STATUS_UNSOLVED, eventID, userID);
-//                object1 = new JSONObject(emailIDString);
-//                jsonArray = object1.getJSONArray("records");
-//            }
-//            object1 = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
-//            emailID = object1.getInt("email_id");
-//            newValuesToReturn.add(String.valueOf(appID));
-//            newValuesToReturn.add(String.valueOf(eventID));
-//            newValuesToReturn.add(String.valueOf(emailID));
-//        } else {
-//            Log.i(TAG, "Ne postoji aplikacija");
-//        }
-//        return newValuesToReturn;
-        return null;
+
+        List<String> newValuesToReturn = new ArrayList<String>();
+        emailID = 0;
+        String stringAppID = new String(getIfExistsApp(app.getName()));
+        Log.i("APPID", stringAppID);
+        JSONObject jsonObject = new JSONObject(stringAppID);
+        JSONArray jsonArray = jsonObject.getJSONArray("records");
+        if (stringAppID.length() > 0 || !stringAppID.isEmpty()) {
+            JSONObject object = new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
+            appID = object.getInt("application_id");
+            String emailIDString = new String(insertNewMail(mail.getHeader(), mail.getDescription(), mail.getTimeEventOccured(), appID));
+            Log.i("EMAILID", emailIDString);
+            jsonObject = new JSONObject(emailIDString);
+            jsonArray = jsonObject.getJSONArray("records");
+            object= new JSONObject(String.valueOf(jsonArray.getJSONObject(0)));
+            emailID = object.getInt("email_id");
+            newValuesToReturn.add(String.valueOf(appID));
+            newValuesToReturn.add(String.valueOf(emailID));
+        } else {
+            Log.i(TAG, "Ne postoji aplikacija");
+        }
+        return newValuesToReturn;
     }
 
-    private String  insertNewMail(String s, Timestamp s1, String statusUnsolved, int eventID, int userID) throws IOException {
-        ByteArrayOutputStream out;
-        String query = "INSERT INTO email(description, time_event_occured, status, user_id, event_id) ";
-        query += "VALUES('" + s + "','" + s1 + "','" + statusUnsolved + "','" + userID + "','" + eventID + "')";
-        queryManipulation(query);
-        return checkAndGetEmail(s, s1, statusUnsolved, eventID, userID);
+    private byte[]  insertNewMail(String header, String s, Timestamp s1, int appID) throws IOException {
+        String query = "INSERT INTO email(header, description, time_event_occured, status, application) ";
+        query += "VALUES('"+header+"','" + s + "','" + s1 + "','Unsolved','" + appID + "')";
+        insertQueryManipulation(query);
+        return checkAndGetEmail(s1);
     }
 
-    private String checkAndGetEmail(String s, Timestamp s1, String statusUnsolved, int eventID, int userID) throws IOException {
+    private byte[] checkAndGetEmail(Timestamp s1) throws IOException {
         String query = "SELECT email_id FROM email ";
-        query += "WHERE description='" + s + "' AND time_event_occured = '" + s1 +
-                "' AND user_id ='" + userID + "' AND event_id ='" + eventID + "' LIMIT 1;";
-        return queryManipulation(query).toString();
+        query += "WHERE time_event_occured = '" + s1 +"' LIMIT 1;";
+        return queryManipulation(query);
     }
 
 
@@ -222,7 +207,7 @@ public class ServicesImpl implements Services {
 
     public byte[] getEmails(String appID) throws IOException {
         String query = "select * from email WHERE application = '"+appID+"' ";
-         return queryManipulation(query);
+        return queryManipulation(query);
     }
 
     public byte[] getAppUsers(int appID) throws IOException {
@@ -248,13 +233,6 @@ public class ServicesImpl implements Services {
         //TODO vratiti
         String query = "SELECT * FROM response";
         query += "WHERE  email=" + emailID + " ORDER BY date_respond;";
-        return queryManipulation(query);
-    }
-
-
-    private byte[] findAppId(String s) throws IOException {
-        String query = "SELECT application_id FROM application ";
-        query += "WHERE name='" + s + "';";
         return queryManipulation(query);
     }
 }
