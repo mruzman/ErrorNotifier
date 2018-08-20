@@ -11,27 +11,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import air.database.Bean.Email;
+import air.database.Bean.AppUser;
 import air.database.Bean.Users;
 import air.database.ServicesImpl;
-import air.database.helper.Constants;
 
 /**
  * Created by Harm on 19.1.2018..
  */
 
-public class GetListOfEmails extends AsyncTask<String, String, List<Email>> {
+public class GetListOfAppUsers extends AsyncTask<String, String, List<AppUser>> {
 
 
     @Override
-    protected List<Email> doInBackground(String... strings) {
-        List<Email> emailList = new ArrayList<Email>();
+    protected List<AppUser> doInBackground(String... strings) {
+        List<AppUser> usersList = new ArrayList<AppUser>();
         byte[] result = new byte[0];
         JSONObject jsonObject= null;
         JSONArray jsonArray = null;
         ServicesImpl services = new ServicesImpl();
         try {
-            String res2 =  new String(new ServicesImpl().getEmails(strings[0]));
+            String res2 =  new String(new ServicesImpl().getAppUsers(Integer.parseInt(strings[0])));
             jsonObject= new JSONObject(res2);
             jsonArray = jsonObject.getJSONArray("records");
 
@@ -45,15 +44,15 @@ public class GetListOfEmails extends AsyncTask<String, String, List<Email>> {
                 JSONObject o = null;
                 try {
                     o = jsonArray.getJSONObject(i);
-                    emailList.add(new Email(o.getInt(Constants.EMAILID), o.getString(Constants.HEADER), o.getString(Constants.DESCRIPTION),
-                            java.sql.Timestamp.valueOf(o.getString(Constants.TIMEEVENTOCCURED)), o.getString(Constants.STATUS),  o.getInt(Constants.APPLICATION), o.getString("first_name"), o.getString("last_name")));
+                    usersList.add(new AppUser(o.getInt("user_id"), o.getString("first_name"), o.getString("last_name"), o.getInt("application_id")));
+                    Log.i("AppIDD: ", String.valueOf(o.getInt("applicationID")));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }
 
-        return emailList;
+        return usersList;
 
     }
 }

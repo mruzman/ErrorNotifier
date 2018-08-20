@@ -20,13 +20,14 @@ public class EmailViewAdapter extends RecyclerView.Adapter<EmailViewAdapter.Emai
 
     public class EmailViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView desc, status, time;
+        public TextView desc, status, time, user;
 
         public EmailViewHolder (View view){
             super(view);
             desc = (TextView) view.findViewById(R.id.description);
             status = (TextView) view.findViewById(R.id.status);
             time = (TextView) view.findViewById(R.id.time);
+            user = (TextView) view.findViewById(R.id.userText);
         }
     }
 
@@ -45,7 +46,12 @@ public class EmailViewAdapter extends RecyclerView.Adapter<EmailViewAdapter.Emai
         Email email = emailList.get(position);
         holder.desc.setText(email.getDescription());
         holder.status.setText(email.getStatus());
-        holder.time.setText(String.valueOf(email.getTimeEventOccured()));
+        if(email.getStatus().toString() == "Solved"){
+            holder.time.setText(String.valueOf(email.getTimeEventClosed()));
+        }else{
+            holder.time.setText(String.valueOf(email.getTimeEventOccured()));
+        }
+        holder.user.setText(String.valueOf(email.getUserFirstname() + " " + email.getUserLastname()));
     }
 
     @Override
