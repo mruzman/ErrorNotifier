@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         user = (Users) getIntent().getSerializableExtra("User");
-        checkMail();
         if (user.getType().equals(Constants.TYPE_ADMIN)) {
 
             //Dodavanje ActionBar-a
@@ -68,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
 
 
         } else {
+            checkMail();
             //Dodavanje ActionBar-a
             mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
             setSupportActionBar(mTolbar);

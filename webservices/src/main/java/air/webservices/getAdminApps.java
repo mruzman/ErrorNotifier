@@ -9,12 +9,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +28,11 @@ public class getAdminApps extends AsyncTask<Integer, Void, List<App>>{
 
     @Override
     protected List<App> doInBackground(Integer... integers) {
-        List<App> appList = new ArrayList<>();
-        //TODO CANNOT CAST PROVJERA
+        List<App> appsList = new ArrayList<>();
         JSONObject jsonObject= null;
         JSONArray jsonArray = null;
         try {
-            String res2 =  new String(new ServicesImpl().getApps());
+            String res2 =  new String(new ServicesImpl().getAdminApps(integers[0]));
             jsonObject= new JSONObject(res2);
             jsonArray = jsonObject.getJSONArray("records");
 
@@ -40,17 +41,18 @@ public class getAdminApps extends AsyncTask<Integer, Void, List<App>>{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-//        try {
-//            JsonParser parser = new JsonParser();
-//            String response = String.valueOf(new ServicesImpl().getAdminApps(integers[0]));
-//            JsonElement yourJson = parser.parse(response);
-//            Log.i(">>>RECORDOVI", yourJson.toString());
-//            Type listType = new TypeToken<List<App>>() {}.getType();
-//
-//            appList = new Gson().fromJson(yourJson, listType);
-//        }  catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        return appList;
+        if(jsonArray != null){
+            for(int i = 0;i<jsonArray.length(); i++){
+                JSONObject o = null;
+                try {
+                    o = jsonArray.getJSONObject(i);
+                    appsList.add(new App(o.getInt("application_id"), o.getString("name"), o.getInt("user_id")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return appsList;
     }
 }
