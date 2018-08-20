@@ -57,7 +57,6 @@ public class CheckMail extends Thread {
                             app = (App) object;
                         }
                         if (mail != null && app != null) {
-                            checkPriorityForApp();
                             mail = null;
                             app = null;
                         }
@@ -85,17 +84,5 @@ public class CheckMail extends Thread {
     @Override
     public void start(){
         super.start();
-    }
-
-    private void checkPriorityForApp() throws ExecutionException, InterruptedException, IOException {
-        int priority = 0;
-
-        if (mail.getAppId() != 0) {
-            priority = new PriorityApp().execute(MainActivity.user.getUserId(), mail.getAppId()).get();
-            Log.i("Prioritet", String.valueOf(priority));
-            if (priority != 0) {
-
-            }
-        }
     }
 }

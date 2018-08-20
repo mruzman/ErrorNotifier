@@ -230,6 +230,12 @@ public class ServicesImpl implements Services {
     }
 
     @Override
+    public byte[] getUserApps(Integer userId) throws IOException{
+        String query = "SELECT * FROM user_application WHERE user_id="+userId;
+        return queryManipulation(query);
+    }
+
+    @Override
     public byte[] getAllResponsesForProblem(String emailID) throws IOException {
         //TODO vratiti
         String query = "SELECT * FROM response";

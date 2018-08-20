@@ -34,5 +34,8 @@ public interface Services {
 
     byte[] getUserPriority(Integer userID,Integer appID) throws IOException;
 
+    byte[] getUserApps(Integer userId) throws IOException;
+
     byte[] getAllResponsesForProblem(String emailID) throws IOException;
+
 }
