@@ -53,7 +53,8 @@ public class Email implements Serializable {
         this.userLastname = userLastname;
     }
 
-    public Email() {
+    public Email(){
+
     }
 
     public int getEmailId() {

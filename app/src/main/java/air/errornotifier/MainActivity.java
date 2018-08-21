@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
     private FloatingActionButton fabUser, fabGroup;
     public static Users user;
     private CheckMail checkMail;
+    private ProvjeravajBazu checkDB;
 
 
     @Override
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         user = (Users) getIntent().getSerializableExtra("User");
+        checkMail();
+        checkDB();
         if (user.getType().equals(Constants.TYPE_ADMIN)) {
 
             //Dodavanje ActionBar-a
@@ -67,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
 
 
         } else {
-            checkMail();
+
             //Dodavanje ActionBar-a
             mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
             setSupportActionBar(mTolbar);
@@ -121,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
             }
         });
     }
+
+
 
 
     //Dialog koji se treba otvoriti korisniku prilikom pojave greške u nekoj app
@@ -205,5 +210,10 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
     private void checkMail() {
         checkMail = new CheckMail(this);
         checkMail.start();
+    }
+
+    private void checkDB() {
+        checkDB = new ProvjeravajBazu(this);
+        checkDB.start();
     }
 }

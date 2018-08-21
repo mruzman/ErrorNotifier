@@ -10,12 +10,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import air.database.Bean.App;
+import air.database.Bean.Priority;
 import air.database.ServicesImpl;
+import air.database.helper.Constants;
 
-public class GetUserApps extends AsyncTask<Integer, String, List<Integer>> {
+public class GetUserApps extends AsyncTask<Integer, String, List<Priority>> {
     @Override
-    protected List<Integer> doInBackground(Integer... integers) {
-        List<Integer> apps = new ArrayList<>();
+    protected List<Priority> doInBackground(Integer... integers) {
+        List<Priority> apps = new ArrayList<>();
         byte[] result = new byte[0];
         JSONObject jsonObject= null;
         JSONArray jsonArray = null;
@@ -35,7 +38,7 @@ public class GetUserApps extends AsyncTask<Integer, String, List<Integer>> {
                 JSONObject o = null;
                 try {
                     o = jsonArray.getJSONObject(i);
-                    apps.add(o.getInt("application_id"));
+                    apps.add(new Priority(o.getInt(Constants.USERAPP), o.getInt(Constants.USERID), o.getInt(Constants.APPID),o.getInt(Constants.PRIORITY)));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

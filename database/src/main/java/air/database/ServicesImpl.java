@@ -236,6 +236,12 @@ public class ServicesImpl implements Services {
     }
 
     @Override
+    public byte[] getUnhandledEmails(String whereClause) throws IOException {
+        String query = "SELECT * FROM email WHERE application "+whereClause+ "and user_id IS NULL";
+        return queryManipulation(query);
+    }
+
+    @Override
     public byte[] getAllResponsesForProblem(String emailID) throws IOException {
         //TODO vratiti
         String query = "SELECT * FROM response";

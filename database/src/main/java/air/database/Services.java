@@ -36,6 +36,8 @@ public interface Services {
 
     byte[] getUserApps(Integer userId) throws IOException;
 
+    byte[] getUnhandledEmails(String whereClause) throws IOException;
+
     byte[] getAllResponsesForProblem(String emailID) throws IOException;
 
 }

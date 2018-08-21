@@ -2,14 +2,13 @@ package air.errornotifier;
 
 import android.util.Log;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import air.core.StaticMethodes;
-import air.database.Bean.App;
 import air.database.Bean.Email;
+import air.database.Bean.Priority;
 
 public class ProvjeravajBazu extends Thread {
 
@@ -26,7 +25,7 @@ public class ProvjeravajBazu extends Thread {
 
     @Override
     public void run() {
-        List<Integer> listUserApps = new ArrayList<>();
+        List<Priority> listUserApps = new ArrayList<>();
         try {
             listUserApps = StaticMethodes.getUserApps(MainActivity.user.getUserId());
         } catch (ExecutionException e) {
@@ -36,8 +35,23 @@ public class ProvjeravajBazu extends Thread {
         }
         if (listUserApps.size() > 0) {
             while (MainActivity.user.getEmail() != null) {
-                //TODO PROVJERITI JELI DOŠAO NOVI MAIL!
-                List<Email> mailovi = checkNewMail(listUserApps);
+                //TODO Ako su dobiveni mailovi odhandlaj ih
+                List<Email> mailovi = null;
+                try {
+                    mailovi = StaticMethodes.getAllUnhandeledEmails(listUserApps);
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(mailovi.size() > 0){
+                    Log.i("MAILOVIIIIIII", String.valueOf(mailovi.size()));
+                }
+                try {
+                    Thread.sleep(30*1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -45,17 +59,5 @@ public class ProvjeravajBazu extends Thread {
     @Override
     public void interrupt() {
         super.interrupt();
-    }
-
-
-    private void checkPriorityForApp() throws ExecutionException, InterruptedException, IOException {
-        int priority = 0;
-    }
-
-//TODO DOVRŠITI
-    private List<Email> checkNewMail(List<Integer> aplikacije) {
-        List<Email> mail = new ArrayList<>();
-
-        return mail;
     }
 }
