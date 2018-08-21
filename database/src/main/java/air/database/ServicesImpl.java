@@ -211,7 +211,8 @@ public class ServicesImpl implements Services {
     }
 
     public byte[] getAppUsers(int appID) throws IOException {
-        String query = "SELECT u.*, CASE WHEN ua.application_id IS NULL THEN 0 ELSE ua.application_id END AS application_id " +
+        String query = "SELECT u.*, CASE WHEN ua.application_id IS NULL THEN 0 ELSE ua.application_id END AS application_id, " +
+                "CASE WHEN ua.priority IS NULL THEN 0 ELSE ua.priority END AS priority " +
                 "FROM user AS u LEFT JOIN user_application AS ua ON ua.user_id = u.user_id AND ua.application_id = '" + appID + "' WHERE " +
                 "u.type = 'USER'";
         return queryManipulation(query);

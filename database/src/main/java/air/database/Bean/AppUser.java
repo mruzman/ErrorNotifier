@@ -21,12 +21,14 @@ public class AppUser implements Serializable{
     private String firstName;
     private String lastName;
     private int applicationId;
+    private int priority;
 
-    public AppUser(int userId, String firstName, String lastName, int applicationId) {
+    public AppUser(int userId, String firstName, String lastName, int applicationId, int priority) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.applicationId = applicationId;
+        this.priority = priority;
     }
 
     public AppUser() {
@@ -46,6 +48,8 @@ public class AppUser implements Serializable{
 
     public int getApplicationId(){return applicationId;}
 
+    public int getPriority(){return priority;}
+
     public void setUserId(int userId) {
         this.userId = userId;
     }
@@ -60,5 +64,5 @@ public class AppUser implements Serializable{
 
     public void setApplicationId(int applicationId){this.applicationId = applicationId;}
 
-
+    public void setPriority(int priority){this.priority = priority;}
 }

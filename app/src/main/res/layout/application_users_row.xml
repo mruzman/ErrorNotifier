@@ -21,4 +21,10 @@
         android:textColor="@android:color/black"
         android:textColorHighlight="@color/colorPrimary"
         android:theme="@style/checkBoxStyle" />
+    <TextView
+        android:id="@+id/user_priority"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/year" />
 </RelativeLayout>
