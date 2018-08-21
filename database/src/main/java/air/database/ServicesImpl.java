@@ -248,5 +248,11 @@ public class ServicesImpl implements Services {
         query += "WHERE  email=" + emailID + " ORDER BY date_respond;";
         return queryManipulation(query);
     }
+
+    public Integer insertPriority(Integer priority, Integer userID, Integer appID) throws IOException {
+        ByteArrayOutputStream out;
+        String query = "UPDATE user_application SET priority = " + priority + " WHERE user_id = " + userID + " AND application_id = " + appID;
+        return insertQueryManipulation(query);
+    }
 }
 

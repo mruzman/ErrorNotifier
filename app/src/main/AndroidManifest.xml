@@ -30,6 +30,8 @@
         <activity android:name=".EmailActivity"></activity>
         <activity
             android:name=".ApplicationUsersActivity"></activity>
+        <activity
+            android:name=".SetPriorityActivity"></activity>
     </application>
 
 </manifest>

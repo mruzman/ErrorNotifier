@@ -10,6 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -36,12 +39,15 @@ import air.webservices.InsertNewAppUser;
 
 public class ApplicationUsersActivity extends AppCompatActivity{
 
+    private static final int CONTEXT_MENU_SET = 1;
     private Toolbar mTolbar;
     private List<AppUser> appsList = new ArrayList<>();
     private RecyclerView recyclerView;
     private AppUsersViewAdapter uAdapter;
     private AppUser appUser;
     private int appId;
+    private int userID;
+    private static String TAG = "Application user activity";
 
     @Override
     public void onCreate( Bundle savedInstanceState) {
@@ -90,10 +96,37 @@ public class ApplicationUsersActivity extends AppCompatActivity{
 
             @Override
             public void onLongItemClick(View view, int position) {
-
+                CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+                if(checkBox.isChecked()){
+                    registerForContextMenu(view);
+                    openContextMenu(view);
+                    userID = appsList.get(position).getUserId();
+                }
             }
+
+
         }));
 
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        menu.setHeaderTitle("Menu");
+        menu.add(Menu.NONE, CONTEXT_MENU_SET, Menu.NONE, "Set priority");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case CONTEXT_MENU_SET:
+                Intent intent = new Intent(getApplicationContext(), SetPriorityActivity.class);
+                intent.putExtra("user_id", userID);
+                intent.putExtra("app_id", appId);
+                startActivity(intent);
+                return true;
+        }
+
+        return true;
     }
 
     private void saveAppUser(AppUser appUser) throws ExecutionException, InterruptedException {
