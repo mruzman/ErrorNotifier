@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import air.core.StaticMethodes;
+import air.database.Bean.AppUser;
 import air.database.Bean.Email;
 import air.database.Bean.Priority;
 
@@ -35,7 +36,6 @@ public class ProvjeravajBazu extends Thread {
         }
         if (listUserApps.size() > 0) {
             while (MainActivity.user.getEmail() != null) {
-                //TODO Ako su dobiveni mailovi odhandlaj ih
                 List<Email> mailovi = null;
                 try {
                     mailovi = StaticMethodes.getAllUnhandeledEmails(listUserApps);
@@ -44,16 +44,67 @@ public class ProvjeravajBazu extends Thread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                //TODO PROVJERI PO PRIORITETIMA
+                int prioritet = 3;
                 if(mailovi.size() > 0){
-                    Log.i("MAILOVIIIIIII", String.valueOf(mailovi.size()));
+                    for(Email email : mailovi){
+                        for (Priority priority : listUserApps){
+                            if(priority.getApplicationId() == email.getAppId()){
+                                prioritet = priority.getPriority();
+                                break;
+                            }
+                        }
+                        switch (prioritet){
+                            case 1:
+                                break;
+                            case 2:
+                                priority2check(email);
+                                break;
+                            default:
+                                lastPriorityCheck(email);
+
+                        }
+                    }
                 }
                 try {
-                    Thread.sleep(30*1000);
+                    Thread.sleep(60*1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    private void priority2check(final Email email){
+        Thread thread = new Thread(){
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(60*1000);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+
+    }
+
+    private void lastPriorityCheck(Email email){
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(60*1000);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
     }
 
     @Override
