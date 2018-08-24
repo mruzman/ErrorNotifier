@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         btnAccept.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                
+
             }
         });
 
