@@ -26,6 +26,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import java.util.List;
 
 import air.database.Bean.Users;
+import air.database.Services;
 import air.database.helper.Constants;
 
 
@@ -41,7 +42,8 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
     private CheckMail checkMail;
     private ProvjeravajBazu checkDB;
     Dialog myDialog;
-
+    private TextView emailApp;
+    private TextView emailDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,25 +135,41 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         });
     }
 
-    public void ShowPopup(View view){
+    public void ShowPopup(View view, String titleText, String descriptionText){
         Button btnAccept;
         Button btnDecline;
+
+        TextView emailTitle;
+        TextView emailDescription;
+
         myDialog.setContentView(R.layout.popup);
 
         btnAccept = (Button) myDialog.findViewById(R.id.btnAccept);
         btnDecline = (Button) myDialog.findViewById(R.id.btnDecline);
 
-        btnAccept.setOnClickListener(new View.OnClickListener(){
+        emailTitle = (TextView) myDialog.findViewById(R.id.popupTitle);
+        emailTitle.setText(titleText);
+
+        emailDescription = (TextView) myDialog.findViewById(R.id.popupDescription);
+        emailDescription.setText(descriptionText);
+
+        btnDecline.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 myDialog.dismiss();
             }
         });
 
+        btnAccept.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
+
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
-
 
     //Dialog koji se treba otvoriti korisniku prilikom pojave greške u nekoj app
     List<String> openDialogResponse(String appName){

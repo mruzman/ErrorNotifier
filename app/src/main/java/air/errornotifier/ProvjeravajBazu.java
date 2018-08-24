@@ -1,6 +1,9 @@
 package air.errornotifier;
 
+import android.os.Looper;
+import android.os.TestLooperManager;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,8 @@ import air.database.Bean.Priority;
 public class ProvjeravajBazu extends Thread {
 
     private MainActivity activity;
+    private TextView emailApp;
+    private TextView emailDescription;
 
     public ProvjeravajBazu(MainActivity activity) {
         this.activity = activity;
@@ -56,6 +61,7 @@ public class ProvjeravajBazu extends Thread {
                         }
                         switch (prioritet){
                             case 1:
+                                activity.ShowPopup(activity.getCurrentFocus(),"New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription());
                                 break;
                             case 2:
                                 priority2check(email);
@@ -76,14 +82,22 @@ public class ProvjeravajBazu extends Thread {
     }
 
     private void priority2check(final Email email){
+
         Thread thread = new Thread(){
             @Override
             public void run() {
                 try {
-                    Thread.sleep(30*1000);
+                    Thread.sleep(5*1000);
                     if(StaticMethodes.isStilUnsolved(email)){
                         Log.i("MAILOVI", "MAIL NIJE PREUZET!!!!");
                     }
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            activity.ShowPopup(activity.getCurrentFocus(), "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription());
+                        }
+                    });
+
                         //DAJ PUSH NOTIFIKACIJU
                 } catch (InterruptedException e) {
                     e.printStackTrace();
