@@ -38,7 +38,7 @@ public interface Services {
 
     byte[] getUnhandledEmails(String whereClause) throws IOException;
 
-    byte[] isStillUntaken(int emailId) throws IOException;
+    Integer insertUserInEmail(int email, int user) throws IOException;
 
     byte[] getAllResponsesForProblem(String emailID) throws IOException;
 

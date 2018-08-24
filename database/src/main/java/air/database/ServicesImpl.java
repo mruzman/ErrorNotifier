@@ -259,5 +259,11 @@ public class ServicesImpl implements Services {
         String query = "SELECT COALESCE(user_id,0) as user_id,status FROM email WHERE email_id ="+emailID;
         return queryManipulation(query);
     }
+
+    @Override
+    public Integer insertUserInEmail(int email, int user) throws IOException {
+        String query = "UPDATE email SET user_id="+user+" where email_id="+email;
+        return insertQueryManipulation(query);
+    }
 }
 
