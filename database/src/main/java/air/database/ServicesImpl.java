@@ -256,7 +256,7 @@ public class ServicesImpl implements Services {
     }
 
     public byte[] isStillUntaken(int emailID) throws IOException{
-        String query = "SELECT user_id,status FROM email WHERE email_id ="+emailID;
+        String query = "SELECT COALESCE(user_id,0) as user_id,status FROM email WHERE email_id ="+emailID;
         return queryManipulation(query);
     }
 }

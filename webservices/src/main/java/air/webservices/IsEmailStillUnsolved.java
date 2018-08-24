@@ -34,7 +34,7 @@ public class IsEmailStillUnsolved extends AsyncTask<Integer, Void, Boolean> {
                 JSONObject o = null;
                 try {
                     o = jsonArray.getJSONObject(i);
-                    if(o.get("user_id").equals("")){
+                    if(o.get("user_id").equals("0")){
                         return true;
                     }
                 } catch (JSONException e) {

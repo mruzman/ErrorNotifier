@@ -80,9 +80,9 @@ public class ProvjeravajBazu extends Thread {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(60*1000);
+                    Thread.sleep(30*1000);
                     if(StaticMethodes.isStilUnsolved(email)){
-
+                        Log.i("MAILOVI", "MAIL NIJE PREUZET!!!!");
                     }
                         //DAJ PUSH NOTIFIKACIJU
                 } catch (InterruptedException e) {
@@ -101,9 +101,9 @@ public class ProvjeravajBazu extends Thread {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(120*1000);
+                    Thread.sleep(60*1000);
                     if(StaticMethodes.isStilUnsolved(email)){
-
+                        Log.i("PRIORITET3 MAIL", "MAIL NIJE PREUZET!!!!");
                     }
                         //DAJ PUSH NOTIFIKACIJU
                 } catch (InterruptedException e) {
