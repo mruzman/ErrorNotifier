@@ -1,8 +1,12 @@
 package air.errornotifier;
 
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -34,12 +40,14 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
     public static Users user;
     private CheckMail checkMail;
     private ProvjeravajBazu checkDB;
+    Dialog myDialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myDialog = new Dialog(this);
         user = (Users) getIntent().getSerializableExtra("User");
         checkMail();
         checkDB();
@@ -125,7 +133,24 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         });
     }
 
+    public void ShowPopup(View view){
+        Button btnAccept;
+        Button btnDecline;
+        myDialog.setContentView(R.layout.popup);
 
+        btnAccept = (Button) myDialog.findViewById(R.id.btnAccept);
+        btnDecline = (Button) myDialog.findViewById(R.id.btnDecline);
+
+        btnAccept.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
 
 
     //Dialog koji se treba otvoriti korisniku prilikom pojave greške u nekoj app
