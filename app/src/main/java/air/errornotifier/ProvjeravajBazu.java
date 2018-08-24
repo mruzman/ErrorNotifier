@@ -61,7 +61,7 @@ public class ProvjeravajBazu extends Thread {
                         }
                         switch (prioritet){
                             case 1:
-                                activity.ShowPopup(activity.getCurrentFocus(),"New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription());
+                                activity.ShowPopup(activity.getCurrentFocus(),"New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId());
                                 break;
                             case 2:
                                 priority2check(email);
@@ -90,13 +90,13 @@ public class ProvjeravajBazu extends Thread {
                     Thread.sleep(5*1000);
                     if(StaticMethodes.isStilUnsolved(email)){
                         Log.i("MAILOVI", "MAIL NIJE PREUZET!!!!");
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                activity.ShowPopup(activity.getCurrentFocus(), "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId());
+                            }
+                        });
                     }
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            activity.ShowPopup(activity.getCurrentFocus(), "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription());
-                        }
-                    });
 
                         //DAJ PUSH NOTIFIKACIJU
                 } catch (InterruptedException e) {
@@ -118,8 +118,13 @@ public class ProvjeravajBazu extends Thread {
                     Thread.sleep(60*1000);
                     if(StaticMethodes.isStilUnsolved(email)){
                         Log.i("PRIORITET3 MAIL", "MAIL NIJE PREUZET!!!!");
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                activity.ShowPopup(activity.getCurrentFocus(), "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId());
+                            }
+                        });
                     }
-                        //DAJ PUSH NOTIFIKACIJU
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {

@@ -18,16 +18,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import air.database.Bean.Users;
 import air.database.Services;
 import air.database.helper.Constants;
+import air.webservices.InsertUserInEmail;
 
 
 public class MainActivity extends AppCompatActivity implements ResponseDialog.ResponseDialogListener {
@@ -135,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         });
     }
 
-    public void ShowPopup(View view, String titleText, String descriptionText){
+    public void ShowPopup(View view, String titleText, String descriptionText, final int emailId){
         Button btnAccept;
         Button btnDecline;
 
@@ -163,6 +166,20 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         btnAccept.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+
+                try {
+                    if(new InsertUserInEmail().execute(emailId, user.getUserId()).get() == 1){
+                        Toast.makeText(MainActivity.this,"Preuzet zadatak!", Toast.LENGTH_SHORT).show();
+                        myDialog.dismiss();
+                    }else{
+                        Toast.makeText(MainActivity.this,"Netko je već preuzeo ovaj zadatak prije vas!", Toast.LENGTH_SHORT).show();
+                        myDialog.dismiss();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
 
             }
         });
