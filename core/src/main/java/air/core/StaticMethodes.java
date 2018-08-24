@@ -8,6 +8,7 @@ import air.database.Bean.Email;
 import air.database.Bean.Priority;
 import air.webservices.GetAllUnhandeledEmails;
 import air.webservices.GetUserApps;
+import air.webservices.IsEmailStillUnsolved;
 import air.webservices.getAdminApps;
 
 public class StaticMethodes {
@@ -21,5 +22,9 @@ public class StaticMethodes {
 
     public static List<Email> getAllUnhandeledEmails(List<Priority> aplikacije) throws ExecutionException, InterruptedException {
         return new GetAllUnhandeledEmails().execute(aplikacije).get();
+    }
+
+    public static boolean isStilUnsolved(Email email) throws ExecutionException, InterruptedException {
+        return new IsEmailStillUnsolved().execute(email.getEmailId()).get();
     }
 }

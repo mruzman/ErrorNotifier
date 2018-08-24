@@ -81,8 +81,13 @@ public class ProvjeravajBazu extends Thread {
             public void run() {
                 try {
                     Thread.sleep(60*1000);
+                    if(StaticMethodes.isStilUnsolved(email)){
 
+                    }
+                        //DAJ PUSH NOTIFIKACIJU
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
             }
@@ -91,15 +96,19 @@ public class ProvjeravajBazu extends Thread {
 
     }
 
-    private void lastPriorityCheck(Email email){
-
+    private void lastPriorityCheck(final Email email){
         Thread thread = new Thread() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(60*1000);
+                    Thread.sleep(120*1000);
+                    if(StaticMethodes.isStilUnsolved(email)){
 
+                    }
+                        //DAJ PUSH NOTIFIKACIJU
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
             }
