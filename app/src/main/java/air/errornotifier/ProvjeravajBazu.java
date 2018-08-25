@@ -19,6 +19,7 @@ public class ProvjeravajBazu extends Thread {
     private MainActivity activity;
     private TextView emailApp;
     private TextView emailDescription;
+    private Thread thread;
 
     public ProvjeravajBazu(MainActivity activity) {
         this.activity = activity;
@@ -89,11 +90,11 @@ public class ProvjeravajBazu extends Thread {
 
     private void priority2check(final Email email){
 
-        Thread thread = new Thread(){
+        thread = new Thread(){
             @Override
             public void run() {
                 try {
-                    Thread.sleep(5*1000);
+                    Thread.sleep(20*1000);
                     if(StaticMethodes.isStilUnsolved(email)){
                         Log.i("MAILOVI", "MAIL NIJE PREUZET!!!!");
                         activity.runOnUiThread(new Runnable() {
@@ -113,6 +114,7 @@ public class ProvjeravajBazu extends Thread {
             }
         };
         thread.start();
+        thread.interrupt();
 
     }
 
@@ -121,7 +123,7 @@ public class ProvjeravajBazu extends Thread {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(60*1000);
+                    Thread.sleep(40*1000);
                     if(StaticMethodes.isStilUnsolved(email)){
                         Log.i("PRIORITET3 MAIL", "MAIL NIJE PREUZET!!!!");
                         activity.runOnUiThread(new Runnable() {
