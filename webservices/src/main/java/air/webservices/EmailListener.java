@@ -95,9 +95,10 @@ public class EmailListener extends AsyncTask<String, Void, List<Object>> {
     }
 
     private void getStrings(Message message) throws MessagingException {
-        String[] triggerName = message.getSubject().split("on");
+        String[] triggerName = message.getSubject().split(":");
         email.setHeader(message.getSubject());
-        app.setName(triggerName[1].split(":")[1].trim());
+        Log.i("trigger name", triggerName[triggerName.length-1].trim());
+        app.setName(triggerName[triggerName.length-1].trim());
 //        if(triggerName[0].startsWith("Re")){
 //            email.setHeader(triggerName[0].split(":")[2].trim());
 //        }else {

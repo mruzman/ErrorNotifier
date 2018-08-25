@@ -32,15 +32,15 @@ public class ProvjeravajBazu extends Thread {
     @Override
     public void run() {
         List<Priority> listUserApps = new ArrayList<>();
-        try {
-            listUserApps = StaticMethodes.getUserApps(MainActivity.user.getUserId());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if (listUserApps.size() > 0) {
-            while (MainActivity.user.getEmail() != null) {
+        while (MainActivity.user.getEmail() != null) {
+            try {
+                listUserApps = StaticMethodes.getUserApps(MainActivity.user.getUserId());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (listUserApps.size() > 0) {
                 List<Email> mailovi = null;
                 try {
                     mailovi = StaticMethodes.getAllUnhandeledEmails(listUserApps);
@@ -59,6 +59,11 @@ public class ProvjeravajBazu extends Thread {
                                 break;
                             }
                         }
+                        try {
+                            Thread.sleep(10*1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         switch (prioritet){
                             case 1:
                                 activity.ShowPopup(activity.getCurrentFocus(),"New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId());
@@ -72,11 +77,12 @@ public class ProvjeravajBazu extends Thread {
                         }
                     }
                 }
-                try {
-                    Thread.sleep(60*1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
+            }
+            try {
+                Thread.sleep(60*1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
