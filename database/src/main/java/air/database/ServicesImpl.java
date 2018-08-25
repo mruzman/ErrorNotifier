@@ -265,5 +265,11 @@ public class ServicesImpl implements Services {
         String query = "UPDATE email SET user_id="+user+" where email_id="+email;
         return insertQueryManipulation(query);
     }
+
+    @Override
+    public Integer setEmailAsSolved(int emailID) throws IOException {
+        String query = "UPDATE email SET status='SOLVED', time_closed = NOW() WHERE email_id = " + emailID;
+        return insertQueryManipulation(query);
+    }
 }
 

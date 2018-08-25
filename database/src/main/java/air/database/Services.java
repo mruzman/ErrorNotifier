@@ -42,4 +42,5 @@ public interface Services {
 
     byte[] getAllResponsesForProblem(String emailID) throws IOException;
 
+    Integer setEmailAsSolved(int integer) throws IOException;
 }

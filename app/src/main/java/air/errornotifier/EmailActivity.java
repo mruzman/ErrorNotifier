@@ -10,9 +10,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -22,23 +26,31 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import air.database.Bean.App;
+import air.database.Bean.AppUser;
 import air.database.Bean.Email;
 import air.database.Bean.Users;
 import air.webservices.GetListOfEmails;
 import air.webservices.GetListOfUsers;
+import air.webservices.InsertUserInEmail;
+import air.webservices.SetEmailAsSolved;
 
 public class EmailActivity extends AppCompatActivity {
+    private static final int CONTEXT_MENU_SET = 1;
+    private static final String TAG = "EmailActivity";
     private Toolbar mTolbar;
     private List<Email> emailList = new ArrayList<>();
     private RecyclerView recyclerView;
     private EmailViewAdapter emailViewAdapter;
     private int appID;
+    private int emailID;
+    private int userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email);
         int selectedApp = getIntent().getExtras().getInt("appid");
+        final int userID = getIntent().getExtras().getInt("user_id");
         appID = selectedApp;
         mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar2);
 
@@ -64,8 +76,53 @@ public class EmailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(emailViewAdapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) throws ExecutionException, InterruptedException {
+                return;
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+                Email email = emailList.get(position);
+                Log.i(TAG, "email: " + String.valueOf(email.getUserId()));
+                Log.i(TAG, "user: " + String.valueOf(userID));
+                if(email.getUserId() == userID){
+                    emailID = emailList.get(position).getEmailId();
+                    registerForContextMenu(view);
+                    openContextMenu(view);
+                }
+            }
+        }));
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        menu.setHeaderTitle("Menu");
+        menu.add(Menu.NONE, CONTEXT_MENU_SET, Menu.NONE, "Set as solved");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case CONTEXT_MENU_SET:
+                try {
+                    if(new SetEmailAsSolved().execute(emailID).get() == 1){
+                        Toast.makeText(EmailActivity.this,"Preuzet zadatak!", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(EmailActivity.this,"Netko je već preuzeo ovaj zadatak prije vas!", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                return true;
+        }
+
+        return true;
+    }
 
     @Override
     public void onResume() {

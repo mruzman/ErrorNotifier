@@ -46,7 +46,7 @@ public class GetListOfEmails extends AsyncTask<String, String, List<Email>> {
                 try {
                     o = jsonArray.getJSONObject(i);
                     emailList.add(new Email(o.getInt(Constants.EMAILID), o.getString(Constants.HEADER), o.getString(Constants.DESCRIPTION),
-                            java.sql.Timestamp.valueOf(o.getString(Constants.TIMEEVENTOCCURED)), o.getString(Constants.STATUS),  o.getInt(Constants.APPLICATION), o.getString("first_name"), o.getString("last_name")));
+                            java.sql.Timestamp.valueOf(o.getString(Constants.TIMEEVENTOCCURED)), o.getString(Constants.STATUS),  o.getInt(Constants.APPLICATION), o.getString("first_name"), o.getString("last_name"), o.getInt("user_id")));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

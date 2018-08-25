@@ -77,6 +77,7 @@ public class ApplicationsFragment extends Fragment {
                 int id = selectedApp.getApplicationId();
                 Intent intent = new Intent(getContext(), EmailActivity.class);
                 intent.putExtra("appid", id);
+                intent.putExtra("user_id", user.getUserId());
                 startActivity(intent);
             }
 

@@ -42,7 +42,7 @@ public class Email implements Serializable {
         this.userId = userId;
     }
 
-    public Email(int emailId, String header, String description, java.sql.Timestamp timeEventOccured, String status, int application, String userFirstname, String userLastname) {
+    public Email(int emailId, String header, String description, java.sql.Timestamp timeEventOccured, String status, int application, String userFirstname, String userLastname, int userId) {
         this.emailId = emailId;
         this.header = header;
         this.description = description;
@@ -51,6 +51,7 @@ public class Email implements Serializable {
         this.application = application;
         this.userFirstname = userFirstname;
         this.userLastname = userLastname;
+        this.userId = userId;
     }
 
     public Email(){
