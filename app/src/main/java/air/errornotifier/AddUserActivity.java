@@ -1,5 +1,6 @@
 package air.errornotifier;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,7 +29,7 @@ public class AddUserActivity extends AppCompatActivity {
     private EditText mAddEmail;
     private EditText mAddPassword;
     private EditText mAddGmailPassword;
-
+    public ProgressDialog pd;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -81,10 +82,11 @@ public class AddUserActivity extends AppCompatActivity {
     }
 
     private void kreiraj_novog() throws ExecutionException, InterruptedException  {
-
+        pd = ProgressDialog.show(this, "Adding new user", "Please wait...");
         Users user = new Users(1, mAddFirstName.getText().toString(),mAddLastName.getText().toString(), mAddUserName.getText().toString(),mAddEmail.getText().toString(), "USER", mAddPassword.getText().toString(), mAddGmailPassword.getText().toString());
         int unesi;
         unesi = new AddNewUser(user).insertNewUser();
+        pd.dismiss();
         if(unesi == 1){
             Toast.makeText(this, "New user added", Toast.LENGTH_LONG).show();
             finish();

@@ -1,6 +1,7 @@
 package air.errornotifier;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,6 +39,7 @@ public class ApplicationsFragment extends Fragment {
     private RecyclerView recyclerView;
     private AppsViewAdapter uAdapter;
     private Users user;
+    public static ProgressDialog pd;
 
     public ApplicationsFragment() {
         // Required empty public constructor
@@ -73,6 +75,7 @@ public class ApplicationsFragment extends Fragment {
         recyclerView.addOnItemTouchListener (new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                pd = ProgressDialog.show(getActivity(), "Fetching emails", "Please wait...");
                 App selectedApp = appsList.get(position);
                 int id = selectedApp.getApplicationId();
                 Intent intent = new Intent(getContext(), EmailActivity.class);

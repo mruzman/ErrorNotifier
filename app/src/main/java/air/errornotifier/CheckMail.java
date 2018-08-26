@@ -47,6 +47,7 @@ public class CheckMail extends Thread {
                 mail = null;
                 app = null;
                 ReadMails readMails = new ReadMails(MainActivity.user);
+
                 List<Object> insertedEmails = readMails.checkIfNewEmailCame();
                 if (insertedEmails != null) {
                     for (Object object : insertedEmails) {
@@ -65,6 +66,7 @@ public class CheckMail extends Thread {
                 } else {
                     Log.i("MAIN_ZA_LISTU", "Prazna je lista EMAILOVA");
                 }
+                LoginActivity.pd.dismiss();
                 Thread.sleep(60 * 1000);
             } catch (IOException | JSONException e) {
                 e.printStackTrace();

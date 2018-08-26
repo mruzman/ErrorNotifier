@@ -3,6 +3,7 @@ package air.errornotifier;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -125,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
                 startActivity(addAppIntent);
             }
         });
+
     }
 
     public void ShowPopup(View view, String titleText, String descriptionText, final int emailId){
@@ -158,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
 
                 try {
                     if(new InsertUserInEmail().execute(emailId, user.getUserId()).get() == 1){
-                        Toast.makeText(MainActivity.this,"You have taken the assignmen", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"You have taken the assignment", Toast.LENGTH_SHORT).show();
                         myDialog.dismiss();
                     }else{
                         Toast.makeText(MainActivity.this,"Somebody has already taken this assignment", Toast.LENGTH_SHORT).show();

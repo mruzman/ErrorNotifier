@@ -17,7 +17,7 @@ public class DeleteAppUser extends AsyncTask<String, String, Integer> {
     @Override
     public Integer doInBackground(String... strings) {
         try {
-            if (new ServicesImpl().deleteAppUser(strings[0], strings[1]).toString() == "1")
+            if (new ServicesImpl().deleteAppUser(strings[0], strings[1]) == 1)
                 return 1;
         } catch (IOException e) {
             e.printStackTrace();

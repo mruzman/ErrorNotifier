@@ -1,5 +1,6 @@
 package air.errornotifier;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -48,6 +49,7 @@ public class ApplicationUsersActivity extends AppCompatActivity{
     private int appId;
     private int userID;
     private static String TAG = "Application user activity";
+    private ProgressDialog pd;
 
     @Override
     public void onCreate( Bundle savedInstanceState) {
@@ -81,14 +83,17 @@ public class ApplicationUsersActivity extends AppCompatActivity{
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) throws ExecutionException, InterruptedException {
+
                 AppUser appUser = appsList.get(position);
                 appUser.setApplicationId(appId);
                 CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
 
                 if(checkBox.isChecked()){
+                    pd = ProgressDialog.show(view.getContext(), "Remove association user to application", "Please wait...");
                     deleteAppUser(appUser);
                     checkBox.setChecked(false);
                 }else{
+                    pd = ProgressDialog.show(view.getContext(), "Associate user to application", "Please wait...");
                     saveAppUser(appUser);
                     checkBox.setChecked(true);
                 }
@@ -130,11 +135,15 @@ public class ApplicationUsersActivity extends AppCompatActivity{
     }
 
     private void saveAppUser(AppUser appUser) throws ExecutionException, InterruptedException {
-        new InsertNewAppUser().execute(String.valueOf(appUser.getApplicationId()), String.valueOf(appUser.getUserId())).get();
+        if(new InsertNewAppUser().execute(String.valueOf(appUser.getApplicationId()), String.valueOf(appUser.getUserId())).get() == 1){
+            pd.dismiss();
+        }
     }
 
     private void deleteAppUser(AppUser appUser) throws ExecutionException, InterruptedException {
-        new DeleteAppUser().execute(String.valueOf(appUser.getApplicationId()), String.valueOf(appUser.getUserId())).get();
+        if(new DeleteAppUser().execute(String.valueOf(appUser.getApplicationId()), String.valueOf(appUser.getUserId())).get() == 1){
+            pd.dismiss();
+        }
     }
     private void getAppUsers(int appID) throws IOException, JSONException, ExecutionException, InterruptedException {
 

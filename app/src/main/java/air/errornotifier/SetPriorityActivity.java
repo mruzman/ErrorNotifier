@@ -1,5 +1,6 @@
 package air.errornotifier;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ public class SetPriorityActivity extends AppCompatActivity{
     private int userID;
     private int appID;
     private EditText mPriority;
+    private ProgressDialog pd;
 
     @Override
     public void onCreate( Bundle savedInstanceState) {
@@ -53,9 +55,12 @@ public class SetPriorityActivity extends AppCompatActivity{
     }
 
     private void setPriority() throws ExecutionException, InterruptedException {
+        pd = ProgressDialog.show(this, "Setting the priority", "Please wait...");
         int done = new SetPriority(Integer.valueOf(mPriority.getText().toString()), userID, appID).set();
+
         if(done == 1){
             Toast.makeText(this, "Priority has been set successfully!", Toast.LENGTH_LONG).show();
+            pd.dismiss();
             finish();
         }else{
             Toast.makeText(this, "There was a problem while setting the priority, please try again", Toast.LENGTH_SHORT).show();

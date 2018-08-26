@@ -61,6 +61,7 @@ public class EmailActivity extends AppCompatActivity {
         emailViewAdapter = new EmailViewAdapter(emailList);
         try {
             getEmails();
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -95,6 +96,7 @@ public class EmailActivity extends AppCompatActivity {
                 }
             }
         }));
+        ApplicationsFragment.pd.dismiss();
     }
 
     @Override

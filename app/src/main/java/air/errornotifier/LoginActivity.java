@@ -1,9 +1,11 @@
 package air.errornotifier;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.TextKeyListener;
@@ -24,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     String etString;
     public static int admin =1;
     public static int user = 0;
+    public static ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void prijava(View view){
+        pd = ProgressDialog.show(this, "Logging you in", "Please wait...");
 
         if(isNetworkAvailable()== false){
             Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
