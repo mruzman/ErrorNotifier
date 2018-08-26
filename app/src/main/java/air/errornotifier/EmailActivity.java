@@ -89,7 +89,8 @@ public class EmailActivity extends AppCompatActivity {
                 Email email = emailList.get(position);
                 Log.i(TAG, "email: " + String.valueOf(email.getUserId()));
                 Log.i(TAG, "user: " + String.valueOf(userID));
-                if(email.getUserId() == userID){
+                Log.i(TAG, "status: " + email.getStatus());
+                if(email.getUserId() == userID && email.getStatus().equals("Unsolved")){
                     emailID = emailList.get(position).getEmailId();
                     registerForContextMenu(view);
                     openContextMenu(view);
