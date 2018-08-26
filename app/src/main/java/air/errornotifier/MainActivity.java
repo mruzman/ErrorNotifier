@@ -55,9 +55,10 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         setContentView(R.layout.activity_main);
         myDialog = new Dialog(this);
         user = (Users) getIntent().getSerializableExtra("User");
-        checkMail();
+
         checkDB();
         if (user.getType().equals(Constants.TYPE_ADMIN)) {
+            checkMail();
 
             //Dodavanje ActionBar-a
             mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
