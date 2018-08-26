@@ -17,7 +17,7 @@ public class InsertNewUser extends AsyncTask<String, String, Integer> {
     @Override
     public Integer doInBackground(String... strings) {
         try {
-            if (new ServicesImpl().insertNewUser(strings[0], strings[1], strings[2], strings[3], strings[4], strings[5]).toString() == "1")
+            if (new ServicesImpl().insertNewUser(strings[0], strings[1], strings[2], strings[3], strings[4], strings[5]) == 1)
                 return 1;
         } catch (IOException e) {
             e.printStackTrace();

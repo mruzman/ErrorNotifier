@@ -109,21 +109,11 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
 
         }
 
-
-//        floatingActionMenu.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//            Toast.makeText(MainActivity.this,"klik", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
         fabUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent addUserIntent = new Intent(MainActivity.this, AddUserActivity.class);
                 startActivity(addUserIntent);
-
-                //  Toast.makeText(MainActivity.this,"korisnik",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -133,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
 
                 Intent addAppIntent = new Intent(MainActivity.this, AddApplicationActivity.class);
                 startActivity(addAppIntent);
-                //Toast.makeText(MainActivity.this,"grupa",Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -169,10 +158,10 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
 
                 try {
                     if(new InsertUserInEmail().execute(emailId, user.getUserId()).get() == 1){
-                        Toast.makeText(MainActivity.this,"Preuzet zadatak!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"You have taken the assignmen", Toast.LENGTH_SHORT).show();
                         myDialog.dismiss();
                     }else{
-                        Toast.makeText(MainActivity.this,"Netko je već preuzeo ovaj zadatak prije vas!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"Somebody has already taken this assignment", Toast.LENGTH_SHORT).show();
                         myDialog.dismiss();
                     }
                 } catch (InterruptedException e) {

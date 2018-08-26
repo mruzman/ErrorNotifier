@@ -86,12 +86,10 @@ public class AddUserActivity extends AppCompatActivity {
         int unesi;
         unesi = new AddNewUser(user).insertNewUser();
         if(unesi == 1){
-            Toast.makeText(this, "User added", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "New user added", Toast.LENGTH_LONG).show();
             finish();
-            //Intent intent = new Intent(AddUserActivity.this, MainActivity.class);
-            //startActivity(intent);
         }else if(unesi == 2){
-            Toast.makeText(this, "The User exists", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "User with that username and email already exists", Toast.LENGTH_LONG).show();
         }else{
             Toast.makeText(this, "User isn't entered, try again", Toast.LENGTH_SHORT).show();
         }

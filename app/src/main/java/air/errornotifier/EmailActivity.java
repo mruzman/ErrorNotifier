@@ -109,9 +109,9 @@ public class EmailActivity extends AppCompatActivity {
             case CONTEXT_MENU_SET:
                 try {
                     if(new SetEmailAsSolved().execute(emailID).get() == 1){
-                        Toast.makeText(EmailActivity.this,"Preuzet zadatak!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EmailActivity.this,"You have set assignment as solved", Toast.LENGTH_SHORT).show();
                     }else{
-                        Toast.makeText(EmailActivity.this,"Netko je već preuzeo ovaj zadatak prije vas!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EmailActivity.this,"You are not assigned to this assignment", Toast.LENGTH_SHORT).show();
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
