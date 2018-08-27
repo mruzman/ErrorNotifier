@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         myDialog = new Dialog(this);
         user = (Users) getIntent().getSerializableExtra("User");
 
+
         checkDB();
         if (user.getType().equals(Constants.TYPE_ADMIN)) {
             checkMail();
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
             @Override
             public void onClick(View view) {
                 fabButton = (FloatingActionMenu) findViewById(R.id.menuFab);
-                fabButton.hideMenu(true);
+                fabButton.close(true);
                 Intent addUserIntent = new Intent(MainActivity.this, AddUserActivity.class);
                 startActivity(addUserIntent);
             }
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
             @Override
             public void onClick(View view) {
                 fabButton = (FloatingActionMenu) findViewById(R.id.menuFab);
-                fabButton.hideMenu(true);
+                fabButton.close(true);
                 Intent addAppIntent = new Intent(MainActivity.this, AddApplicationActivity.class);
                 startActivity(addAppIntent);
             }
