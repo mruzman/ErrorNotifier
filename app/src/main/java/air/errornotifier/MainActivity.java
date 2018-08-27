@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
     Dialog myDialog;
     private TextView emailApp;
     private TextView emailDescription;
+    private FloatingActionMenu fabButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +107,8 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
             //FloatingAction
             fabUser = (FloatingActionButton) findViewById(R.id.menuFabAddUser);
             fabGroup = (FloatingActionButton) findViewById(R.id.menuFabAddApplication);
-            FloatingActionMenu fabButton = (FloatingActionMenu) findViewById(R.id.menuFab);
+            fabButton = (FloatingActionMenu) findViewById(R.id.menuFab);
+
             fabButton.setVisibility(View.GONE);
 
         }
@@ -114,6 +116,8 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         fabUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fabButton = (FloatingActionMenu) findViewById(R.id.menuFab);
+                fabButton.hideMenu(true);
                 Intent addUserIntent = new Intent(MainActivity.this, AddUserActivity.class);
                 startActivity(addUserIntent);
             }
@@ -122,7 +126,8 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
         fabGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                fabButton = (FloatingActionMenu) findViewById(R.id.menuFab);
+                fabButton.hideMenu(true);
                 Intent addAppIntent = new Intent(MainActivity.this, AddApplicationActivity.class);
                 startActivity(addAppIntent);
             }
