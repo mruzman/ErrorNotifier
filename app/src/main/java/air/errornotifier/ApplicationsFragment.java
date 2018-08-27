@@ -81,6 +81,7 @@ public class ApplicationsFragment extends Fragment {
                 Intent intent = new Intent(getContext(), EmailActivity.class);
                 intent.putExtra("appid", id);
                 intent.putExtra("user_id", user.getUserId());
+                intent.putExtra("User",(Serializable) user);
                 startActivity(intent);
             }
 

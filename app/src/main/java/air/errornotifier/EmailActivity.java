@@ -29,6 +29,7 @@ import air.database.Bean.App;
 import air.database.Bean.AppUser;
 import air.database.Bean.Email;
 import air.database.Bean.Users;
+import air.database.helper.Constants;
 import air.webservices.GetListOfEmails;
 import air.webservices.GetListOfUsers;
 import air.webservices.InsertUserInEmail;
@@ -44,6 +45,7 @@ public class EmailActivity extends AppCompatActivity {
     private int appID;
     private int emailID;
     private int userID;
+    private Users user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,8 @@ public class EmailActivity extends AppCompatActivity {
         final int userID = getIntent().getExtras().getInt("user_id");
         appID = selectedApp;
         mTolbar = (Toolbar) findViewById(R.id.main_page_toolbar2);
+        user = (Users) getIntent().getSerializableExtra("User");
+
 
         setSupportActionBar(mTolbar);
         getSupportActionBar().setTitle("Emails");
@@ -104,6 +108,7 @@ public class EmailActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle("Menu");
         menu.add(Menu.NONE, CONTEXT_MENU_SET, Menu.NONE, "Set as solved");
+
     }
 
     @Override
@@ -152,6 +157,10 @@ public class EmailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        if(!user.getType().equals(Constants.TYPE_ADMIN)){
+            MenuItem item = menu.findItem(R.id.menu_settings);
+            item.setVisible(false);
+        }
         return true;
     }
 

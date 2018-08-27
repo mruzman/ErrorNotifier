@@ -25,6 +25,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -32,6 +33,8 @@ import air.database.Bean.Users;
 import air.database.Services;
 import air.database.helper.Constants;
 import air.webservices.InsertUserInEmail;
+
+import static air.errornotifier.LoginActivity.USER;
 
 
 public class MainActivity extends AppCompatActivity implements ResponseDialog.ResponseDialogListener {
