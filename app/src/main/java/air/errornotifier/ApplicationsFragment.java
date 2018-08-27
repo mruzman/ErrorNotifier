@@ -110,9 +110,12 @@ public class ApplicationsFragment extends Fragment {
             e.printStackTrace();
         }
         uAdapter = new AppsViewAdapter(appsList,mImages);
+        recyclerView.setAdapter(uAdapter);
     }
 
     private void getApps() throws IOException, JSONException, ExecutionException, InterruptedException {
+        Log.i("Refresh", "Refresh appsList");
+        appsList.clear();
         if(user.getType().equals(Constants.TYPE_ADMIN)){
             appsList = (List<App>) new GetListOfAdminApps().execute(user.getUserId()).get();
         }else{

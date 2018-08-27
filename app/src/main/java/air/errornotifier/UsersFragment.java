@@ -81,9 +81,11 @@ public class UsersFragment extends Fragment {
             e.printStackTrace();
         }
         uAdapter = new UsersViewAdapter(usersList, mImages);
+        recyclerView.setAdapter(uAdapter);
     }
 
     private void getUsers() throws IOException, JSONException, ExecutionException, InterruptedException {
+        usersList.clear();
         usersList = (List<Users>) new GetListOfUsers().execute().get();
         uAdapter.notifyDataSetChanged();
     }
