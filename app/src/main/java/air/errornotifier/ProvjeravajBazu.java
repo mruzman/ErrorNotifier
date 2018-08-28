@@ -114,7 +114,6 @@ public class ProvjeravajBazu extends Thread {
             }
         };
         thread.start();
-        thread.interrupt();
 
     }
 
