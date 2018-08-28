@@ -37,7 +37,7 @@ import air.webservices.InsertUserInEmail;
 import static air.errornotifier.LoginActivity.USER;
 
 
-public class MainActivity extends AppCompatActivity implements ResponseDialog.ResponseDialogListener {
+public class MainActivity extends AppCompatActivity {
 
     private Toolbar mTolbar;
     private ViewPager mViewPager;
@@ -48,19 +48,13 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
     public static Users user;
     private CheckMail checkMail;
     private ProvjeravajBazu checkDB;
-    Dialog myDialog;
-    private TextView emailApp;
-    private TextView emailDescription;
     private FloatingActionMenu fabButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myDialog = new Dialog(this);
         user = (Users) getIntent().getSerializableExtra("User");
-
-
         checkDB();
         if (user.getType().equals(Constants.TYPE_ADMIN)) {
             checkMail();
@@ -137,79 +131,6 @@ public class MainActivity extends AppCompatActivity implements ResponseDialog.Re
             }
         });
 
-    }
-
-    public void ShowPopup(View view, String titleText, String descriptionText, final int emailId){
-        Button btnAccept;
-        Button btnDecline;
-
-        TextView emailTitle;
-        TextView emailDescription;
-
-        myDialog.setContentView(R.layout.popup);
-
-        btnAccept = (Button) myDialog.findViewById(R.id.btnAccept);
-        btnDecline = (Button) myDialog.findViewById(R.id.btnDecline);
-
-        emailTitle = (TextView) myDialog.findViewById(R.id.popupTitle);
-        emailTitle.setText(titleText);
-
-        emailDescription = (TextView) myDialog.findViewById(R.id.popupDescription);
-        emailDescription.setText(descriptionText);
-
-        btnDecline.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-            }
-        });
-
-        btnAccept.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-
-                try {
-                    if(new InsertUserInEmail().execute(emailId, user.getUserId()).get() == 1){
-                        Toast.makeText(MainActivity.this,"You have taken the assignment", Toast.LENGTH_SHORT).show();
-                        myDialog.dismiss();
-                    }else{
-                        Toast.makeText(MainActivity.this,"Somebody has already taken this assignment", Toast.LENGTH_SHORT).show();
-                        myDialog.dismiss();
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
-    }
-
-    //Dialog koji se treba otvoriti korisniku prilikom pojave greške u nekoj app
-    List<String> openDialogResponse(String appName){
-        ResponseDialog exampleDialog = new ResponseDialog(appName);
-        //exampleDialog.setAppName(appName);
-        exampleDialog.show(getSupportFragmentManager(), "Example dialog");
-        while (exampleDialog.getOdgovori() == null || exampleDialog.getOdgovori().size() == 0) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        return exampleDialog.getOdgovori();
-    }
-
-    //Metoda u kojoj se sprema odgovor iz responsa
-    //Tu bi trebalo implementirati sto se dogada kada korisnik odabere hoce li rješavati problem ili ne
-    @Override
-    public void applyTexts(String resposne) {
-        //textViewOdabir.setText(resposne);
-        Intent mainActivity = new Intent(MainActivity.this, MainActivity.class);
     }
 
     //Dodavanje ikona u App Bar

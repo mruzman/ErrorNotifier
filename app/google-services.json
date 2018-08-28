@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "564013351665",
+    "firebase_url": "https://errornotifier-84cdf.firebaseio.com",
+    "project_id": "errornotifier-84cdf",
+    "storage_bucket": "errornotifier-84cdf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564013351665:android:05c9f4402ae2846b",
+        "android_client_info": {
+          "package_name": "air.errornotifier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564013351665-d14t92f1qu0upt6nqagkl7g7e6vv0kqt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "air.errornotifier",
+            "certificate_hash": "41d7c3929e0e456d6f6f06ba9029a409e5435cd3"
+          }
+        },
+        {
+          "client_id": "564013351665-96qbqimuk55fg1vhrdgel0geinvu580e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3FZrhJT7dZwUctV2QUIFBs21Wj_gKheY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564013351665-96qbqimuk55fg1vhrdgel0geinvu580e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
