@@ -67,7 +67,7 @@ public class ProvjeravajBazu extends Thread {
                         }
                         switch (prioritet){
                             case 1:
-                                activity.ShowPopup(activity.getCurrentFocus(),"New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId());
+                                //activity.ShowPopup(activity.getCurrentFocus(),"New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId());
                                 break;
                             case 2:
                                 priority2check(email);
@@ -100,7 +100,7 @@ public class ProvjeravajBazu extends Thread {
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                activity.ShowPopup(activity.getCurrentFocus(), "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId());
+                                //activity.ShowPopup(activity.getCurrentFocus(), "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId());
                             }
                         });
                     }
@@ -128,7 +128,7 @@ public class ProvjeravajBazu extends Thread {
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                activity.ShowPopup(activity.getCurrentFocus(), "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId());
+                                //activity.ShowPopup(activity.getCurrentFocus(), "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId());
                             }
                         });
                     }
