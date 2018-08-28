@@ -18,6 +18,9 @@ import java.util.concurrent.ExecutionException;
 import air.core.AddNewUser;
 import air.database.Bean.Users;
 
+/**
+ * Activity dodavanja novog korisnika
+ */
 public class AddUserActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
@@ -81,6 +84,12 @@ public class AddUserActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Dodaj novog korisnika i ovisno da li već postoji korisnik s tim korisničkim imenom i emailom, te uspjehu izvršavanja dodavanja, vrati Toast
+     *
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     private void kreiraj_novog() throws ExecutionException, InterruptedException  {
         pd = ProgressDialog.show(this, "Adding new user", "Please wait...");
         Users user = new Users(1, mAddFirstName.getText().toString(),mAddLastName.getText().toString(), mAddUserName.getText().toString(),mAddEmail.getText().toString(), "USER", mAddPassword.getText().toString(), mAddGmailPassword.getText().toString());

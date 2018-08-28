@@ -5,6 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +19,10 @@ import java.util.concurrent.ExecutionException;
 import air.database.Bean.Users;
 import air.webservices.InsertUserInEmail;
 
+/**
+ * PopupResponse - popup koji se otvara ako je došao novi mail i čeka na interakciju korisnika
+ *
+ */
 public class PopupResponse implements Response{
     private MainActivity mainActivity;
     private String titleText;
@@ -38,6 +46,11 @@ public class PopupResponse implements Response{
         this.userID = userID;
     }
 
+    /**
+     * Kreiraj i pokaži popup
+     *
+     * @param view
+     */
     @Override
     public void CreatePopup(View view){
         myDialog = new Dialog(mainActivity);
@@ -65,6 +78,10 @@ public class PopupResponse implements Response{
             public void onClick(View view) {
 
                 try {
+                    /**
+                     * Postavljanje zastavice na true kako bi se znalo da je popup otvoren
+                     *
+                     */
                     CheckDatabase.isOpen = true;
                     if(new InsertUserInEmail().execute(emailID, userID).get() == 1){
                         Toast.makeText(mainActivity,"You have taken the assignment", Toast.LENGTH_SHORT).show();
@@ -85,6 +102,17 @@ public class PopupResponse implements Response{
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         if(!myDialog.isShowing()){
             myDialog.show();
+            /**
+             * Vibriraj prilikom otvaranja popup-a
+             */
+            Vibrator v = (Vibrator) mainActivity.getSystemService(Context.VIBRATOR_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                long[] mVibratePattern = new long[]{0, 400, 1000, 600, 1000, 800, 1000, 1000};
+                v.vibrate(VibrationEffect.createWaveform(mVibratePattern,-1));
+            }else{
+                v.vibrate(500);
+            }
+
         }
 
     }

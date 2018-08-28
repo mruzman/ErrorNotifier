@@ -15,6 +15,7 @@ import air.database.Bean.Email;
 import air.webservices.PriorityApp;
 
 /**
+ * Čitanje email-a o dospijeću novih problema
  * Created by mruzman on 29.3.2018..
  */
 
@@ -31,7 +32,6 @@ public class CheckMail extends Thread {
 
     @Override
     public void run()  {
-        //TODO treba provjeriti kojoj aplikaciji je ovaj user administrator nakon toga će provjeravati mail za točno tu aplikaciju
         try {
             appList = StaticMethodes.getAdminApps(MainActivity.user.getUserId());
         } catch (InterruptedException e) {
@@ -42,6 +42,10 @@ public class CheckMail extends Thread {
         if(appList.size() == 0){
             return;
         }
+        /**
+         * Izvršavanje sve dok je korisnik prijavljen
+         *
+         */
         while (MainActivity.user != null) {
             try {
                 mail = null;

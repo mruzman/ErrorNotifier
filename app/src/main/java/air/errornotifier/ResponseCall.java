@@ -24,6 +24,10 @@ public class ResponseCall implements  Response {
         this.userID = userID;
     }
 
+    /**
+     * Kreiranje novog activity-a za mogućnost odgovora na mail
+     * @param view
+     */
     @Override
     public void CreatePopup(View view) {
         Intent intent = new Intent(activity.getCurrentFocus().getContext(), ActivityResponse.class);

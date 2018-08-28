@@ -14,6 +14,10 @@ import air.database.Bean.AppUser;
 import air.database.Bean.Email;
 import air.database.Bean.Priority;
 
+/**
+ * Provjeravanje baze o zapisanim novim email-ovima za prijavljenog korisnika
+ *
+ */
 public class CheckDatabase extends Thread {
 
     private MainActivity activity;
@@ -44,6 +48,9 @@ public class CheckDatabase extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            /**
+             * Provjera da li korisnik treba dobivati obavijesti od neke aplikacije
+             */
             if (listUserApps.size() > 0) {
                 List<Email> mailovi = null;
                 try {
@@ -53,8 +60,13 @@ public class CheckDatabase extends Thread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                //TODO PROVJERI PO PRIORITETIMA
+
+
                 int prioritet = 3;
+                /**
+                 * Provjera da li ima neki novi email
+                 *
+                 */
                 if(mailovi.size() > 0){
                     for(final Email email : mailovi){
                         for (Priority priority : listUserApps){
@@ -64,15 +76,27 @@ public class CheckDatabase extends Thread {
                             }
                         }
                         try {
+                            /**
+                             * Odgodi prikaz obavijesti za 10 sekundi
+                             */
                             Thread.sleep(10*1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
 
-                        Log.i("Priority" , String.valueOf(prioritet));
+                        /**
+                         * Provjeri da li je već popup ili aktivnost otvorena, ako nije, prikaži
+                         *
+                         */
                         if(isOpen) {
-                            Log.i("Isopen" , String.valueOf(isOpen));
                             isOpen = false;
+                            /**
+                             * Ovisno o prioritetu koju korisnik ima, prikaži mogućnost odgovora
+                             * 1 - prikaži mogućnost odgovora odmah
+                             * 2 - prikaži nakon 20 sekundi
+                             * 3 - prikaži nakon 40 sekundi
+                             *
+                             */
                             switch (prioritet) {
 
                                 case 1:
@@ -97,6 +121,10 @@ public class CheckDatabase extends Thread {
 
             }
             try {
+                /**
+                 * Provjeravaj bazu svaku minutu o dospijeću novih mail-ova
+                 *
+                 */
                 Thread.sleep(60*1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -104,15 +132,23 @@ public class CheckDatabase extends Thread {
         }
     }
 
+    /**
+     * Prikaz mogućnosti odgovora za prioritet 2
+     *
+     * @param email
+     */
     private void priority2check(final Email email){
 
         thread = new Thread(){
             @Override
             public void run() {
                 try {
-                    Thread.sleep(20*1000);
+                    Thread.sleep(10*1000);
+                    /**
+                     * Provjeri da li je već netko preuzeo zadatak
+                     *
+                     */
                     if(StaticMethodes.isStilUnsolved(email)){
-                        Log.i("MAILOVI", "MAIL NIJE PREUZET!!!!");
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -133,14 +169,23 @@ public class CheckDatabase extends Thread {
 
     }
 
+    /**
+     * Prikaz mogućnosti odgovora za prioritet 3
+     *
+     * @param email
+     */
     private void lastPriorityCheck(final Email email){
         Thread thread = new Thread() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(40*1000);
+                    Thread.sleep(20*1000);
+
+                    /**
+                     * Provjeri da li je već netko preuzeo zadatak
+                     *
+                     */
                     if(StaticMethodes.isStilUnsolved(email)) {
-                        Log.i("PRIORITET3 MAIL", "MAIL NIJE PREUZET!!!!");
 
                         activity.runOnUiThread(new Runnable() {
                             @Override

@@ -15,6 +15,10 @@ import java.util.concurrent.ExecutionException;
 
 import air.core.SetPriority;
 
+/**
+ * Postavljanje prioriteta korisnicima kod neke aplikacije
+ *
+ */
 public class SetPriorityActivity extends AppCompatActivity{
     private Toolbar mToolbar;
     private Button btnSetPriority;
@@ -54,6 +58,12 @@ public class SetPriorityActivity extends AppCompatActivity{
         });
     }
 
+    /**
+     * Postavi prioritet i zatvori activity ako se uspješno postavio prioritet
+     *
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     private void setPriority() throws ExecutionException, InterruptedException {
         pd = ProgressDialog.show(this, "Setting the priority", "Please wait...");
         int done = new SetPriority(Integer.valueOf(mPriority.getText().toString()), userID, appID).set();

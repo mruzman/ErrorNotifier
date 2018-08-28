@@ -23,6 +23,13 @@ public class AddNewApplication {
         this.app = app;
     }
 
+    /**
+     * Pozivanje webservisa za unos nove aplikacije
+     *
+     * @return 2 ako nije u redu, -1 ako je greška i 1 ako je unesena nova aplikacija
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public int insertApp()throws ExecutionException, InterruptedException{
         int checkIfAppExists = checkIfAppExists();
         if (checkIfAppExists == 0) {
@@ -38,6 +45,11 @@ public class AddNewApplication {
         }
     }
 
+    /**
+     * Provjera da li aplikacija s tim nazivom već postoji
+     *
+     * @return 1 ako ne postoji, 0 ako postoji
+     */
     private Integer checkIfAppExists() {
         String value = "";
         AddApplication addApp = new AddApplication();

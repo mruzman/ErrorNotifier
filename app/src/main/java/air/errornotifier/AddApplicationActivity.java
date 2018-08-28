@@ -24,6 +24,7 @@ import air.database.Bean.Users;
 import air.webservices.GetListOfUsers;
 
 /**
+ * Activity za dodavanje nove aplikacije
  * Created by Mateo on 6.12.2017..
  */
 
@@ -38,6 +39,11 @@ public class AddApplicationActivity extends AppCompatActivity{
     private List<String> stringUserList = new ArrayList<String>();
     Users user;
 
+    /**
+     * Odabirom na back button, vrati na activity prije
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -92,6 +98,11 @@ public class AddApplicationActivity extends AppCompatActivity{
         });
     }
 
+    /**
+     * Dodavanje nove aplikacije s unesenim nazivom aplikacije i odabranim administratorom aplikacije
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     private void addApplication() throws ExecutionException, InterruptedException  {
         App app = new App(1, mName.getText().toString(), user.getUserId());
         int done = new AddNewApplication(app).insertApp();
@@ -105,6 +116,9 @@ public class AddApplicationActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * Popuni spinner s korisnicima tipa administrator
+     */
     private void populateUserSpinner(){
         for(Users user : userList){
             stringUserList.add(user.getFirstName().toString() + ' ' + user.getLastName().toString());
@@ -114,6 +128,13 @@ public class AddApplicationActivity extends AppCompatActivity{
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mUserID.setAdapter(dataAdapter);
         mUserID.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            /**
+             * Dohvaćanje odabranog korisnika iz spinnera
+             * @param adapterView
+             * @param view
+             * @param i
+             * @param l
+             */
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 user = userList.get(i);

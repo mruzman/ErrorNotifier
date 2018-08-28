@@ -15,6 +15,12 @@ class SectionsPagerAdapter extends FragmentPagerAdapter{
         super(fm);
     }
 
+    /**
+     * Kreiranje fragmenta za prikaz aplikacija i prikaz korisnika
+     *
+     * @param position
+     * @return
+     */
     @Override
     public Fragment getItem(int position) {
 

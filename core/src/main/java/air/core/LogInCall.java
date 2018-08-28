@@ -16,6 +16,12 @@ public class LogInCall {
 
     private static Users user;
 
+    /**
+     * LoginCall za prijavu korisnika
+     *
+     * @param username
+     * @param password
+     */
     public LogInCall(String username, String password){
         JSONObject object = null;
         try {

@@ -35,8 +35,13 @@ public class LoginActivity extends AppCompatActivity {
         UsernameEt = (EditText) findViewById(R.id.txtUsername);
         PasswrodEt = (EditText) findViewById(R.id.txtPassword);
         UsernameEt.requestFocus();
+        Log.i(TAG, "Loginnnn" + String.valueOf(MainActivity.user));
 
-
+        if(MainActivity.user != null){
+            Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
+            mainActivity.putExtra(USER,(Serializable) MainActivity.user);
+            startActivity(mainActivity);
+        }
     }
 
     @Override
@@ -44,6 +49,11 @@ public class LoginActivity extends AppCompatActivity {
         moveTaskToBack(true);
     }
 
+    /**
+     * Provjera da li je uključen internet
+     *
+     * @return
+     */
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -51,6 +61,11 @@ public class LoginActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    /**
+     * Prijava korisnika
+     *
+     * @param view
+     */
     public void prijava(View view){
         pd = ProgressDialog.show(this, "Logging you in", "Please wait...");
 
@@ -59,6 +74,10 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        /**
+         * Novi loginCall
+         *
+         */
         LogInCall logInCall = new LogInCall(UsernameEt.getText().toString(), PasswrodEt.getText().toString());
         if (logInCall.getUser().getFirstName() !=null) {
             Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);

@@ -36,12 +36,20 @@ public class ReadMails {
         app = null;
     }
 
+    /**
+     * Čitanje mail-a i dohvaćanje ako odgovara zadanoj strukturi mail-a
+     *
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     * @throws IOException
+     * @throws JSONException
+     */
     public List<Object> checkIfNewEmailCame() throws ExecutionException, InterruptedException, IOException, JSONException {
         List<Object> objects = new ArrayList<Object>();
         List<Object> returnObjects = new ArrayList<Object>();
         objects = new ArrayList(new EmailListener().execute(user.getEmail(), user.getGmailPassword()).get());
 
-        Log.i("LISTA", String.valueOf(objects.size()));
         if (objects != null || !objects.isEmpty()) {//ako je nesto doslo s listom
             for (Object object: objects) {
                 if(object instanceof Email){
@@ -52,6 +60,10 @@ public class ReadMails {
 
                 }
                 if(mail != null  && app != null){
+                    /**
+                     * Unos novog mail-a
+                     *
+                     */
                     List<String> idData = new ServicesImpl().insertNewRecivedBug(mail, app, user.getUserId());
                     if(idData != null || !idData.isEmpty()){
                         app.setApplicationId(Integer.valueOf(idData.get(0)));
@@ -59,8 +71,6 @@ public class ReadMails {
                         returnObjects.add(app);
                         returnObjects.add(mail);
                     }
-                    Log.i(">>>>>>>>>>>>>>>>LOG EMAILLLLLLL" , String.valueOf(mail.getEmailId()));
-                    Log.i(">>>>>>>>>>>>LOG APPPP", String.valueOf(app.getApplicationId()));
                     app = null;
                     mail = null;
                 }

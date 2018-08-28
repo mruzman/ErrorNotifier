@@ -3,7 +3,15 @@ package air.errornotifier;
 import air.database.Bean.Email;
 
 public class ResponseModule {
-
+    /**
+     * Otvori novi response ovisno o modulu
+     *
+     * @param activity
+     * @param email
+     * @param userId
+     * @param module (activity - otvori novi activity, popup - otvori popup)
+     * @return
+     */
     protected Response getResponse(MainActivity activity, Email email, int userId, String module) {
         Response response;
         if(module.equals("activity")){

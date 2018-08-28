@@ -66,6 +66,10 @@ public class UsersFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Osvježi listu korisnika
+     *
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -84,6 +88,14 @@ public class UsersFragment extends Fragment {
         recyclerView.setAdapter(uAdapter);
     }
 
+    /**
+     * Dohvati sve korisnike
+     *
+     * @throws IOException
+     * @throws JSONException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     private void getUsers() throws IOException, JSONException, ExecutionException, InterruptedException {
         usersList.clear();
         usersList = (List<Users>) new GetListOfUsers().execute().get();

@@ -1,8 +1,12 @@
 package air.errornotifier;
 
 import android.app.Activity;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,6 +19,10 @@ import java.util.concurrent.ExecutionException;
 
 import air.webservices.InsertUserInEmail;
 
+/**
+ * Activity koji služi za prihvaćanje ili odbijanje preuzimanja novonastalog zadatka
+ *
+ */
 public class ActivityResponse extends AppCompatActivity implements Serializable {
 
     private MainActivity mainActivity;
@@ -41,6 +49,13 @@ public class ActivityResponse extends AppCompatActivity implements Serializable 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.response_activity);
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            long[] mVibratePattern = new long[]{0, 400, 1000, 600, 1000, 800, 1000, 1000};
+            v.vibrate(VibrationEffect.createWaveform(mVibratePattern,-1));
+        }else{
+            v.vibrate(1000);
+        }
         mainActivity = ResponseCall.activity;
         titleText = (String) getIntent().getSerializableExtra("title");
         descriptionText = (String) getIntent().getSerializableExtra("desc");
@@ -57,6 +72,10 @@ public class ActivityResponse extends AppCompatActivity implements Serializable 
         tvDescription = (TextView) findViewById(R.id.popupDescription);
         tvDescription.setText(descriptionText);
 
+        /**
+         * Pritiskom na tipku za odbijanje zadatka, zatvori activity
+         *
+         */
         btnDecline.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -65,6 +84,9 @@ public class ActivityResponse extends AppCompatActivity implements Serializable 
             }
         });
 
+        /**
+         * Pritiskom na tipku za prihvaćanje zadatka, zapiši u bazu user_id prijavljenog korisnika
+         */
         btnAccept.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

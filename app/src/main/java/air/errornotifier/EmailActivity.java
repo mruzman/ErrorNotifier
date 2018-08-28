@@ -88,12 +88,22 @@ public class EmailActivity extends AppCompatActivity {
                 return;
             }
 
+            /**
+             * Otvori menu nakon dugog pritiska na neki mail
+             *
+             * @param view
+             * @param position
+             */
             @Override
             public void onLongItemClick(View view, int position) {
                 Email email = emailList.get(position);
                 Log.i(TAG, "email: " + String.valueOf(email.getUserId()));
                 Log.i(TAG, "user: " + String.valueOf(userID));
                 Log.i(TAG, "status: " + email.getStatus());
+                /**
+                 * Otvori menu samo ako je prijavljeni korisnik taj koji je zadužen za rješvanje odabranog problema i ako zadatak nije riješen već
+                 *
+                 */
                 if(email.getUserId() == userID && email.getStatus().equals("Unsolved")){
                     emailID = emailList.get(position).getEmailId();
                     registerForContextMenu(view);
@@ -104,6 +114,13 @@ public class EmailActivity extends AppCompatActivity {
         ApplicationsFragment.pd.dismiss();
     }
 
+    /**
+     * Otvaranje menu-a onLongClick
+     *
+     * @param menu
+     * @param v
+     * @param menuInfo
+     */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle("Menu");
@@ -111,6 +128,12 @@ public class EmailActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Izvršavanje nakon što je korisnik pritisnuo da je riješio zadatak
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch(item.getItemId()){
@@ -132,6 +155,10 @@ public class EmailActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Osvježi listu mail-ova nakon povratka na activity
+     *
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -149,6 +176,14 @@ public class EmailActivity extends AppCompatActivity {
         emailViewAdapter = new EmailViewAdapter(emailList);
     }
 
+    /**
+     * Dohvaćanje svih mail-ova za odabranu aplikaciju
+     *
+     * @throws IOException
+     * @throws JSONException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     private void getEmails() throws IOException, JSONException, ExecutionException, InterruptedException {
         emailList = (List<Email>) new GetListOfEmails().execute(String.valueOf(appID)).get();
         emailViewAdapter.notifyDataSetChanged();

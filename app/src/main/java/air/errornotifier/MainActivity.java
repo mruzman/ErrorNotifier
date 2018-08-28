@@ -43,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
         mContext = getBaseContext();
         user = (Users) getIntent().getSerializableExtra("User");
         checkDB();
+        /**
+         * Ako je prijavljeni korisnik administrator, pokaži mu floating button za dodavanje novih korisnika i novih aplikacija
+         *
+         */
         if (user.getType().equals(Constants.TYPE_ADMIN)) {
             checkMail();
 
@@ -176,11 +180,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Provjeravanje da li je stigao novi mail
+     */
     private void checkMail() {
         checkMail = new CheckMail(this);
         checkMail.start();
     }
 
+    /**
+     * Provjeravanje baze da li je zapisan novi mail
+     *
+     */
     private void checkDB() {
         checkDB = new CheckDatabase(this);
         checkDB.start();

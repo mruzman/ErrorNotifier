@@ -25,6 +25,13 @@ public class AddNewApplicationUser {
         this.appUser = appUser;
     }
 
+    /**
+     * Pozivanje webservisa za dodavanje korisnika nekoj aplikaciji
+     *
+     * @return 2 ako nije u redu, -1 ako je greška i 1 ako je unesena nova aplikacija
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public int insertAppUser()throws ExecutionException, InterruptedException{
         int checkIfAppExists = checkIfAppExists();
         if (checkIfAppExists == 0) {

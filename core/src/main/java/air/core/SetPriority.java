@@ -22,6 +22,13 @@ public class SetPriority {
     private int userID;
     private int appID;
 
+    /**
+     * Postavljanje prioriteta korisniku nekoj aplikaciju
+     *
+     * @param priority
+     * @param userID
+     * @param appID
+     */
     public SetPriority(int priority, int userID, int appID) {
         this.priority = priority;
         this.userID = userID;

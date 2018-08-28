@@ -72,7 +72,15 @@ public class ApplicationsFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(uAdapter);
 
+        /**
+         * Pritiskom na neku od aplikacija u recyclerView-u, otvori novi activity s prikazom email-ova za tu aplikaciju
+         */
         recyclerView.addOnItemTouchListener (new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            /**
+             * Dohvati pritisnutu aplikaciju
+             * @param view
+             * @param position
+             */
             @Override
             public void onItemClick(View view, int position) {
                 pd = ProgressDialog.show(getActivity(), "Fetching emails", "Please wait...");
@@ -96,6 +104,9 @@ public class ApplicationsFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Osvježi podatke u recyclerView-u nakon vraćanja na taj activity
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -114,6 +125,13 @@ public class ApplicationsFragment extends Fragment {
         recyclerView.setAdapter(uAdapter);
     }
 
+    /**
+     * Dohvati apolikacije ovisno o tipu korisnika
+     * @throws IOException
+     * @throws JSONException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     private void getApps() throws IOException, JSONException, ExecutionException, InterruptedException {
         Log.i("Refresh", "Refresh appsList");
         appsList.clear();
