@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 public class ResponseCall implements  Response {
 
-    MainActivity activity;
+    public static MainActivity activity;
     private String titleText;
     private String descriptionText;
     private int emailID;
@@ -27,7 +27,10 @@ public class ResponseCall implements  Response {
     @Override
     public void CreatePopup(View view) {
         Intent intent = new Intent(activity.getCurrentFocus().getContext(), ActivityResponse.class);
+        intent.putExtra("title", titleText);
+        intent.putExtra("desc", descriptionText);
+        intent.putExtra("emailID", emailID);
+        intent.putExtra("userID", userID);
         activity.startActivity(intent);
-
     }
 }

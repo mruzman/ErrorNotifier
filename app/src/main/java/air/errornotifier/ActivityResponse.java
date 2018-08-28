@@ -10,11 +10,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 
 import air.webservices.InsertUserInEmail;
 
-public class ActivityResponse extends AppCompatActivity {
+public class ActivityResponse extends AppCompatActivity implements Serializable {
 
     private MainActivity mainActivity;
     private String titleText;
@@ -39,6 +40,12 @@ public class ActivityResponse extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.response_activity);
+        mainActivity = ResponseCall.activity;
+        titleText = (String) getIntent().getSerializableExtra("title");
+        descriptionText = (String) getIntent().getSerializableExtra("desc");
+        emailID = (int) getIntent().getSerializableExtra("emailID");
+        userID = (int) getIntent().getSerializableExtra("userID");
+
         btnAccept = (Button) findViewById(R.id.btnAccept);
         btnDecline = (Button) findViewById(R.id.btnDecline);
 
