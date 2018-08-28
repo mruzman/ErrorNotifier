@@ -23,6 +23,7 @@ public class ActivityResponse extends AppCompatActivity implements Serializable 
     private int emailID;
     private int userID;
 
+
     private TextView tvTitle;
     private TextView tvDescription;
     private Button btnAccept;
@@ -59,6 +60,7 @@ public class ActivityResponse extends AppCompatActivity implements Serializable 
         btnDecline.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                CheckDatabase.isOpen = true;
                 finish();
             }
         });
@@ -68,11 +70,13 @@ public class ActivityResponse extends AppCompatActivity implements Serializable 
             public void onClick(View view) {
 
                 try {
+                    CheckDatabase.isOpen = true;
                     if(new InsertUserInEmail().execute(emailID, userID).get() == 1){
                         Toast.makeText(mainActivity,"You have taken the assignment", Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(mainActivity,"Somebody has already taken this assignment", Toast.LENGTH_SHORT).show();
                     }
+
                     finish();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

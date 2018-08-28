@@ -55,6 +55,7 @@ public class PopupResponse implements Response{
         btnDecline.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                CheckDatabase.isOpen = true;
                 myDialog.dismiss();
             }
         });
@@ -64,6 +65,7 @@ public class PopupResponse implements Response{
             public void onClick(View view) {
 
                 try {
+                    CheckDatabase.isOpen = true;
                     if(new InsertUserInEmail().execute(emailID, userID).get() == 1){
                         Toast.makeText(mainActivity,"You have taken the assignment", Toast.LENGTH_SHORT).show();
                         myDialog.dismiss();
@@ -81,6 +83,9 @@ public class PopupResponse implements Response{
         });
 
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
+        if(!myDialog.isShowing()){
+            myDialog.show();
+        }
+
     }
 }

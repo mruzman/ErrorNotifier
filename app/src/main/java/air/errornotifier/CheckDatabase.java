@@ -21,6 +21,7 @@ public class CheckDatabase extends Thread {
     private TextView emailDescription;
     private Thread thread;
     private int userId;
+    public static volatile boolean isOpen =  true;
 
     public CheckDatabase(MainActivity activity) {
         this.activity = activity;
@@ -67,23 +68,29 @@ public class CheckDatabase extends Thread {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        switch (prioritet){
 
-                            case 1:
-                                activity.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Response response = new ResponseClass().getResponse(activity, email, userId, "popup");
-                                        response.CreatePopup(activity.getCurrentFocus());
-                                    }
-                                });
-                                break;
-                            case 2:
-                                priority2check(email);
-                                break;
-                            default:
-                                lastPriorityCheck(email);
+                        Log.i("Priority" , String.valueOf(prioritet));
+                        if(isOpen) {
+                            Log.i("Isopen" , String.valueOf(isOpen));
+                            isOpen = false;
+                            switch (prioritet) {
 
+                                case 1:
+                                    activity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Response response = new ResponseClass().getResponse(activity, email, userId, "popup");
+                                            response.CreatePopup(activity.getCurrentFocus());
+                                        }
+                                    });
+                                    break;
+                                case 2:
+                                    priority2check(email);
+                                    break;
+                                default:
+                                    lastPriorityCheck(email);
+
+                            }
                         }
                     }
                 }
@@ -134,6 +141,7 @@ public class CheckDatabase extends Thread {
                     Thread.sleep(40*1000);
                     if(StaticMethodes.isStilUnsolved(email)) {
                         Log.i("PRIORITET3 MAIL", "MAIL NIJE PREUZET!!!!");
+
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
