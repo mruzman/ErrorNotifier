@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutionException;
 import air.database.Bean.Users;
 import air.webservices.InsertUserInEmail;
 
-public class PopupResponse {
+public class PopupResponse implements Response{
     private MainActivity mainActivity;
     private String titleText;
     private String descriptionText;
@@ -38,7 +38,8 @@ public class PopupResponse {
         this.userID = userID;
     }
 
-    public void ShowPopup(View view){
+    @Override
+    public void CreatePopup(View view){
         myDialog = new Dialog(mainActivity);
         myDialog.setContentView(R.layout.popup);
 

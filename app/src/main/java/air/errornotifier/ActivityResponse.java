@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 
 import air.webservices.InsertUserInEmail;
 
-public class ActivityResponse extends AppCompatActivity{
+public class ActivityResponse extends AppCompatActivity {
 
     private MainActivity mainActivity;
     private String titleText;
@@ -38,7 +38,6 @@ public class ActivityResponse extends AppCompatActivity{
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         setContentView(R.layout.response_layout);
-
         btnAccept = (Button) findViewById(R.id.btnAccept);
         btnDecline = (Button) findViewById(R.id.btnDecline);
 
@@ -75,5 +74,7 @@ public class ActivityResponse extends AppCompatActivity{
 
             }
         });
+
     }
+
 }

@@ -20,6 +20,7 @@ public class ProvjeravajBazu extends Thread {
     private TextView emailApp;
     private TextView emailDescription;
     private Thread thread;
+    private int userId;
 
     public ProvjeravajBazu(MainActivity activity) {
         this.activity = activity;
@@ -34,8 +35,9 @@ public class ProvjeravajBazu extends Thread {
     public void run() {
         List<Priority> listUserApps = new ArrayList<>();
         while (MainActivity.user.getEmail() != null) {
+             userId = MainActivity.user.getUserId();
             try {
-                listUserApps = StaticMethodes.getUserApps(MainActivity.user.getUserId());
+                listUserApps = StaticMethodes.getUserApps(userId);
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -53,7 +55,7 @@ public class ProvjeravajBazu extends Thread {
                 //TODO PROVJERI PO PRIORITETIMA
                 int prioritet = 3;
                 if(mailovi.size() > 0){
-                    for(Email email : mailovi){
+                    for(final Email email : mailovi){
                         for (Priority priority : listUserApps){
                             if(priority.getApplicationId() == email.getAppId()){
                                 prioritet = priority.getPriority();
@@ -66,8 +68,15 @@ public class ProvjeravajBazu extends Thread {
                             e.printStackTrace();
                         }
                         switch (prioritet){
+
                             case 1:
-                                //activity.ShowPopup(activity.getCurrentFocus(),"New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId());
+                                activity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Response response = new PopupResponse(activity, "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId(), userId);
+                                        response.CreatePopup(activity.getCurrentFocus());
+                                    }
+                                });
                                 break;
                             case 2:
                                 priority2check(email);
@@ -100,7 +109,8 @@ public class ProvjeravajBazu extends Thread {
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                //activity.ShowPopup(activity.getCurrentFocus(), "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId());
+                                Response response = new PopupResponse(activity, "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId(), userId);
+                                response.CreatePopup(activity.getCurrentFocus());
                             }
                         });
                     }
@@ -122,13 +132,15 @@ public class ProvjeravajBazu extends Thread {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(40*1000);
-                    if(StaticMethodes.isStilUnsolved(email)){
+                    //Thread.sleep(5*1000);
+                    if(StaticMethodes.isStilUnsolved(email)) {
                         Log.i("PRIORITET3 MAIL", "MAIL NIJE PREUZET!!!!");
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                //activity.ShowPopup(activity.getCurrentFocus(), "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId());
+                                Response response = new ResponseCall(activity, "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId(), userId);
+                                //Response response = new PopupResponse(activity, "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId(), MainActivity.user.getUserId());
+                                response.CreatePopup(activity.getCurrentFocus());
                             }
                         });
                     }

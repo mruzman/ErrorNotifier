@@ -4,6 +4,7 @@ package air.errornotifier;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -49,11 +50,13 @@ public class MainActivity extends AppCompatActivity {
     private CheckMail checkMail;
     private ProvjeravajBazu checkDB;
     private FloatingActionMenu fabButton;
+    public static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext = getBaseContext();
         user = (Users) getIntent().getSerializableExtra("User");
         checkDB();
         if (user.getType().equals(Constants.TYPE_ADMIN)) {
@@ -198,4 +201,6 @@ public class MainActivity extends AppCompatActivity {
         checkDB = new ProvjeravajBazu(this);
         checkDB.start();
     }
+
+
 }
