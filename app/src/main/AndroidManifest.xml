@@ -33,6 +33,8 @@
             android:name=".ApplicationUsersActivity"></activity>
         <activity
             android:name=".SetPriorityActivity"></activity>
+        <activity
+            android:name=".ActivityResponse"></activity>
     </application>
 
 </manifest>

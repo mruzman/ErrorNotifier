@@ -8,7 +8,7 @@ import android.view.View;
 
 import java.io.Serializable;
 
-public class ResponseCall implements  Response,Serializable {
+public class ResponseCall implements  Response {
 
     MainActivity activity;
     private String titleText;
@@ -26,7 +26,7 @@ public class ResponseCall implements  Response,Serializable {
 
     @Override
     public void CreatePopup(View view) {
-        Intent intent = new Intent(view.getContext(), ActivityResponse.class);
+        Intent intent = new Intent(activity.getCurrentFocus().getContext(), ActivityResponse.class);
         activity.startActivity(intent);
 
     }

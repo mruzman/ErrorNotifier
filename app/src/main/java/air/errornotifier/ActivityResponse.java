@@ -1,5 +1,6 @@
 package air.errornotifier;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -26,18 +27,18 @@ public class ActivityResponse extends AppCompatActivity {
     private Button btnAccept;
     private Button btnDecline;
 
-    public ActivityResponse(MainActivity mainActivity, String titleText, String descriptionText, int emailID, int userID){
-        this.mainActivity = mainActivity;
-        this.titleText = titleText;
-        this.descriptionText = descriptionText;
-        this.emailID = emailID;
-        this.userID = userID;
-    }
+//    public ActivityResponse(MainActivity mainActivity, String titleText, String descriptionText, int emailID, int userID){
+//        this.mainActivity = mainActivity;
+//        this.titleText = titleText;
+//        this.descriptionText = descriptionText;
+//        this.emailID = emailID;
+//        this.userID = userID;
+//    }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        setContentView(R.layout.response_layout);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.response_activity);
         btnAccept = (Button) findViewById(R.id.btnAccept);
         btnDecline = (Button) findViewById(R.id.btnDecline);
 
