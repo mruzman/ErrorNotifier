@@ -14,7 +14,7 @@ import air.database.Bean.AppUser;
 import air.database.Bean.Email;
 import air.database.Bean.Priority;
 
-public class ProvjeravajBazu extends Thread {
+public class CheckDatabase extends Thread {
 
     private MainActivity activity;
     private TextView emailApp;
@@ -22,7 +22,7 @@ public class ProvjeravajBazu extends Thread {
     private Thread thread;
     private int userId;
 
-    public ProvjeravajBazu(MainActivity activity) {
+    public CheckDatabase(MainActivity activity) {
         this.activity = activity;
     }
 
@@ -73,7 +73,7 @@ public class ProvjeravajBazu extends Thread {
                                 activity.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Response response = new PopupResponse(activity, "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId(), userId);
+                                        Response response = new ResponseClass().getResponse(activity, email, userId, "popup");
                                         response.CreatePopup(activity.getCurrentFocus());
                                     }
                                 });
@@ -109,13 +109,12 @@ public class ProvjeravajBazu extends Thread {
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Response response = new PopupResponse(activity, "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId(), userId);
+                                Response response = new ResponseClass().getResponse(activity, email, userId, "popup");
                                 response.CreatePopup(activity.getCurrentFocus());
                             }
                         });
                     }
 
-                        //DAJ PUSH NOTIFIKACIJU
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -132,14 +131,13 @@ public class ProvjeravajBazu extends Thread {
             @Override
             public void run() {
                 try {
-                    //Thread.sleep(5*1000);
+                    Thread.sleep(40*1000);
                     if(StaticMethodes.isStilUnsolved(email)) {
                         Log.i("PRIORITET3 MAIL", "MAIL NIJE PREUZET!!!!");
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Response response = new ResponseCall(activity, "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId(), userId);
-                                //Response response = new PopupResponse(activity, "New problem found at application: " + String.valueOf(email.getAppId()), email.getDescription(), email.getEmailId(), MainActivity.user.getUserId());
+                                Response response = new ResponseClass().getResponse(activity, email, userId, "activity");
                                 response.CreatePopup(activity.getCurrentFocus());
                             }
                         });

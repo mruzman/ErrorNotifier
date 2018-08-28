@@ -1,14 +1,9 @@
 package air.errornotifier;
 
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -18,24 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
 import air.database.Bean.Users;
-import air.database.Services;
 import air.database.helper.Constants;
-import air.webservices.InsertUserInEmail;
-
-import static air.errornotifier.LoginActivity.USER;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -48,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabUser, fabGroup;
     public static Users user;
     private CheckMail checkMail;
-    private ProvjeravajBazu checkDB;
+    private CheckDatabase checkDB;
     private FloatingActionMenu fabButton;
     public static Context mContext;
 
@@ -198,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkDB() {
-        checkDB = new ProvjeravajBazu(this);
+        checkDB = new CheckDatabase(this);
         checkDB.start();
     }
 
